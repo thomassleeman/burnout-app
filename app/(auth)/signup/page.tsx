@@ -16,7 +16,7 @@ import {
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 //components
-import GoogleButton from "@/app/_components/design/GoogleButton";
+import GoogleButton from "@/components/design/GoogleButton";
 import Spinner from "@/components/design/Spinner";
 import ErrorAlert from "@/components/ui/ErrorAlert";
 
