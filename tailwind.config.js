@@ -7,6 +7,21 @@ module.exports = {
   ],
   theme: {
     extend: {
+      keyframes: {
+        wave: {
+          // '0%': { transform: 'rotate(0.0deg)' },
+          '0%': { transform: 'rotate(28deg)' },
+          '25%': { transform: 'rotate(-24deg)' },
+          '50%': { transform: 'rotate(28deg)' },
+          '75%': { transform: 'rotate(-24deg)' },
+          '100%': { transform: 'rotate(28deg)' },
+          // '60%': { transform: 'rotate(0.0deg)' },
+          // '100%': { transform: 'rotate(0.0deg)' },
+        },
+      },
+      animation: {
+        wave: 'wave 2s linear infinite',
+      },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic':
@@ -14,5 +29,5 @@ module.exports = {
       },
     },
   },
-  plugins: [],
-}
+  plugins: [require('@tailwindcss/forms')],
+};

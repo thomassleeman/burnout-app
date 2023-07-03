@@ -19,10 +19,24 @@
         "name": "next"
       }
     ],
+    "baseUrl": ".",
     "paths": {
-      "@/*": ["./*"]
+      "@/*": ["./*"],
+      "@/components/*": ["app/_components/*"],
+      "@firebase/*": ["app/firebase/*"],
+      "@hooks/*": ["app/hooks/*"],
+      "@state": ["app/state/*"],
+      "@chatbot/*": ["app/chatbot/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "app/admin/uploadArticle",
+    "app/api/uploadArticle",
+    "atoms/isAdminAtom.js"
+  ],
   "exclude": ["node_modules"]
 }
