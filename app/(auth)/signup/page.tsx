@@ -1,37 +1,37 @@
-'use client';
+"use client";
 //react
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 //next
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 //Firebase
-import { auth } from '@/firebase/auth/appConfig';
+import { auth } from "@/firebase/auth/appConfig";
 // Firebase hooks
 import {
   useAuthState,
   useCreateUserWithEmailAndPassword,
   useUpdateProfile,
-} from 'react-firebase-hooks/auth';
+} from "react-firebase-hooks/auth";
 //dependencies
-import { Formik, Form, Field, ErrorMessage } from 'formik';
-import * as Yup from 'yup';
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
 //components
-import GoogleButton from '@/app/_components/design/GoogleButton';
-import Spinner from '@/components/design/Spinner';
-import ErrorAlert from '@/components/ui/ErrorAlert';
+import GoogleButton from "@/app/_components/design/GoogleButton";
+import Spinner from "@/components/design/Spinner";
+import ErrorAlert from "@/components/ui/ErrorAlert";
 
 const signUpSchema = Yup.object().shape({
-  name: Yup.string().required('Required'),
-  email: Yup.string().email('Invalid email').required('Required'),
-  password: Yup.string().required('Required'),
+  name: Yup.string().required("Required"),
+  email: Yup.string().email("Invalid email").required("Required"),
+  password: Yup.string().required("Required"),
   //TODO: Uncomment this when we want to enforce password rules
   // .matches(
   //   /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
   //   'Must Contain at least 8 Characters, One Uppercase, One Lowercase, One Number and One Special Character, e.g. ! or *'
   // ),
   confirmPassword: Yup.string().oneOf(
-    [Yup.ref('password'), null],
-    'Passwords must match'
+    [Yup.ref("password"), null],
+    "Passwords must match"
   ),
 });
 
@@ -41,7 +41,7 @@ const EmailSignUpUI = () => {
   const [createUserWithEmailAndPassword, user, loading, createUserError] =
     useCreateUserWithEmailAndPassword(auth, {
       emailVerificationOptions: {
-        url: 'http://localhost:3000/signup/confirm',
+        url: "http://localhost:3000/signup/confirm",
         handleCodeInApp: false,
       },
       sendEmailVerification: true,
@@ -54,7 +54,7 @@ const EmailSignUpUI = () => {
   //This is not working
   useEffect(() => {
     if (authStateUser?.emailVerified) {
-      router.push('/dashboard');
+      router.push("/dashboard");
     }
   }, [authStateUser, router]);
 
@@ -120,10 +120,10 @@ const EmailSignUpUI = () => {
         <div>
           <Formik
             initialValues={{
-              name: '',
-              email: '',
-              password: '',
-              confirmPassword: '',
+              name: "",
+              email: "",
+              password: "",
+              confirmPassword: "",
             }}
             validationSchema={signUpSchema}
             onSubmit={(values, { setSubmitting }) => {
@@ -206,7 +206,7 @@ const EmailSignUpUI = () => {
                   disabled={isSubmitting || loading}
                   className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                 >
-                  {!(isSubmitting || loading) ? 'Sign up' : <Spinner />}
+                  {!(isSubmitting || loading) ? "Sign up" : <Spinner />}
                 </button>
               </Form>
             )}
@@ -287,7 +287,7 @@ export default function SignUp() {
                 }`}
               >
                 <p className="text-sm text-gray-400">
-                  Already have an account?{' '}
+                  Already have an account?{" "}
                   <Link className="text-blue-400" href="/signin">
                     Sign in
                   </Link>

@@ -19,7 +19,7 @@ import * as Yup from "yup";
 //functions
 import authStatus from "@/firebase/auth/authStatus";
 //Components
-import GoogleButton from "@/components/design/GoogleButton";
+import GoogleButton from "@/app/_components/design/GoogleButton";
 import ErrorAlert from "@/components/ui/ErrorAlert";
 import Spinner from "@/components/design/Spinner";
 
