@@ -1,31 +1,31 @@
-'use client';
+"use client";
 //react
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 //next
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 //firebase
-import { auth } from '@/firebase/auth/appConfig';
-import { getIdToken, User } from 'firebase/auth';
+import { auth } from "@/firebase/auth/appConfig";
+import { getIdToken, User } from "firebase/auth";
 //react-firebase-hooks
-import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
-import { useAuthState } from 'react-firebase-hooks/auth';
+import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
+import { useAuthState } from "react-firebase-hooks/auth";
 //jotai
-import { useAtom } from 'jotai';
-import { isAdminAtom, testAtom } from '@/state/store';
+import { useAtom } from "jotai";
+import { isAdminAtom, testAtom } from "@/state/store";
 //other dependencies
-import { Formik, Form, Field, ErrorMessage } from 'formik';
-import * as Yup from 'yup';
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
 //functions
-import authStatus from '@/firebase/auth/authStatus';
+import authStatus from "@/firebase/auth/authStatus";
 //Components
-import GoogleButton from '@/app/_components/design/GoogleButton';
-import ErrorAlert from '@/components/ui/ErrorAlert';
-import Spinner from '@/components/design/Spinner';
+import GoogleButton from "@/components/design/GoogleButton";
+import ErrorAlert from "@/components/ui/ErrorAlert";
+import Spinner from "@/components/design/Spinner";
 
 // Yup config
 const loginSchema = Yup.object().shape({
-  email: Yup.string().email('Invalid email').required('Required'),
+  email: Yup.string().email("Invalid email").required("Required"),
   password: Yup.string(),
 });
 
@@ -46,8 +46,8 @@ export default function SignIn() {
       }
       const token = await getIdToken(user);
       try {
-        const response = await fetch('/api/signin', {
-          method: 'POST',
+        const response = await fetch("/api/signin", {
+          method: "POST",
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -70,7 +70,7 @@ export default function SignIn() {
         //   }
         // });
       } catch (err) {
-        console.log('set token error from signin page: ', err);
+        console.log("set token error from signin page: ", err);
       }
     },
   });
@@ -78,8 +78,8 @@ export default function SignIn() {
   //Redirect if user is signed in
   useEffect(() => {
     if (user) {
-      console.log('/signin: user signed in, redirected: ', user);
-      router.push('/dashboard');
+      console.log("/signin: user signed in, redirected: ", user);
+      router.push("/dashboard");
     }
   }, [user, router]);
 
@@ -99,7 +99,7 @@ export default function SignIn() {
   }) => {
     const { email, password } = values;
     await signInWithEmailAndPassword(email, password);
-    console.log('signInUser: ', signInUser);
+    console.log("signInUser: ", signInUser);
   };
 
   const anyError = error || authStateError || tokenError;
@@ -119,7 +119,7 @@ export default function SignIn() {
               <div className="mt-10">
                 <div>
                   <Formik
-                    initialValues={{ email: '', password: '' }}
+                    initialValues={{ email: "", password: "" }}
                     validationSchema={loginSchema}
                     onSubmit={(values, { setSubmitting }) => {
                       setSubmitting(true);
@@ -204,7 +204,7 @@ export default function SignIn() {
                             className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                           >
                             {!(isSubmitting || loading || authStateLoading) ? (
-                              'Sign in'
+                              "Sign in"
                             ) : (
                               <Spinner />
                             )}
@@ -258,7 +258,7 @@ export default function SignIn() {
               </div>
               <div className="mt-12 w-full text-center">
                 <p className="text-sm text-gray-400 ">
-                  Don&apos;t have an account yet?{' '}
+                  Don&apos;t have an account yet?{" "}
                   <Link className="text-blue-400" href="/signup">
                     Sign up
                   </Link>
