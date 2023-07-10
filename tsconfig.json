@@ -39,5 +39,5 @@
     "app/api/uploadArticle",
     "atoms/isAdminAtom.js"
   ],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", "functions"]
 }
