@@ -80,7 +80,7 @@ const GoogleIcon = () => (
   </svg>
 );
 
-const GoogleButton = () => {
+export default function GoogleButton() {
   //TODO: Add loading state
   const loading = false;
   let content;
@@ -100,5 +100,4 @@ const GoogleButton = () => {
     );
   }
   return content;
-};
-export default GoogleButton;
+}
