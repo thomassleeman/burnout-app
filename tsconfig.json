@@ -26,7 +26,8 @@
       "@firebase/*": ["app/firebase/*"],
       "@hooks/*": ["app/hooks/*"],
       "@state": ["app/state/*"],
-      "@chatbot/*": ["app/chatbot/*"]
+      "@chatbot/*": ["app/chatbot/*"],
+      "@types/*": ["./types/*"]
     }
   },
   "include": [

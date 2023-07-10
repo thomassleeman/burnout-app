@@ -1,34 +1,7 @@
 import Link from "next/link";
+import { type } from "os";
 import { FC } from "react";
-
-type Message = {
-  id: string;
-  message: string;
-  trigger?: string;
-  end?: boolean;
-};
-
-type Options = {
-  id: string;
-  options: {
-    value: number;
-    label: string;
-    trigger: string;
-  }[];
-};
-
-type Component = {
-  id: string;
-  component: JSX.Element;
-  trigger?: string;
-};
-
-interface BotRedirectProps {
-  url: string;
-  message: string;
-}
-
-type Steps = (Message | Options | Component)[];
+import { Steps, BotRedirectProps } from "@/types/chatbot";
 
 const BotRedirect: FC<BotRedirectProps> = ({ url, message }) => {
   return (
@@ -43,31 +16,32 @@ const Lorem = () => {
     <article>
       <h2>Confidentiality Article</h2>
       <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam
-        porttitor tincidunt egestas. Curabitur ultricies ullamcorper sem id
-        fermentum. Sed suscipit neque sit amet sapien hendrerit, eu aliquet mi
-        vestibulum. Sed velit orci, convallis eget arcu sit amet, pretium
-        sagittis leo. Vestibulum tempus metus quis erat porttitor mollis.
-        Maecenas ut odio consectetur, cursus metus non, facilisis felis.
-        Vestibulum fermentum mattis libero, in lacinia dolor malesuada non.
-        Quisque aliquet lectus et sem maximus eleifend. Integer consectetur
-        aliquet dapibus. Nunc et blandit neque. Suspendisse a enim sem. Fusce
-        erat risus, mattis ut lobortis ac, auctor eget mauris. Nulla elementum
-        volutpat massa, ac fermentum sapien hendrerit in. Mauris semper finibus
-        dolor. Ut pulvinar dui rhoncus maximus eleifend. Ut euismod, enim et
-        tempus eleifend, eros libero egestas tortor, in rhoncus nisi turpis ut
-        dolor. Sed consequat rutrum ante quis feugiat. Aliquam tempor mauris non
-        scelerisque vehicula. Nunc luctus luctus nisl ut sollicitudin. Duis
-        iaculis risus sed augue tincidunt, ac molestie lacus auctor. Suspendisse
-        elit dolor, euismod sit amet mauris ut, sollicitudin feugiat ante.
-        Phasellus suscipit tempus ipsum. Curabitur eu metus a risus interdum
-        pulvinar. Duis lobortis interdum sapien sit amet commodo. Aenean
-        consectetur gravida libero, eu vehicula dolor mollis sed. Etiam viverra
-        ornare nunc. Donec vitae arcu vitae elit efficitur sodales tempor at
-        enim. Pellentesque elit erat, porttitor in tincidunt sit amet, interdum
-        et eros. Donec sit amet feugiat augue. Donec facilisis lacus ut mauris
-        venenatis tristique. Pellentesque ornare cursus lorem id laoreet. Donec
-        et leo magna. Curabitur placerat metus quis accumsan pretium.
+        I still need to style this to make it look tidier but this is just an
+        example for now. Lorem ipsum dolor sit amet, consectetur adipiscing
+        elit. Nullam porttitor tincidunt egestas. Curabitur ultricies
+        ullamcorper sem id fermentum. Sed suscipit neque sit amet sapien
+        hendrerit, eu aliquet mi vestibulum. Sed velit orci, convallis eget arcu
+        sit amet, pretium sagittis leo. Vestibulum tempus metus quis erat
+        porttitor mollis. Maecenas ut odio consectetur, cursus metus non,
+        facilisis felis. Vestibulum fermentum mattis libero, in lacinia dolor
+        malesuada non. Quisque aliquet lectus et sem maximus eleifend. Integer
+        consectetur aliquet dapibus. Nunc et blandit neque. Suspendisse a enim
+        sem. Fusce erat risus, mattis ut lobortis ac, auctor eget mauris. Nulla
+        elementum volutpat massa, ac fermentum sapien hendrerit in. Mauris
+        semper finibus dolor. Ut pulvinar dui rhoncus maximus eleifend. Ut
+        euismod, enim et tempus eleifend, eros libero egestas tortor, in rhoncus
+        nisi turpis ut dolor. Sed consequat rutrum ante quis feugiat. Aliquam
+        tempor mauris non scelerisque vehicula. Nunc luctus luctus nisl ut
+        sollicitudin. Duis iaculis risus sed augue tincidunt, ac molestie lacus
+        auctor. Suspendisse elit dolor, euismod sit amet mauris ut, sollicitudin
+        feugiat ante. Phasellus suscipit tempus ipsum. Curabitur eu metus a
+        risus interdum pulvinar. Duis lobortis interdum sapien sit amet commodo.
+        Aenean consectetur gravida libero, eu vehicula dolor mollis sed. Etiam
+        viverra ornare nunc. Donec vitae arcu vitae elit efficitur sodales
+        tempor at enim. Pellentesque elit erat, porttitor in tincidunt sit amet,
+        interdum et eros. Donec sit amet feugiat augue. Donec facilisis lacus ut
+        mauris venenatis tristique. Pellentesque ornare cursus lorem id laoreet.
+        Donec et leo magna. Curabitur placerat metus quis accumsan pretium.
         Suspendisse arcu arcu, auctor non dui vestibulum, volutpat aliquet
         metus. Vestibulum feugiat convallis mi, non interdum urna congue ut.
         Nulla ut pellentesque tellus. Fusce sodales tincidunt sapien, quis

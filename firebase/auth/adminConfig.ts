@@ -3,7 +3,7 @@ import {
   getApps,
   cert,
   applicationDefault,
-} from 'firebase-admin/app';
+} from "firebase-admin/app";
 
 // export function adminInit() {
 //   initializeApp({
@@ -51,8 +51,15 @@ import {
 //   }
 // }
 
+const firebaseSecretKey = process.env.NEXT_PUBLIC_FIREBASE_SECRET_KEY;
+if (!firebaseSecretKey) {
+  throw new Error(
+    "The Firebase secret key is not set in the environment variables."
+  );
+}
+
 const firebaseAdminConfig = {
-  credential: cert(process.env.NEXT_PUBLIC_FIREBASE_SECRET_KEY),
+  credential: cert(firebaseSecretKey),
 };
 
 export function adminInit() {

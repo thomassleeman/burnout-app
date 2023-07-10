@@ -1,11 +1,17 @@
-import { Suspense } from 'react';
-import Loading from './loading';
+import { ReactNode, Suspense } from "react";
+import Loading from "./loading";
 
 export const metadata = {
-  title: 'Upload Article',
-  description: 'Compose an article to be uploaded for users to read',
+  title: "Upload Article",
+  description: "Compose an article to be uploaded for users to read",
 };
 
-export default function UploadArticleLayout({ children }) {
+interface UploadArticleLayoutProps {
+  children: ReactNode;
+}
+
+export default function UploadArticleLayout({
+  children,
+}: UploadArticleLayoutProps) {
   return <Suspense fallback={<Loading />}>{children}</Suspense>;
 }

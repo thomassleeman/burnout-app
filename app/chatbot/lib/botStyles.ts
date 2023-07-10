@@ -1,42 +1,43 @@
 //rsc-container
 const styleTheme = {
-  boxShadow: 'none',
-  width: 'auto',
-  height: '95vh',
-  minWidth: '100%',
+  boxShadow: "none",
+  width: "auto",
+  height: "95vh",
+  minWidth: "100%",
+  zIndex: "1",
 };
 
 //rsc-content
 const contentTheme = {
-  height: '100%',
-  minWidth: '100%',
+  height: "100%",
+  minWidth: "100%",
 };
 
 const bubbleTheme = {
-  backgroundColor: '#065f46',
-  color: 'white',
-  fontSize: '1rem',
-  fontWeight: 'thin',
-  fontFamily: 'verdana',
-  marginTop: '1px',
+  backgroundColor: "#065f46",
+  color: "white",
+  fontSize: "1rem",
+  fontWeight: "thin",
+  fontFamily: "verdana",
+  marginTop: "1px",
 };
 
 const bubbleOptionTheme = {
-  cursor: 'pointer',
-  backgroundColor: '#16a34a',
-  color: 'white',
-  fontSize: '1rem',
-  fontFamily: 'verdana',
-  marginTop: '10px',
+  cursor: "pointer",
+  backgroundColor: "#16a34a",
+  color: "white",
+  fontSize: "1rem",
+  fontFamily: "verdana",
+  marginTop: "10px",
 };
 
 const footerTheme = {
-  display: 'none',
-  height: '0px',
+  display: "none",
+  height: "0px",
 };
 
 const inputTheme = {
-  display: 'none',
+  display: "none",
 };
 
 export const botStyles = {

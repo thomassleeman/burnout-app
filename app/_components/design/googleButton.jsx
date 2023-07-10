@@ -1,19 +1,18 @@
-import { Roboto } from 'next/font/google';
+import { Roboto } from "next/font/google";
 
 const roboto = Roboto({
-  weight: '400',
-  subsets: ['latin'],
+  weight: "400",
+  subsets: ["latin"],
 });
 
-const GoogleIcon = (props) => (
+const GoogleIcon = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     xmlnsXlink="http://www.w3.org/1999/xlink"
     width="45"
     height="45"
-    {...props}
   >
-    <title>{'btn_google_light_normal_ios'}</title>
+    <title>{"btn_google_light_normal_ios"}</title>
     <defs>
       <filter
         id="a"
@@ -88,19 +87,18 @@ const GoogleButton = () => {
 
   if (loading) {
     content = (
-      <div className="flex w-full items-center gap-5 border rounded-md bg-white px-2 text-gray-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#24292F]">
+      <div className="flex w-full items-center gap-5 rounded-md border bg-white px-2 text-gray-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#24292F]">
         <p className="text-sm">Loading...</p>
       </div>
     );
   } else {
     content = (
-      <div className="flex w-full items-center gap-5 border rounded-md bg-white px-2 text-gray-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#24292F]">
+      <div className="flex w-full items-center gap-5 rounded-md border bg-white px-2 text-gray-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#24292F]">
         <GoogleIcon />
         <p className={roboto.className}>Google</p>
       </div>
     );
-
-    return content;
   }
+  return content;
 };
 export default GoogleButton;

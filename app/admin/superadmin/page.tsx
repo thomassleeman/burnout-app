@@ -1,30 +1,28 @@
-"use client"
+"use client";
 
-import { useState } from "react"
+import { useState } from "react";
 
 export default function SuperAdminPage() {
-    const [name, setName] = useState("")
-    const [id, setId] = useState("")
+  const [name, setName] = useState("");
+  const [id, setId] = useState("");
 
-    const handleSubmit = async (e: Event) => {
-        e.preventDefault()
-        console.log(JSON.stringify({ name, id }))
-        const res = await fetch("/api/newAdmin", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ name, id }),
-        })
-        if (res.ok) {
-            setName("")
-            setId("")
-            alert("Admin created")
-        } else {
-            alert("Error creating admin")
-            console.log(await res.json())
-        }
+  const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (e) => {
+    e.preventDefault();
+    console.log(JSON.stringify({ name, id }));
+    const res = await fetch("/api/newAdmin", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name, id }),
+    });
+    if (res.ok) {
+      setName("");
+      setId("");
+      alert("Admin created");
+    } else {
+      alert("Error creating admin");
+      console.log(await res.json());
     }
-
-
+  };
 
   return (
     <>
@@ -44,9 +42,17 @@ export default function SuperAdminPage() {
         </div>
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form className="space-y-6" action="#" method="POST" onSubmit={handleSubmit}>
+          <form
+            className="space-y-6"
+            action="#"
+            method="POST"
+            onSubmit={handleSubmit}
+          >
             <div>
-              <label htmlFor="name" className="block text-sm font-medium leading-6 text-gray-900">
+              <label
+                htmlFor="name"
+                className="block text-sm font-medium leading-6 text-gray-900"
+              >
                 Name:
               </label>
               <div className="mt-1">
@@ -64,23 +70,25 @@ export default function SuperAdminPage() {
 
             <div>
               <div className="flex items-center justify-between">
-                <label htmlFor="id" className="block text-sm font-medium leading-6 text-gray-900">
+                <label
+                  htmlFor="id"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
                   ID:
                 </label>
-                </div>
-            </div>
-              <div className="mt-1">
-                <input
-                  id="id"
-                  name="id"
-                  type="text"
-                  required
-                  content={id}
-                  onChange={(e) => setId(e.target.value)}
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />
               </div>
-
+            </div>
+            <div className="mt-1">
+              <input
+                id="id"
+                name="id"
+                type="text"
+                required
+                content={id}
+                onChange={(e) => setId(e.target.value)}
+                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              />
+            </div>
 
             <div>
               <button
@@ -91,9 +99,8 @@ export default function SuperAdminPage() {
               </button>
             </div>
           </form>
-
         </div>
       </div>
     </>
-  )
+  );
 }

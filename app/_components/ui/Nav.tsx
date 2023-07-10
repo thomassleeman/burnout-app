@@ -1,55 +1,55 @@
-'use client';
+"use client";
 //react
-import { Fragment, useEffect } from 'react';
+import { Fragment, useEffect } from "react";
 //next
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import Link from "next/link";
+import { useRouter, usePathname } from "next/navigation";
 //firebase
-import { auth } from '@/firebase/auth/appConfig';
-import { useAuthState } from 'react-firebase-hooks/auth';
+import { auth } from "@/firebase/auth/appConfig";
+import { useAuthState } from "react-firebase-hooks/auth";
 //jotai
-import { useAtom } from 'jotai';
-import { isAdminAtom, testAtom } from '@/state/store';
+import { useAtom } from "jotai";
+import { isAdminAtom, testAtom } from "@/state/store";
 //components
-import Spinner from '@/components/design/Spinner';
-import UserIcon from '@/components/design/icons/UserIcon';
+import Spinner from "@/components/design/Spinner";
+import UserIcon from "@/components/design/icons/UserIcon";
 //headlessui
-import { Disclosure, Menu, Transition } from '@headlessui/react';
+import { Disclosure, Menu, Transition } from "@headlessui/react";
 //design assets
-import Logo from '../design/Logo';
+import Logo from "../design/Logo";
 //heroicons
-import { MagnifyingGlassIcon } from '@heroicons/react/20/solid';
+import { MagnifyingGlassIcon } from "@heroicons/react/20/solid";
 import {
   Bars3Icon,
   BellIcon,
   XMarkIcon,
   AdjustmentsHorizontalIcon,
-} from '@heroicons/react/24/outline';
+} from "@heroicons/react/24/outline";
 
 const navigation = {
   registeredUser: [
-    { name: 'Dashboard', href: '/dashboard' },
-    { name: 'Chatbot', href: '/chatbot/0001' },
-    { name: 'Projects', href: '#' },
-    { name: 'Calendar', href: '#' },
+    { name: "Dashboard", href: "/dashboard" },
+    { name: "Chatbot", href: "/chatbot/0001" },
+    { name: "Projects", href: "#" },
+    { name: "Calendar", href: "#" },
   ],
   guest: [
-    { name: 'What is burnout?', href: '#' },
-    { name: 'page1', href: '#' },
-    { name: 'page2', href: '#' },
+    { name: "What is burnout?", href: "#" },
+    { name: "page1", href: "#" },
+    { name: "page2", href: "#" },
   ],
 };
 
 const pageIndicator = {
   lg: {
-    current: 'border-indigo-500 text-gray-900',
+    current: "border-indigo-500 text-gray-900",
     default:
-      'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700',
+      "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700",
   },
   sm: {
-    current: 'bg-indigo-50 border-indigo-500 text-indigo-700',
+    current: "bg-indigo-50 border-indigo-500 text-indigo-700",
     default:
-      'border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800',
+      "border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800",
   },
 };
 
@@ -67,7 +67,7 @@ const UserIndicator = () => {
   if (!user) return null;
 
   if (user.displayName) {
-    const userName = user?.displayName.split(' ');
+    const userName = user?.displayName.split(" ");
     const initials = userName[0][0] + userName[1][0];
 
     return (
@@ -84,15 +84,17 @@ const UserIndicator = () => {
         </div>
       </div>
     );
-  }
+  } else return null;
 };
 
-function classNames(...classes) {
-  return classes.filter(Boolean).join(' ');
+function classNames(...classes: string[]) {
+  return classes.filter(Boolean).join(" ");
 }
 
 export default function Nav() {
   const router = useRouter();
+  const pathname = usePathname();
+
   const [user, loading, error] = useAuthState(auth);
   //This is linked to the signin page onAuthChanged callback and therefore will only return true for a session where a user has just signed in. This offers an additional layer of security but not a great user experience. Consider changing as admin user numbers grow.
   const [isAdmin] = useAtom(isAdminAtom);
@@ -166,7 +168,7 @@ export default function Nav() {
                           key={page.name}
                           href={page.href}
                           className={`inline-flex items-center border-b-2 px-1 pt-1 text-sm font-medium ${
-                            router.asPath === page.href
+                            pathname === page.href
                               ? pageIndicator.lg.current
                               : pageIndicator.lg.default
                           }`}
@@ -179,7 +181,7 @@ export default function Nav() {
                       <Link
                         href="/admin"
                         className={`inline-flex items-center border-b-2 px-1 pt-1 text-sm font-medium ${
-                          router.asPath === '/admin'
+                          pathname === "/admin"
                             ? pageIndicator.lg.current
                             : pageIndicator.lg.default
                         }`}
@@ -238,14 +240,14 @@ export default function Nav() {
                       leaveFrom="transform opacity-100 scale-100"
                       leaveTo="transform opacity-0 scale-95"
                     >
-                      <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                      <Menu.Items className="absolute right-0 z-50 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                         <Menu.Item>
                           {({ active }) => (
                             <a
                               href={`/profile/${user?.uid}`}
                               className={classNames(
-                                active ? 'bg-gray-100' : '',
-                                'block px-4 py-2 text-sm text-gray-700'
+                                active ? "bg-gray-100" : "",
+                                "block px-4 py-2 text-sm text-gray-700"
                               )}
                             >
                               Your Profile
@@ -257,8 +259,8 @@ export default function Nav() {
                             <a
                               href="#"
                               className={classNames(
-                                active ? 'bg-gray-100' : '',
-                                'block px-4 py-2 text-sm text-gray-700'
+                                active ? "bg-gray-100" : "",
+                                "block px-4 py-2 text-sm text-gray-700"
                               )}
                             >
                               Settings
@@ -270,8 +272,8 @@ export default function Nav() {
                             <a
                               href="/signout"
                               className={classNames(
-                                active ? 'bg-gray-100' : '',
-                                'block px-4 py-2 text-sm text-gray-700'
+                                active ? "bg-gray-100" : "",
+                                "block px-4 py-2 text-sm text-gray-700"
                               )}
                             >
                               Sign out
@@ -314,7 +316,7 @@ export default function Nav() {
                       as="a"
                       href={page.href}
                       className={`block border-l-4 py-2 pl-3 pr-4 text-base font-medium ${
-                        router.asPath === page.href
+                        pathname === page.href
                           ? pageIndicator.sm.current
                           : pageIndicator.sm.default
                       }`}
@@ -366,8 +368,7 @@ export default function Nav() {
         )}
       </Disclosure>
     );
-  }
-  if (!user && !loading && !error) {
+  } else {
     content = (
       <Disclosure as="nav" className="mb-8 max-h-fit bg-white shadow lg:mb-16">
         {({ open }) => (
@@ -391,7 +392,7 @@ export default function Nav() {
                           key={page.name}
                           href={page.href}
                           className={`inline-flex items-center border-b-2 px-1 pt-1 text-sm font-medium ${
-                            router.asPath === page.href
+                            pathname === page.href
                               ? pageIndicator.lg.current
                               : pageIndicator.lg.default
                           }`}
@@ -426,7 +427,7 @@ export default function Nav() {
                       as="a"
                       href={page.href}
                       className={`block border-l-4 py-2 pl-3 pr-4 text-base font-medium ${
-                        router.asPath === page.href
+                        pathname === page.href
                           ? pageIndicator.sm.current
                           : pageIndicator.sm.default
                       }`}

@@ -30,7 +30,7 @@ const signUpSchema = Yup.object().shape({
   //   'Must Contain at least 8 Characters, One Uppercase, One Lowercase, One Number and One Special Character, e.g. ! or *'
   // ),
   confirmPassword: Yup.string().oneOf(
-    [Yup.ref("password"), null],
+    [Yup.ref("password")],
     "Passwords must match"
   ),
 });
@@ -60,11 +60,20 @@ const EmailSignUpUI = () => {
 
   const [userCreated, setUserCreated] = useState(false);
 
-  const handleEmailSignup = async (values) => {
-    const name = values.name;
-    const email = values.email;
-    const password = values.password;
-    const confirmPassword = values.confirmPassword;
+  interface SignUpValues {
+    name: string;
+    email: string;
+    password: string;
+    confirmPassword: string;
+  }
+
+  const handleEmailSignup = async (values: SignUpValues) => {
+    // const name = values.name;
+    // const email = values.email;
+    // const password = values.password;
+    // const confirmPassword = values.confirmPassword;
+
+    const { name, email, password, confirmPassword } = values;
 
     if (password !== confirmPassword) {
       return;

@@ -1,7 +1,7 @@
-import { auth, DecodedIdToken } from 'firebase-admin';
-import { adminInit } from '@/firebase/auth/adminConfig';
-import { cookies, headers } from 'next/headers';
-import { NextRequest, NextResponse } from 'next/server';
+import { auth } from "firebase-admin";
+import { adminInit } from "@/firebase/auth/adminConfig";
+import { cookies, headers } from "next/headers";
+import { NextRequest, NextResponse } from "next/server";
 
 // Init the Firebase SDK every time the server is called
 adminInit();
@@ -9,11 +9,13 @@ adminInit();
 /* POST */
 export async function POST(request: NextRequest, response: NextResponse) {
   try {
-    const authorization = headers().get('Authorization');
-    if (authorization?.startsWith('Bearer ')) {
-      const idToken = authorization.split('Bearer ')[1];
-      const decodedToken: DecodedIdToken = await auth().verifyIdToken(idToken);
-      console.log('***decodedToken: ', decodedToken);
+    const authorization = headers().get("Authorization");
+    if (authorization?.startsWith("Bearer ")) {
+      const idToken = authorization.split("Bearer ")[1];
+      const decodedToken: auth.DecodedIdToken = await auth().verifyIdToken(
+        idToken
+      );
+      console.log("***decodedToken: ", decodedToken);
 
       if (decodedToken) {
         //Generate session cookie
@@ -22,7 +24,7 @@ export async function POST(request: NextRequest, response: NextResponse) {
           expiresIn,
         });
         const options = {
-          name: 'session',
+          name: "session",
           value: sessionCookie,
           maxAge: expiresIn,
           httpOnly: true,
@@ -38,9 +40,9 @@ export async function POST(request: NextRequest, response: NextResponse) {
     }
     //move return statement back down here if this breaks!
   } catch (error) {
-    console.error('******Error in POST handler:', error);
+    console.error("******Error in POST handler:", error);
     return NextResponse.json(
-      { error: 'Internal server error' },
+      { error: "Internal server error" },
       { status: 500 }
     );
   }
@@ -48,7 +50,7 @@ export async function POST(request: NextRequest, response: NextResponse) {
 
 /* GET */
 export async function GET(request: NextRequest) {
-  const session = cookies().get('session')?.value || '';
+  const session = cookies().get("session")?.value || "";
 
   //Validate if the cookie exist in the request
   if (!session) {
@@ -56,7 +58,7 @@ export async function GET(request: NextRequest) {
   }
 
   //Use Firebase Admin to validate the session cookie
-  const decodedClaims: DecodedIdToken = await auth().verifySessionCookie(
+  const decodedClaims: auth.DecodedIdToken = await auth().verifySessionCookie(
     session,
     true
   );

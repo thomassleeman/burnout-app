@@ -1,19 +1,19 @@
-import { type } from 'os';
-import { useState, useEffect } from 'react';
-import { types } from 'util';
+import { type } from "os";
+import { useState, useEffect } from "react";
+import { types } from "util";
 
 export default function useWindowSize() {
   // Initialize state with undefined width/height so server and client renders match
   // Learn more here: https://joshwcomeau.com/react/the-perils-of-rehydration/
 
   type WindowSize = {
-    width: number | undefined;
-    height: number | undefined;
+    width: number;
+    height: number;
   };
 
   const [windowSize, setWindowSize] = useState<WindowSize>({
-    width: undefined,
-    height: undefined,
+    width: 0,
+    height: 0,
   });
 
   useEffect(() => {
@@ -27,14 +27,17 @@ export default function useWindowSize() {
       });
     }
 
-    // Add event listener
-    window.addEventListener('resize', handleResize);
+    // Ensure this code is only executed client side where window is defined
+    if (typeof window !== "undefined") {
+      // Add event listener
+      window.addEventListener("resize", handleResize);
 
-    // Call handler right away so state gets updated with initial window size
-    handleResize();
+      // Call handler right away so state gets updated with initial window size
+      handleResize();
 
-    // Remove event listener on cleanup
-    return () => window.removeEventListener('resize', handleResize);
+      // Remove event listener on cleanup
+      return () => window.removeEventListener("resize", handleResize);
+    }
   }, []); // Empty array ensures that effect is only run on mount
   return windowSize;
 }

@@ -1,17 +1,17 @@
-'use client';
+"use client";
 
-import dynamic from 'next/dynamic';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
-import * as Yup from 'yup';
-import useWindowSize from '@/hooks/useWindowSize';
-import Spinner from '@/components/design/Spinner';
+import dynamic from "next/dynamic";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
+import useWindowSize from "@/hooks/useWindowSize";
+import Spinner from "@/components/design/Spinner";
 
-const QuillNoSSRWrapper = dynamic(() => import('react-quill'), {
+const QuillNoSSRWrapper = dynamic(() => import("react-quill"), {
   ssr: false,
   loading: () => <Spinner />,
 });
-import 'react-quill/dist/quill.snow.css'; // for Snow theme
-import '../styles.css';
+import "react-quill/dist/quill.snow.css"; // for Snow theme
+import "../styles.css";
 
 const modules = {
   history: {
@@ -20,20 +20,20 @@ const modules = {
     userOnly: true,
   },
   toolbar: [
-    [{ header: '1' }, { header: '2' }, { header: '3' }, { font: [] }],
+    [{ header: "1" }, { header: "2" }, { header: "3" }, { font: [] }],
     [{ size: [] }],
-    ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+    ["bold", "italic", "underline", "strike", "blockquote"],
     [
-      { list: 'ordered' },
-      { list: 'bullet' },
-      { indent: '-1' },
-      { indent: '+1' },
+      { list: "ordered" },
+      { list: "bullet" },
+      { indent: "-1" },
+      { indent: "+1" },
     ],
-    [{ script: 'sub' }, { script: 'super' }],
+    [{ script: "sub" }, { script: "super" }],
     [{ color: [] }, { background: [] }],
-    ['link', 'image', 'video'],
+    ["link", "image", "video"],
 
-    ['clean'],
+    ["clean"],
   ],
 
   clipboard: {
@@ -50,15 +50,15 @@ interface FormValues {
 }
 
 const validationSchema = Yup.object({
-  title: Yup.string().required('Title is required'),
-  content: Yup.string().required('Content is required'),
+  title: Yup.string().required("Title is required"),
+  content: Yup.string().required("Content is required"),
 });
 
 export default function ArticleForm() {
   const { width } = useWindowSize();
 
   const handleSubmit = async (values: FormValues) => {
-    console.log('values', values);
+    console.log("values", values);
     // const { title, content, isDraft, isPublished } = values;
     // const articleRef = db.collection('articles').doc();
     // const article = {
@@ -75,8 +75,8 @@ export default function ArticleForm() {
   return (
     <Formik<FormValues>
       initialValues={{
-        title: '',
-        content: '',
+        title: "",
+        content: "",
         isDraft: true,
         isPublished: false,
       }}
@@ -106,8 +106,8 @@ export default function ArticleForm() {
           <div className="quill-container">
             <QuillNoSSRWrapper
               modules={modules}
-              onChange={(content) => setFieldValue('content', content)}
-              theme={`${width > 768 ? 'snow' : 'bubble'}`}
+              onChange={(content) => setFieldValue("content", content)}
+              theme={`${width > 768 ? "snow" : "bubble"}`}
               placeholder="Compose something beautiful..."
               className="mx-1 min-h-full rounded-lg border-none border-gray-300 text-lg shadow-md md:mx-0 md:border"
             />
@@ -118,7 +118,7 @@ export default function ArticleForm() {
             disabled={isSubmitting}
             className="my-6 ml-1 flex justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
           >
-            {!isSubmitting ? 'Submit' : <Spinner />}
+            {!isSubmitting ? "Submit" : <Spinner />}
           </button>
         </Form>
       )}

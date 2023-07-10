@@ -1,18 +1,18 @@
-'use client';
+"use client";
 //react
-import { useState } from 'react';
+import { useState } from "react";
 //next
-import { useRouter } from 'next/navigation';
+import { useRouter } from "next/navigation";
 //firebase
-import { auth } from '@/firebase/auth/appConfig';
-import { useSignOut } from 'react-firebase-hooks/auth';
-import { useAuthState } from 'react-firebase-hooks/auth';
+import { auth } from "@/firebase/auth/appConfig";
+import { useSignOut } from "react-firebase-hooks/auth";
+import { useAuthState } from "react-firebase-hooks/auth";
 
 //functions
-import authStatus from '@/firebase/auth/authStatus';
+import authStatus from "@/firebase/auth/authStatus";
 //components
-import ErrorAlert from '@/components/ui/ErrorAlert';
-import Spinner from '@/components/design/Spinner';
+import ErrorAlert from "@/components/ui/ErrorAlert";
+import Spinner from "@/components/design/Spinner";
 
 export default function SignOut() {
   const [apiSignoutErr, setApiSignoutErr] = useState({});
@@ -28,23 +28,30 @@ export default function SignOut() {
   //   return () => unsubscribe();
   // }, [router]);
   const [user] = useAuthState(auth);
-  console.log('user: ', user);
+  console.log("user: ", user);
   const [signOut, loading, fbError] = useSignOut(auth);
 
   const handleSignOut = async () => {
     const userSignedOut = await signOut();
 
-    const response = await fetch('/api/signout', {
-      method: 'POST',
+    const response = await fetch("/api/signout", {
+      method: "POST",
     });
 
     if (response.status === 200 && userSignedOut) {
-      router.push('/signin');
+      router.push("/signin");
     } else {
-      setApiSignoutErr({ message: 'Something went wrong. Please try again.' });
+      setApiSignoutErr({ message: "Something went wrong. Please try again." });
     }
   };
-  const anyError = fbError || apiSignoutErr;
+
+  type CustomError = {
+    message: string;
+    [key: string]: any; // Optional additional properties
+  };
+
+  const anyError = (fbError || apiSignoutErr) as CustomError | null;
+
   return (
     <>
       {/* I have removed min-h-screen from this main tag. */}
@@ -66,7 +73,7 @@ export default function SignOut() {
                         onClick={handleSignOut}
                         className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                       >
-                        {!loading && user ? 'Sign Out' : <Spinner />}
+                        {!loading && user ? "Sign Out" : <Spinner />}
                       </button>
                     </div>
                   </div>

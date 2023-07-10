@@ -1,18 +1,21 @@
-'use client';
+"use client";
 //react
-import { useState } from 'react';
+import { useState } from "react";
 //next
-import Link from 'next/link';
+import Link from "next/link";
 
 //firebase
-import { auth } from '@/firebase/auth/appConfig';
-import { useSendPasswordResetEmail } from 'react-firebase-hooks/auth';
+import { auth } from "@/firebase/auth/appConfig";
+import { useSendPasswordResetEmail } from "react-firebase-hooks/auth";
 //components
-import ErrorAlert from '@/app/_components/ui/ErrorAlert';
-import { stat } from 'fs';
+import ErrorAlert from "@/app/_components/ui/ErrorAlert";
 
-const ResetText = ({ sent }) => {
-  console.log('sent: ', sent);
+interface ResetTextProps {
+  sent: boolean;
+}
+
+const ResetText = ({ sent }: ResetTextProps) => {
+  console.log("sent: ", sent);
   let content;
 
   if (!sent) {
@@ -25,7 +28,7 @@ const ResetText = ({ sent }) => {
         </div>
         <div>
           <p className="mt-8 text-gray-900">
-            We&apos;ll send a recovery email to:{' '}
+            We&apos;ll send a recovery email to:{" "}
           </p>
         </div>
       </>
@@ -51,7 +54,7 @@ const ResetText = ({ sent }) => {
 };
 
 export default function ResetPassword() {
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState("");
   const [sent, setSent] = useState(false);
 
   const [sendPasswordResetEmail, sending, error] =
@@ -63,7 +66,7 @@ export default function ResetPassword() {
   const handleSubmit = async () => {
     const actionCodeSettings = {
       //TODO: change this to the correct url
-      url: 'http://localhost:3000/signin/resetpassword/confirm',
+      url: "http://localhost:3000/signin/resetpassword/confirm",
       // iOS: {
       //   bundleId: 'com.example.ios',
       // },
@@ -78,12 +81,12 @@ export default function ResetPassword() {
       const success = await sendPasswordResetEmail(email, actionCodeSettings);
       if (success) {
         setSent(true);
-        console.log('success: ', success);
+        console.log("success: ", success);
       } else {
-        console.log('success(not): ', success);
+        console.log("success(not): ", success);
       }
     } catch (err) {
-      console.error('error: ', err);
+      console.error("error: ", err);
     }
   };
 
@@ -124,7 +127,7 @@ export default function ResetPassword() {
                         disabled={sending || sent}
                         className="disabled:opacity-500 flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:cursor-not-allowed disabled:bg-gray-300 disabled:text-gray-500"
                       >
-                        {sent ? 'sent' : !sending ? 'Send' : 'Sending...'}
+                        {sent ? "sent" : !sending ? "Send" : "Sending..."}
                       </button>
                     </div>
                   </form>
@@ -132,9 +135,9 @@ export default function ResetPassword() {
               </div>
               <div className="mt-12 w-full text-center">
                 <p className="text-sm text-gray-400 ">
-                  Return to{' '}
+                  Return to{" "}
                   <Link className="text-blue-400" href="/signin">
-                    Sign in{' '}
+                    Sign in{" "}
                   </Link>
                   page
                 </p>

@@ -37,6 +37,10 @@ export default function SignIn() {
   //useAuthState callback
   const [user, authStateLoading, authStateError] = useAuthState(auth, {
     onUserChanged: async (user) => {
+      if (!user) {
+        console.log("user is null");
+        return;
+      }
       if (user && !user?.emailVerified) {
         setTokenError({
           message:
@@ -56,19 +60,6 @@ export default function SignIn() {
           const data = await response.json();
           setIsAdmin(data.decodedToken?.admin);
         }
-
-        // await fetch('/api/signin', {
-        //   method: 'POST',
-        //   headers: {
-        //     Authorization: `Bearer ${token}`,
-        //   },
-        // }).then((response) => {
-        //   if (response.status === 200) {
-        //     console.log('response: ', response);
-
-        //     router.push('/dashboard');
-        //   }
-        // });
       } catch (err) {
         console.log("set token error from signin page: ", err);
       }
@@ -102,7 +93,14 @@ export default function SignIn() {
     console.log("signInUser: ", signInUser);
   };
 
-  const anyError = error || authStateError || tokenError;
+  type CustomError = {
+    message: string;
+    [key: string]: any; // Optional additional properties
+  };
+
+  const anyError = (error ||
+    authStateError ||
+    tokenError) as CustomError | null;
 
   return (
     <>
