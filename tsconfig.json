@@ -23,7 +23,7 @@
     "paths": {
       "@/*": ["./*"],
       "@/components/*": ["app/_components/*"],
-      "@firebase/*": ["app/firebase/*"],
+      "@firebase/*": ["./firebase/*"],
       "@hooks/*": ["app/hooks/*"],
       "@state": ["app/state/*"],
       "@chatbot/*": ["app/chatbot/*"],

@@ -9,7 +9,7 @@ import { auth } from "@/firebase/auth/appConfig";
 import { useAuthState } from "react-firebase-hooks/auth";
 //jotai
 import { useAtom } from "jotai";
-import { isAdminAtom, testAtom } from "@/state/store";
+import { isAdminAtom } from "@/state/store";
 //components
 import Spinner from "@/components/design/Spinner";
 import UserIcon from "@/components/design/icons/UserIcon";

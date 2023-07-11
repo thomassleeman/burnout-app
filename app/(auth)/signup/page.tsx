@@ -5,13 +5,18 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 //Firebase
-import { auth } from "@/firebase/auth/appConfig";
+import { auth, db } from "@/firebase/auth/appConfig";
+import { User } from "firebase/auth";
+//Firestore
+import { doc, setDoc, getDoc } from "firebase/firestore";
 // Firebase hooks
 import {
   useAuthState,
   useCreateUserWithEmailAndPassword,
   useUpdateProfile,
 } from "react-firebase-hooks/auth";
+//custom hooks
+import useAddNewUserToDB from "./useAddNewUserToDB";
 //dependencies
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
@@ -34,6 +39,33 @@ const signUpSchema = Yup.object().shape({
     "Passwords must match"
   ),
 });
+
+const addNewUserToDB = async (user: User) => {
+  const userRef = doc(db, "users", user.uid);
+  const userDoc = await getDoc(userRef);
+
+  if (!userDoc.exists()) {
+    const createdAt = new Date();
+    const newUser = {
+      uid: user.uid,
+      email: user.email,
+      displayName: user.displayName,
+      providerData: user.providerData,
+    };
+
+    try {
+      console.log("newUser: ", newUser);
+      await setDoc(userRef, {
+        newUser,
+        createdAt,
+        // ...any other fields to be included
+      });
+    } catch (error) {
+      console.error("Error creating user document", error);
+      return { error };
+    }
+  }
+};
 
 const EmailSignUpUI = () => {
   const router = useRouter();
@@ -68,11 +100,6 @@ const EmailSignUpUI = () => {
   }
 
   const handleEmailSignup = async (values: SignUpValues) => {
-    // const name = values.name;
-    // const email = values.email;
-    // const password = values.password;
-    // const confirmPassword = values.confirmPassword;
-
     const { name, email, password, confirmPassword } = values;
 
     if (password !== confirmPassword) {
@@ -80,10 +107,15 @@ const EmailSignUpUI = () => {
     }
 
     const userCred = await createUserWithEmailAndPassword(email, password);
-
-    if (name) {
-      await updateProfile({ displayName: name });
+    if (!userCred) {
+      return;
     }
+
+    addNewUserToDB(userCred.user);
+
+    // if (name) {
+    //   await updateProfile({ displayName: name });
+    // }
 
     if (userCred) {
       setUserCreated(true);

@@ -12,7 +12,7 @@ import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
 //jotai
 import { useAtom } from "jotai";
-import { isAdminAtom, testAtom } from "@/state/store";
+import { isAdminAtom } from "@/state/store";
 //other dependencies
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
