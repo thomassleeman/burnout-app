@@ -1,13 +1,23 @@
-import * as React from "react";
-import Link from "next/link";
+interface LogoProps {
+  height?: string;
+  width?: string;
+  className?: string;
+  [key: string]: any; // This line is for all other props that you didn't define
+}
 
-function WellnessLogoGreen(props: object) {
+function WellnessLogoGreen({
+  height = "85%",
+  width = "85%",
+  className = "",
+  ...props
+}: LogoProps) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width="85%"
       viewBox="0 0 375 374.999991"
-      height="85%"
+      height={height}
+      width={width}
+      className={className}
       {...props}
     >
       <defs>

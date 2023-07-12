@@ -17,7 +17,7 @@ export default function Home() {
   }, [user, router]);
   return (
     <div className="flex h-52 flex-col items-center justify-center gap-y-7">
-      <Logo className="animate-spin-slow" height="50px" />
+      <Logo className="animate-spin-slow grayscale" height="50px" />
       <h2 className="text-3xl text-slate-500">Loading...</h2>
     </div>
   );
