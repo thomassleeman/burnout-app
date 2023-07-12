@@ -16,7 +16,6 @@ import {
   useUpdateProfile,
 } from "react-firebase-hooks/auth";
 //custom hooks
-import useAddNewUserToDB from "./useAddNewUserToDB";
 //dependencies
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
