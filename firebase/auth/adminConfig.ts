@@ -11,7 +11,15 @@ if (!process.env.NEXT_PUBLIC_FIREBASE_SECRET_KEY) {
   );
 }
 
-const firebaseSecretKey = process.env.NEXT_PUBLIC_FIREBASE_SECRET_KEY;
+let firebaseSecretKey = "";
+if (process.env.NODE_ENV === "development") {
+  firebaseSecretKey = process.env.NEXT_PUBLIC_FIREBASE_SECRET_KEY;
+} else {
+  firebaseSecretKey = JSON.parse(
+    process.env.NEXT_PUBLIC_FIREBASE_SECRET_KEY as string
+  );
+}
+
 const firebaseAdminConfig = {
   credential: cert(firebaseSecretKey),
 };
