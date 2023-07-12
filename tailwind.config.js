@@ -1,33 +1,34 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
-    './pages/**/*.{js,ts,jsx,tsx,mdx}',
-    './components/**/*.{js,ts,jsx,tsx,mdx}',
-    './app/**/*.{js,ts,jsx,tsx,mdx}',
+    "./pages/**/*.{js,ts,jsx,tsx,mdx}",
+    "./components/**/*.{js,ts,jsx,tsx,mdx}",
+    "./app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
     extend: {
       keyframes: {
         wave: {
           // '0%': { transform: 'rotate(0.0deg)' },
-          '0%': { transform: 'rotate(28deg)' },
-          '25%': { transform: 'rotate(-24deg)' },
-          '50%': { transform: 'rotate(28deg)' },
-          '75%': { transform: 'rotate(-24deg)' },
-          '100%': { transform: 'rotate(28deg)' },
+          "0%": { transform: "rotate(28deg)" },
+          "25%": { transform: "rotate(-24deg)" },
+          "50%": { transform: "rotate(28deg)" },
+          "75%": { transform: "rotate(-24deg)" },
+          "100%": { transform: "rotate(28deg)" },
           // '60%': { transform: 'rotate(0.0deg)' },
           // '100%': { transform: 'rotate(0.0deg)' },
         },
       },
       animation: {
-        wave: 'wave 2s linear infinite',
+        wave: "wave 2s linear infinite",
+        "spin-slow": "spin 2s linear infinite",
       },
       backgroundImage: {
-        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-        'gradient-conic':
-          'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
+        "gradient-conic":
+          "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
     },
   },
-  plugins: [require('@tailwindcss/forms')],
+  plugins: [require("@tailwindcss/forms")],
 };
