@@ -4,9 +4,12 @@ import type { NextRequest } from "next/server";
 export async function middleware(request: NextRequest, response: NextResponse) {
   const session = request.cookies.get("session");
   const pathname = request.nextUrl.pathname;
+  const origin = request.nextUrl.origin;
+
+  console.log(pathname);
 
   //1. If the user is already logged in and they navigate to the signup or signin page, redirect them to the dashboard
-  if (pathname === ("/signup" || "/signin") && session) {
+  if ((pathname === "/signup" || pathname === "/signin") && session) {
     return NextResponse.redirect(new URL("/dashboard", request.url));
   }
 
@@ -14,8 +17,6 @@ export async function middleware(request: NextRequest, response: NextResponse) {
   if (!session) {
     return NextResponse.redirect(new URL("/signin", request.url));
   }
-
-  const origin = request.nextUrl.origin;
 
   //Call the authentication endpoint
   const responseAPI = await fetch(`${origin}/api/signin`, {
@@ -63,8 +64,8 @@ export async function middleware(request: NextRequest, response: NextResponse) {
 //Add your protected routes
 export const config = {
   matcher: [
-    "/signup",
-    "/signin",
+    // "/signup",
+    // "/signin",
     "/dashboard",
     "/profile/:path*",
     "/admin/:path*",
