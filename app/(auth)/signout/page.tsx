@@ -1,33 +1,27 @@
 "use client";
 //react
-import { useState } from "react";
+import { useState, useEffect } from "react";
 //next
 import { useRouter } from "next/navigation";
 //firebase
 import { auth } from "@/firebase/auth/appConfig";
 import { useSignOut } from "react-firebase-hooks/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
-
-//functions
-import authStatus from "@/firebase/auth/authStatus";
 //components
 import ErrorAlert from "@/components/ui/ErrorAlert";
 import Spinner from "@/components/design/Spinner";
 
 export default function SignOut() {
+  const [user] = useAuthState(auth);
   const [apiSignoutErr, setApiSignoutErr] = useState({});
   const router = useRouter();
 
   // useEffect(() => {
-  //   const unsubscribe = authStatus((user) => {
-  //     if (!user) {
-  //       router.push('/signin');
-  //     }
-  //   });
+  //   if (!user) {
+  //     router.push("/signin");
+  //   }
+  // }, [user, router]);
 
-  //   return () => unsubscribe();
-  // }, [router]);
-  const [user] = useAuthState(auth);
   console.log("user: ", user);
   const [signOut, loading, fbError] = useSignOut(auth);
 
@@ -56,10 +50,13 @@ export default function SignOut() {
     <>
       {/* I have removed min-h-screen from this main tag. */}
       <main>
-        <ErrorAlert error={anyError?.message} />
+        <ErrorAlert />
         {/* I have removed min-h-full from this div */}
         <div className="flex flex-1">
           <div className="flex flex-1 flex-col justify-center px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
+            <h2 className="text-3xl font-bold leading-9 tracking-tight text-slate-600 md:mb-8">
+              Sign Out
+            </h2>
             <div className="mx-auto w-full max-w-sm lg:w-96">
               <div className="mt-10">
                 <div>
@@ -73,7 +70,13 @@ export default function SignOut() {
                         onClick={handleSignOut}
                         className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                       >
-                        {!loading && user ? "Sign Out" : <Spinner />}
+                        {!loading && user ? (
+                          "Sign Out"
+                        ) : (
+                          // <CogIcon className="h-8 animate-spin" />
+                          <Spinner className="h-6 w-6" />
+                          // <Grid className="h-6 w-6" />
+                        )}
                       </button>
                     </div>
                   </div>

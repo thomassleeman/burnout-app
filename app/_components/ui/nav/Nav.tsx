@@ -1,22 +1,31 @@
 "use client";
 //react
-import { Fragment, useEffect } from "react";
+import { Fragment, useEffect, useState, useCallback } from "react";
 //next
 import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
+import Image from "next/image";
 //firebase
 import { auth } from "@/firebase/auth/appConfig";
+import { onAuthStateChanged } from "firebase/auth";
+
 import { useAuthState } from "react-firebase-hooks/auth";
+import { db } from "@/firebase/auth/appConfig";
+//firestore
+import { collection, getDocs } from "firebase/firestore";
 //jotai
 import { useAtom } from "jotai";
 import { isAdminAtom } from "@/state/store";
+import { showSearchResultsAtom } from "@/state/store";
 //components
 import Spinner from "@/components/design/Spinner";
 import UserIcon from "@/components/design/icons/UserIcon";
+import SearchResults from "@/app/_components/ui/nav/SearchResults";
+//functions
 //headlessui
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 //design assets
-import Logo from "../design/Logo";
+import brushStrokeTree from "@/components/design/brushStrokeTree.png";
 //heroicons
 import { MagnifyingGlassIcon } from "@heroicons/react/20/solid";
 import {
@@ -29,14 +38,11 @@ import {
 const navigation = {
   registeredUser: [
     { name: "Dashboard", href: "/dashboard" },
-    { name: "Chatbot", href: "/chatbot/0001" },
-    { name: "Projects", href: "#" },
-    { name: "Calendar", href: "#" },
+    { name: "Library", href: "/articles" },
   ],
   guest: [
     { name: "What is burnout?", href: "#" },
-    { name: "page1", href: "#" },
-    { name: "page2", href: "#" },
+    { name: "Articles", href: "/articles" },
   ],
 };
 
@@ -55,7 +61,7 @@ const pageIndicator = {
 
 const UserIndicator = () => {
   const [user, loading, error] = useAuthState(auth);
-
+  console.log("user: ", user);
   if (loading || error) {
     return (
       <div className="ml-6 flex h-3/4 w-auto items-center justify-center self-center  justify-self-end rounded-full p-3">
@@ -95,6 +101,73 @@ export default function Nav() {
   const router = useRouter();
   const pathname = usePathname();
 
+  /* --------------------------------------------------------- */
+  //--------------------- SEARCH FUNCTION ---------------------//
+  /* --------------------------------------------------------- */
+
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const [searchResults, setSearchResults] = useState<Article[]>([
+    // { title: "no search", id: "0", content: "", slug: "" },
+  ]);
+
+  const [showSearchResults, setShowSearchResults] = useAtom(
+    showSearchResultsAtom
+  );
+
+  const getArticles = useCallback(async () => {
+    const articlesRef = collection(db, "articles");
+    const articlesSnapshot = await getDocs(articlesRef);
+    const articlesList = articlesSnapshot.docs.map((doc) => {
+      const data = doc.data();
+      return {
+        id: doc.id,
+        title: data.title,
+        date: data.date.toDate(),
+        slug: data.slug,
+        content: data.content,
+        headerImage: data.headerImage,
+        headerImageAlt: data.headerImageAlt,
+        category: data.category,
+        summary: data.summary,
+        author: data.author,
+      };
+    });
+    return articlesList;
+  }, []);
+
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (!user) return;
+      getArticles();
+    });
+  }, [getArticles]);
+
+  const navSearch = async (searchTerm: string) => {
+    const articles = await getArticles();
+    const results = articles.filter(
+      (article) =>
+        article.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        article.category.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        article.summary.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    if (results.length === 0) {
+      setSearchResults([
+        { title: "no results found", id: "0", content: "", slug: "" },
+      ]);
+    } else {
+      setSearchResults(results);
+    }
+  };
+
+  useEffect(() => {
+    setShowSearchResults(searchResults.length > 0);
+  }, [searchResults, setShowSearchResults]);
+
+  //--------------------- END SEARCH FUNCTION ---------------------//
+  /* ------------------------------------------------------------- */
+  /* ------------------------------------------------------------- */
+
   const [user, loading, error] = useAuthState(auth);
   //This is linked to the signin page onAuthChanged callback and therefore will only return true for a session where a user has just signed in. This offers an additional layer of security but not a great user experience. Consider changing as admin user numbers grow.
   const [isAdmin] = useAtom(isAdminAtom);
@@ -103,11 +176,15 @@ export default function Nav() {
   if (loading) {
     content = (
       <nav className="mb-8 max-h-fit bg-white shadow lg:mb-16">
-        <div className="mx-auto mb-3  px-2 sm:px-4 lg:mb-2 lg:px-8">
+        <div className="mx-auto my-1 px-2 sm:px-4 lg:px-8">
           <div className="flex h-16 justify-between">
             <div className="flex px-2 lg:px-0">
-              <div className="flex flex-shrink-0 items-center">
-                <Logo />
+              <div className="flex h-8 w-auto flex-shrink-0 items-center">
+                <Image
+                  className="h-5/6 w-auto pr-12"
+                  src={brushStrokeTree}
+                  alt="Burnout Project Logo"
+                />
               </div>
               <div className="hidden lg:ml-6 lg:flex lg:space-x-8">
                 {navigation.registeredUser.map((page, index) => {
@@ -155,11 +232,17 @@ export default function Nav() {
       <Disclosure as="nav" className="mb-8 max-h-fit bg-white shadow lg:mb-16">
         {({ open }) => (
           <>
-            <div className="mx-auto mb-3  px-2 sm:px-4 lg:mb-2 lg:px-8">
+            <div className="mx-auto my-1 px-2 sm:px-4 lg:px-8">
               <div className="flex h-16 justify-between">
                 <div className="flex px-2 lg:px-0">
                   <div className="flex flex-shrink-0 items-center">
-                    <Logo />
+                    <Link href="/dashboard" className="h-full">
+                      <Image
+                        className="h-5/6 w-auto pr-12"
+                        src={brushStrokeTree}
+                        alt="Burnout Project Logo"
+                      />{" "}
+                    </Link>
                   </div>
                   <div className="hidden lg:ml-6 lg:flex lg:space-x-8">
                     {navigation.registeredUser.map((page) => {
@@ -191,6 +274,7 @@ export default function Nav() {
                     )}
                   </div>
                 </div>
+                {/* ------- NAV SEARCH ----------*/}
                 <div className="flex flex-1 items-center justify-center px-2 lg:ml-6 lg:justify-end">
                   <div className="w-full max-w-lg lg:max-w-xs">
                     <label htmlFor="search" className="sr-only">
@@ -209,10 +293,20 @@ export default function Nav() {
                         className="block w-full rounded-md border-0 bg-white py-1.5 pl-10 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                         placeholder="Search Articles"
                         type="search"
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter" && searchTerm !== "") {
+                            navSearch(searchTerm);
+                          }
+                        }}
                       />
                     </div>
                   </div>
+                  {showSearchResults ? (
+                    <SearchResults articles={searchResults} />
+                  ) : null}
                 </div>
+                {/* ------------------- */}
 
                 <div className="hidden lg:ml-4 lg:flex lg:items-center">
                   <button
@@ -327,18 +421,6 @@ export default function Nav() {
                 })}
               </div>
               <div className="border-t border-gray-200 pb-3 pt-4">
-                <div className="flex items-center px-4">
-                  <div className="flex-shrink-0">
-                    <AdjustmentsHorizontalIcon className="h-6 w-6 rounded-full text-gray-400" />
-                  </div>
-                  <button
-                    type="button"
-                    className="ml-auto flex-shrink-0 rounded-full bg-white p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                  >
-                    <span className="sr-only">View notifications</span>
-                    <BellIcon className="h-6 w-6" aria-hidden="true" />
-                  </button>
-                </div>
                 <div className="mt-3 space-y-1">
                   <Disclosure.Button
                     as="a"
@@ -356,7 +438,7 @@ export default function Nav() {
                   </Disclosure.Button>
                   <Disclosure.Button
                     as="a"
-                    href="#"
+                    href="/signout"
                     className="block px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800"
                   >
                     Sign out
@@ -373,15 +455,19 @@ export default function Nav() {
       <Disclosure as="nav" className="mb-8 max-h-fit bg-white shadow lg:mb-16">
         {({ open }) => (
           <>
-            <div className="mx-auto mb-3 px-2 sm:px-4 lg:mb-2 lg:px-8">
+            <div className="mx-auto my-1 px-2 sm:px-4 lg:px-8">
               <div className="flex h-16 justify-between">
                 <div className="flex px-2 lg:px-0">
                   <div className="flex flex-shrink-0 items-center">
-                    <Logo />
+                    <Image
+                      className="h-5/6 w-auto pr-12"
+                      src={brushStrokeTree}
+                      alt="Burnout Project Logo"
+                    />{" "}
                   </div>
                   <div className="hidden lg:ml-6 lg:flex lg:space-x-8">
                     <Link
-                      className="inline-flex items-center justify-self-end px-1 pt-1 text-sm font-medium text-green-700"
+                      className="inline-flex items-center justify-self-end px-1 pt-1 text-sm font-medium text-green-700 hover:text-green-900"
                       href="/signup"
                     >
                       Sign up for a free account
@@ -437,13 +523,23 @@ export default function Nav() {
                   );
                 })}
               </div>
-              <div className="border-t border-gray-200 pb-3 pt-4">
-                <div className="flex items-center px-4">
-                  <Link className="text-right text-sm text-green-700" href="#">
-                    Sign up for a free account
-                  </Link>
-                </div>
-              </div>
+              {/* <div className=" pb-3 pt-4"> */}
+              {/* <div className="flex items-center px-4">
+                <Link className="text-right text-sm text-green-700" href="#">
+                  Sign up for a free account
+                </Link>
+              </div> */}
+              <Disclosure.Button
+                as="a"
+                href="/signup"
+                className={
+                  "mb-4 block py-2 pl-3 pr-4 text-base font-medium text-green-700"
+                }
+              >
+                Sign up for a free account
+              </Disclosure.Button>
+
+              {/* </div> */}
             </Disclosure.Panel>
           </>
         )}

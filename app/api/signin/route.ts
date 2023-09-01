@@ -15,11 +15,12 @@ export async function POST(request: NextRequest, response: NextResponse) {
       const decodedToken: auth.DecodedIdToken = await auth().verifyIdToken(
         idToken
       );
-      console.log("***decodedToken: ", decodedToken);
+      // console.log("***decodedToken: ", decodedToken);
 
       if (decodedToken) {
+        //Set session expiration to 30 days.
+        const expiresIn = 60 * 60 * 24 * 30;
         //Generate session cookie
-        const expiresIn = 60 * 60 * 24 * 5 * 1000;
         const sessionCookie = await auth().createSessionCookie(idToken, {
           expiresIn,
         });
@@ -62,6 +63,8 @@ export async function GET(request: NextRequest) {
     session,
     true
   );
+
+  //This was to check if the user is an admin or not. We are now using Jotai to check for admin status.
   const admin = decodedClaims.admin || false;
 
   // console.log('***decodedClaims: ', decodedClaims, '***admin: ', admin);

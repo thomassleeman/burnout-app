@@ -1,4 +1,5 @@
 import { Roboto } from "next/font/google";
+import Spinner from "@/components/design/Spinner";
 
 const roboto = Roboto({
   weight: "400",
@@ -12,7 +13,7 @@ const GoogleIcon = () => (
     width="45"
     height="45"
   >
-    <title>{"btn_google_light_normal_ios"}</title>
+    {/* <title>{"btn_google_light_normal_ios"}</title> */}
     <defs>
       <filter
         id="a"
@@ -53,12 +54,12 @@ const GoogleIcon = () => (
       <rect id="b" width={40} height={40} x={0} y={0} rx={2} />
     </defs>
     <g fill="none" fillRule="evenodd">
-      <g filter="url(#a)" transform="translate(3 3)">
-        <use xlinkHref="#b" fill="#FFF" />
+      {/* <g filter="url(#a)" transform="translate(3 3)">
+        <use xlinkHref="#b" fill="#cd2626" />
         <use xlinkHref="#b" />
         <use xlinkHref="#b" />
         <use xlinkHref="#b" />
-      </g>
+      </g> */}
       <path
         fill="#4285F4"
         d="M31.64 23.205c0-.639-.057-1.252-.164-1.841H23v3.481h4.844a4.14 4.14 0 0 1-1.796 2.716v2.259h2.908c1.702-1.567 2.684-3.875 2.684-6.615Z"
@@ -80,20 +81,20 @@ const GoogleIcon = () => (
   </svg>
 );
 
-export default function GoogleButton() {
+export default function GoogleButton({ loading }: { loading: boolean }) {
   //TODO: Add loading state
-  const loading = false;
   let content;
 
   if (loading) {
     content = (
-      <div className="flex w-full items-center gap-5 rounded-md border bg-white px-2 text-gray-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#24292F]">
+      <div className="flex w-full items-center justify-center gap-5 rounded-md border bg-white px-2 text-gray-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#24292F]">
         <p className="text-sm">Loading...</p>
+        <Spinner stroke="blue" />
       </div>
     );
   } else {
     content = (
-      <div className="flex w-full items-center gap-5 rounded-md border bg-white px-2 text-gray-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#24292F]">
+      <div className="flex w-full items-center justify-center gap-3 rounded-md border bg-white px-2 text-gray-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#24292F]">
         <GoogleIcon />
         <p className={roboto.className}>Google</p>
       </div>

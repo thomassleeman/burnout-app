@@ -13,7 +13,11 @@ if (!process.env.NEXT_PUBLIC_FIREBASE_SECRET_KEY) {
 
 let firebaseSecretKey = "";
 if (process.env.NODE_ENV === "development") {
-  firebaseSecretKey = process.env.NEXT_PUBLIC_FIREBASE_SECRET_KEY;
+  if (process.env.NEXT_PUBLIC_FIREBASE_SECRET_KEY_L === undefined)
+    throw new Error(
+      "The Firebase secret key is not set in the environment variables."
+    );
+  firebaseSecretKey = process.env.NEXT_PUBLIC_FIREBASE_SECRET_KEY_L;
 } else {
   firebaseSecretKey = JSON.parse(
     process.env.NEXT_PUBLIC_FIREBASE_SECRET_KEY as string

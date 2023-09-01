@@ -1,11 +1,16 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { type } from "os";
 
 export async function middleware(request: NextRequest, response: NextResponse) {
   const session = request.cookies.get("session");
+  const pathname = request.nextUrl.pathname;
 
-  //Return to /login if don't have a session
+  //1. If the user is already logged in and they navigate to the signup or signin page, redirect them to the dashboard
+  if (pathname === ("/signup" || "/signin") && session) {
+    return NextResponse.redirect(new URL("/dashboard", request.url));
+  }
+
+  //Return to /login if no session
   if (!session) {
     return NextResponse.redirect(new URL("/signin", request.url));
   }
@@ -31,7 +36,6 @@ export async function middleware(request: NextRequest, response: NextResponse) {
 
   // does admin exist on non-admin users as admin:false or is it not present?
   const signedInUserAdmin = signedInUser.decodedClaims.admin;
-  const pathname = request.nextUrl.pathname;
 
   // Check if requested page contains a user ID and ensure it is the current user.
   if (pathname.startsWith("/profile/") && !pathname.includes(signedInUserUid)) {
@@ -58,5 +62,11 @@ export async function middleware(request: NextRequest, response: NextResponse) {
 
 //Add your protected routes
 export const config = {
-  matcher: ["/admin/:path*", "/dashboard", "/profile/:path*"],
+  matcher: [
+    "/signup",
+    "/signin",
+    "/dashboard",
+    "/profile/:path*",
+    "/admin/:path*",
+  ],
 };

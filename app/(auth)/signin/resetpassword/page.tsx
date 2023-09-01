@@ -8,7 +8,9 @@ import Link from "next/link";
 import { auth } from "@/firebase/auth/appConfig";
 import { useSendPasswordResetEmail } from "react-firebase-hooks/auth";
 //components
-import ErrorAlert from "@/app/_components/ui/ErrorAlert";
+//jotai
+import { useAtom } from "jotai";
+import { anyErrorAtom } from "@/state/store";
 
 interface ResetTextProps {
   sent: boolean;
@@ -60,6 +62,8 @@ export default function ResetPassword() {
   const [sendPasswordResetEmail, sending, error] =
     useSendPasswordResetEmail(auth);
 
+  const [, setAnyError] = useAtom(anyErrorAtom);
+
   /* TODO: This is working, however, 
   1. The email link revels NEXT_PUBLIC_FIREBASE_API_KEY - Is that normal?
   2. Link refers to "burnout project" and "project-941881196808"  */
@@ -90,10 +94,13 @@ export default function ResetPassword() {
     }
   };
 
+  if (error) {
+    setAnyError(error);
+  }
+
   return (
     <>
       <main className="min-h-screen">
-        <ErrorAlert error={error?.message} />
         <div className="flex min-h-full flex-1">
           <div className="flex flex-1 flex-col justify-center px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
             <div className="mx-auto w-full max-w-sm lg:w-96">

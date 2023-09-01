@@ -27,7 +27,8 @@
       "@hooks/*": ["app/hooks/*"],
       "@state": ["app/state/*"],
       "@chatbot/*": ["app/chatbot/*"],
-      "@types/*": ["./types/*"]
+      "@types/*": ["./types/*"],
+      "@articles/*": ["app/articles/*"]
     }
   },
   "include": [
