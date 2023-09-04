@@ -51,9 +51,14 @@ export async function POST(request: NextRequest, response: NextResponse) {
 
 /* GET */
 export async function GET(request: NextRequest) {
-  const session = cookies().get("session")?.value || "";
+  // const session = cookies().get("session")?.value || "";
 
-  //Validate if the cookie exist in the request
+  // console.log("request headers: ", request.headers.get("Cookie"));
+  // console.log("cookies.get(session): ", session);
+
+  const session = request.headers.get("Cookie");
+
+  //Validate if the cookie exists
   if (!session) {
     return NextResponse.json({ isLogged: false }, { status: 401 });
   }
@@ -65,11 +70,12 @@ export async function GET(request: NextRequest) {
   );
 
   //This was to check if the user is an admin or not. We are now using Jotai to check for admin status.
-  const admin = decodedClaims.admin || false;
+  // const admin = decodedClaims.admin || false;
 
   // console.log('***decodedClaims: ', decodedClaims, '***admin: ', admin);
 
   if (!decodedClaims) {
+    cookies().delete("session");
     return NextResponse.json({ isLogged: false }, { status: 401 });
   }
 

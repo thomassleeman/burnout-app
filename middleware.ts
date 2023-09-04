@@ -6,13 +6,6 @@ export async function middleware(request: NextRequest, response: NextResponse) {
   const pathname = request.nextUrl.pathname;
   const origin = request.nextUrl.origin;
 
-  console.log(pathname);
-
-  //1. If the user is already logged in and they navigate to the signup or signin page, redirect them to the dashboard
-  if ((pathname === "/signup" || pathname === "/signin") && session) {
-    return NextResponse.redirect(new URL("/dashboard", request.url));
-  }
-
   //Return to /login if no session
   if (!session) {
     return NextResponse.redirect(new URL("/signin", request.url));
@@ -22,13 +15,19 @@ export async function middleware(request: NextRequest, response: NextResponse) {
   const responseAPI = await fetch(`${origin}/api/signin`, {
     method: "GET",
     headers: {
-      Cookie: `session=${session?.value}`,
+      // Cookie: `session=${session?.value}`,
+      Cookie: session?.value,
     },
   });
 
-  //Return to /login if token is not authorized
+  //If session cookie verification fails the endpoint will delete the cookie. Here we redirect the user to sign in.
   if (responseAPI.status !== 200) {
     return NextResponse.redirect(new URL("/signin", request.url));
+  }
+
+  //If the user is already logged in and they navigate to the signup or signin page, redirect them to the dashboard
+  if ((pathname === "/signup" || pathname === "/signin") && session) {
+    return NextResponse.redirect(new URL("/dashboard", request.url));
   }
 
   // Get the signed-in user's UID from the response
