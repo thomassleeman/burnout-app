@@ -18,8 +18,8 @@ export async function POST(request: NextRequest, response: NextResponse) {
       // console.log("***decodedToken: ", decodedToken);
 
       if (decodedToken) {
-        //Set session expiration to 30 days.
-        const expiresIn = 60 * 60 * 24 * 30 * 1000;
+        //Set session expiration to 14 days. This is the firebase max.
+        const expiresIn = 60 * 60 * 24 * 14 * 1000;
         // const expiresIn = 60000 * 5;
         //Generate session cookie
         const sessionCookie = await auth().createSessionCookie(idToken, {
