@@ -25,14 +25,15 @@ export async function middleware(request: NextRequest, response: NextResponse) {
     return NextResponse.redirect(new URL("/signin", request.url));
   }
 
-  //If the user is already logged in and they navigate to the signup or signin page, redirect them to the dashboard
-  if ((pathname === "/signup" || pathname === "/signin") && session) {
-    return NextResponse.redirect(new URL("/dashboard", request.url));
-  }
-
   // Get the signed-in user's UID from the response
   const signedInUser = await responseAPI.json();
   const signedInUserUid = signedInUser.decodedClaims.uid;
+
+  //If the user is already logged in and they navigate to the signup or signin page, redirect them to the dashboard
+  if ((pathname === "/signup" || pathname === "/signin") && session) {
+    console.log("decodedClaims: ", signedInUser.decodedClaims);
+    return NextResponse.redirect(new URL("/dashboard", request.url));
+  }
 
   // does admin exist on non-admin users as admin:false or is it not present?
   const signedInUserAdmin = signedInUser.decodedClaims.admin;

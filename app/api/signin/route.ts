@@ -19,7 +19,8 @@ export async function POST(request: NextRequest, response: NextResponse) {
 
       if (decodedToken) {
         //Set session expiration to 30 days.
-        const expiresIn = 60 * 60 * 24 * 30;
+        const expiresIn = 60 * 60 * 24 * 30 * 1000;
+        // const expiresIn = 60000 * 5;
         //Generate session cookie
         const sessionCookie = await auth().createSessionCookie(idToken, {
           expiresIn,
@@ -43,8 +44,8 @@ export async function POST(request: NextRequest, response: NextResponse) {
   } catch (error) {
     console.error("******Error in POST handler:", error);
     return NextResponse.json(
-      { error: "Internal server error" },
-      { status: 500 }
+      { error: "Unauthorised request." },
+      { status: 401 }
     );
   }
 }
@@ -68,6 +69,7 @@ export async function GET(request: NextRequest) {
     session,
     true
   );
+  console.log("***decodedClaims: ", decodedClaims);
 
   //This was to check if the user is an admin or not. We are now using Jotai to check for admin status.
   // const admin = decodedClaims.admin || false;
@@ -76,6 +78,7 @@ export async function GET(request: NextRequest) {
 
   if (!decodedClaims) {
     cookies().delete("session");
+    console.log("session cookie deleted");
     return NextResponse.json({ isLogged: false }, { status: 401 });
   }
 
