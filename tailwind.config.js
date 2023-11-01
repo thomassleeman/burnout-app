@@ -8,6 +8,15 @@ module.exports = {
   theme: {
     extend: {
       keyframes: {
+        marquee: {
+          "0%": { transform: "translateX(0%)" },
+          "100%": { transform: "translateX(-100%)" },
+        },
+      },
+      animation: {
+        marquee: "marquee 25s linear infinite",
+      },
+      keyframes: {
         wave: {
           // '0%': { transform: 'rotate(0.0deg)' },
           "0%": { transform: "rotate(28deg)" },

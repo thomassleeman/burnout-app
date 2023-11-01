@@ -3,20 +3,23 @@
 import { Fragment, useEffect, useState, useCallback } from "react";
 //next
 import Link from "next/link";
-import { useRouter, usePathname } from "next/navigation";
+import { usePathname } from "next/navigation";
 import Image from "next/image";
 //firebase
 import { auth } from "@/firebase/auth/appConfig";
 import { onAuthStateChanged } from "firebase/auth";
 
-import { useAuthState } from "react-firebase-hooks/auth";
 import { db } from "@/firebase/auth/appConfig";
 //firestore
 import { collection, getDocs } from "firebase/firestore";
 //jotai
 import { useAtom } from "jotai";
-import { isAdminAtom } from "@/state/store";
-import { showSearchResultsAtom } from "@/state/store";
+import {
+  isAdminAtom,
+  showSearchResultsAtom,
+  usernameAtom,
+  userIDAtom,
+} from "@/state/store";
 //components
 import Spinner from "@/components/design/Spinner";
 import UserIcon from "@/components/design/icons/UserIcon";
@@ -25,7 +28,7 @@ import SearchResults from "@/app/_components/ui/nav/SearchResults";
 //headlessui
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 //design assets
-import brushStrokeTree from "@/components/design/brushStrokeTree.png";
+import brainLogo from "@/components/design/brainLogo.png";
 //heroicons
 import { MagnifyingGlassIcon } from "@heroicons/react/20/solid";
 import {
@@ -59,22 +62,16 @@ const pageIndicator = {
   },
 };
 
+/* -------------- USER INDICATOR -------------------- */
 const UserIndicator = () => {
-  const [user, loading, error] = useAuthState(auth);
-  console.log("user: ", user);
-  if (loading || error) {
-    return (
-      <div className="ml-6 flex h-3/4 w-auto items-center justify-center self-center  justify-self-end rounded-full p-3">
-        <Spinner stroke="green" />
-      </div>
-    );
-  }
+  const [username] = useAtom(usernameAtom);
+  const [userID] = useAtom(userIDAtom);
 
-  if (!user) return null;
+  if (!userID) return null;
 
-  if (user.displayName) {
-    const userName = user?.displayName.split(" ");
-    const initials = userName[0][0] + userName[1][0];
+  if (username) {
+    const usernameArray = username.split(" ");
+    const initials = usernameArray[0][0] + usernameArray[1][0];
 
     return (
       <div className="ml-6 flex h-3/4 w-auto items-center justify-center self-center  justify-self-end rounded-full bg-green-900 p-3">
@@ -82,7 +79,7 @@ const UserIndicator = () => {
       </div>
     );
   }
-  if (user && !user.displayName) {
+  if (userID && !username) {
     return (
       <div className="ml-6 flex h-3/4 w-auto items-center justify-center self-center  justify-self-end rounded-full bg-green-900 p-3">
         <div className="text-xl font-thin uppercase text-black">
@@ -92,14 +89,15 @@ const UserIndicator = () => {
     );
   } else return null;
 };
-
+/* -------------------------------------------------------------- */
+/* -------------------------------------------------------------- */
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
 }
 
 export default function Nav() {
-  const router = useRouter();
   const pathname = usePathname();
+  const [userID] = useAtom(userIDAtom);
 
   /* --------------------------------------------------------- */
   //--------------------- SEARCH FUNCTION ---------------------//
@@ -168,68 +166,16 @@ export default function Nav() {
   /* ------------------------------------------------------------- */
   /* ------------------------------------------------------------- */
 
-  const [user, loading, error] = useAuthState(auth);
   //This is linked to the signin page onAuthChanged callback and therefore will only return true for a session where a user has just signed in. This offers an additional layer of security but not a great user experience. Consider changing as admin user numbers grow.
   const [isAdmin] = useAtom(isAdminAtom);
 
   let content;
-  if (loading) {
+
+  //Nav margins: mb-8 lg:mb-16 in both Disclosure tags lines 177 and 407.
+  if (!pathname.includes("/signin") && !pathname.includes("/signup")) {
     content = (
-      <nav className="mb-8 max-h-fit bg-white shadow lg:mb-16">
-        <div className="mx-auto my-1 px-2 sm:px-4 lg:px-8">
-          <div className="flex h-16 justify-between">
-            <div className="flex px-2 lg:px-0">
-              <div className="flex h-8 w-auto flex-shrink-0 items-center">
-                <Image
-                  className="h-5/6 w-auto pr-12"
-                  src={brushStrokeTree}
-                  alt="Burnout Project Logo"
-                />
-              </div>
-              <div className="hidden lg:ml-6 lg:flex lg:space-x-8">
-                {navigation.registeredUser.map((page, index) => {
-                  return (
-                    <div
-                      key={index}
-                      className="flex h-full animate-pulse flex-row items-center justify-center space-x-5"
-                    >
-                      <div className="h-6 w-36 rounded-md bg-gray-300 "></div>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-            <div className="flex flex-1 items-center justify-center px-2 lg:ml-6 lg:justify-end">
-              <div className="w-full max-w-lg lg:max-w-xs">
-                <label htmlFor="search" className="sr-only">
-                  Loading...
-                </label>
-                <div className="relative">
-                  <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                    <MagnifyingGlassIcon
-                      className="h-5 w-5 text-gray-400"
-                      aria-hidden="true"
-                    />
-                  </div>
-                  <input
-                    id="search"
-                    name="search"
-                    className=" block w-full rounded-md border-0 bg-white py-1.5 pl-10 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                    placeholder="Loading..."
-                    type="search"
-                    disabled
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </nav>
-    );
-  }
-  if (user && !loading && !error) {
-    content = (
-      <Disclosure as="nav" className="mb-8 max-h-fit bg-white shadow lg:mb-16">
+      // <Disclosure as="nav" className="max-h-fit shadow">
+      <Disclosure as="nav" className="h-16 shadow">
         {({ open }) => (
           <>
             <div className="mx-auto my-1 px-2 sm:px-4 lg:px-8">
@@ -239,7 +185,8 @@ export default function Nav() {
                     <Link href="/dashboard" className="h-full">
                       <Image
                         className="h-5/6 w-auto pr-12"
-                        src={brushStrokeTree}
+                        // src={brushStrokeTree}
+                        src={brainLogo}
                         alt="Burnout Project Logo"
                       />{" "}
                     </Link>
@@ -274,6 +221,7 @@ export default function Nav() {
                     )}
                   </div>
                 </div>
+
                 {/* ------- NAV SEARCH ----------*/}
                 <div className="flex flex-1 items-center justify-center px-2 lg:ml-6 lg:justify-end">
                   <div className="w-full max-w-lg lg:max-w-xs">
@@ -290,7 +238,7 @@ export default function Nav() {
                       <input
                         id="search"
                         name="search"
-                        className="block w-full rounded-md border-0 bg-white py-1.5 pl-10 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                        className="block w-full rounded-md border-0 py-1.5 pl-10 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                         placeholder="Search Articles"
                         type="search"
                         onChange={(e) => setSearchTerm(e.target.value)}
@@ -311,18 +259,21 @@ export default function Nav() {
                 <div className="hidden lg:ml-4 lg:flex lg:items-center">
                   <button
                     type="button"
-                    className="flex-shrink-0 rounded-full bg-white p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                    className="flex-shrink-0 rounded-full p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                   >
                     <span className="sr-only">View notifications</span>
-                    <BellIcon className="h-6 w-6" aria-hidden="true" />
+                    <BellIcon
+                      className="h-6 w-6 bg-inherit"
+                      aria-hidden="true"
+                    />
                   </button>
 
                   {/* Profile dropdown */}
                   <Menu as="div" className="relative ml-4 flex-shrink-0">
                     <div>
-                      <Menu.Button className="flex rounded-full bg-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                      <Menu.Button className="flex rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-green-700 focus:ring-offset-2">
                         <span className="sr-only">Open user menu</span>
-                        <AdjustmentsHorizontalIcon className="h-8 w-8 rounded-full text-gray-400 hover:text-gray-500" />
+                        <AdjustmentsHorizontalIcon className="h-8 w-8 rounded-full bg-inherit text-gray-400 hover:text-gray-500" />
                       </Menu.Button>
                     </div>
                     <Transition
@@ -334,11 +285,14 @@ export default function Nav() {
                       leaveFrom="transform opacity-100 scale-100"
                       leaveTo="transform opacity-0 scale-95"
                     >
-                      <Menu.Items className="absolute right-0 z-50 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                      <Menu.Items className="absolute right-0 z-50 mt-2 w-48 origin-top-right rounded-md bg-slate-50 py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:bg-slate-800">
                         <Menu.Item>
                           {({ active }) => (
                             <a
-                              href={`/profile/${user?.uid}`}
+                              // if userID is known, link to profile page, else link to signin page
+                              href={`${
+                                userID ? `/profile/${userID}` : "/signin"
+                              }`}
                               className={classNames(
                                 active ? "bg-gray-100" : "",
                                 "block px-4 py-2 text-sm text-gray-700"
@@ -424,7 +378,7 @@ export default function Nav() {
                 <div className="mt-3 space-y-1">
                   <Disclosure.Button
                     as="a"
-                    href={`/profile/[${user?.uid}]/page.tsx`}
+                    href={`/profile/[${userID}]/page.tsx`}
                     className="block px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800"
                   >
                     Your Profile
@@ -452,7 +406,7 @@ export default function Nav() {
     );
   } else {
     content = (
-      <Disclosure as="nav" className="mb-8 max-h-fit bg-white shadow lg:mb-16">
+      <Disclosure as="nav" className="max-h-fit shadow">
         {({ open }) => (
           <>
             <div className="mx-auto my-1 px-2 sm:px-4 lg:px-8">
@@ -461,7 +415,8 @@ export default function Nav() {
                   <div className="flex flex-shrink-0 items-center">
                     <Image
                       className="h-5/6 w-auto pr-12"
-                      src={brushStrokeTree}
+                      // src={brushStrokeTree}
+                      src={brainLogo}
                       alt="Burnout Project Logo"
                     />{" "}
                   </div>

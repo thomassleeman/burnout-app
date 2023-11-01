@@ -1,6 +1,6 @@
-'use client';
-import { TypeAnimation } from 'react-type-animation';
-import Link from 'next/link';
+"use client";
+import { TypeAnimation } from "react-type-animation";
+import Link from "next/link";
 
 export default function CheckInPrompt() {
   return (
@@ -12,21 +12,20 @@ export default function CheckInPrompt() {
         <h2 className="mt-4 text-xl text-gray-600">
           <TypeAnimation
             sequence={[
-              // 'How are you feeling about work?',
-              // 8000,
-              // 'Let our chatbot guide you through some basic questions.',
-              // 6000,
-              // "We'll make some suggestions about content that you might find helpful.",
-              // 6000,
-              'It will only take around 5 minutes :)',
+              "How are you feeling about work?",
+              8000,
+              "Let our chatbot guide you through some basic questions..",
+              6000,
+              "...and we'll make some suggestions about content that you might find helpful.",
+              6000,
+              "It will take around 5 minutes :)",
             ]}
-            // repeat={Infinity}
           />
         </h2>
       </div>
       <div className="mt-10 flex items-center gap-x-6 lg:mt-0 lg:flex-shrink-0">
         <Link
-          href="/chatbot/0001"
+          href="/chatbot"
           className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
         >
           Get started
@@ -37,6 +36,20 @@ export default function CheckInPrompt() {
         >
           Learn more <span aria-hidden="true">→</span>
         </Link>
+      </div>
+    </div>
+  );
+}
+
+export function CheckInPromptSkeleton() {
+  return (
+    <div className="grid h-full animate-pulse grid-cols-1 place-content-around border p-8">
+      <div>
+        <div className="lg: h-12 w-5/6 rounded-lg bg-gray-200 dark:bg-gray-700" />
+        <div className="mt-4 h-8 w-4/6 bg-gray-200 dark:bg-gray-700" />
+      </div>
+      <div className="mt-10 flex items-center gap-x-6 lg:mt-0 lg:flex-shrink-0">
+        <div className="h-10 w-20 rounded-md bg-gray-200  text-white shadow-sm dark:bg-gray-700" />
       </div>
     </div>
   );

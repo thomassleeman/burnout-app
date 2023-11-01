@@ -68,7 +68,7 @@ const navigation = {
 export default function Footer() {
   const currentYear = new Date().getFullYear();
   return (
-    <footer className="bg-white pb-12 pt-32">
+    <footer className="pb-12 pt-32">
       <div className="mx-auto max-w-7xl overflow-hidden px-6 pb-4 pt-20 sm:pt-24 lg:px-8">
         <nav
           className="-mb-6 columns-2 sm:flex sm:justify-center sm:space-x-12"

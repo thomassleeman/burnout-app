@@ -1,6 +1,3 @@
-import matter from "gray-matter";
-import { remark } from "remark";
-import html from "remark-html";
 import { DocumentSnapshot } from "firebase/firestore";
 
 const {
@@ -89,8 +86,6 @@ export async function getArticleData(slug: string) {
     readingTime: readingTime(doc.data().content),
     author: doc.data().author,
   };
-
-  console.log("article:", article);
 
   return article;
 }

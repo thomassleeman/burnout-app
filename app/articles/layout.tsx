@@ -1,4 +1,5 @@
 import { Martel } from "next/font/google";
+import Footer from "../_components/ui/Footer";
 
 const martel = Martel({
   subsets: ["latin"],
@@ -18,8 +19,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <article className={`${martel.className} dark:bg-slate-800`}>
-      {children}
-    </article>
+    <>
+      <section className={`${martel.className} mt-8 lg:mt-16`}>
+        {children}
+      </section>
+      <Footer />
+    </>
   );
 }

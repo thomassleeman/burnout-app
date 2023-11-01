@@ -15,7 +15,6 @@ export async function POST(request: NextRequest, response: NextResponse) {
       const decodedToken: auth.DecodedIdToken = await auth().verifyIdToken(
         idToken
       );
-      // console.log("***decodedToken: ", decodedToken);
 
       if (decodedToken) {
         //Set session expiration to 14 days. This is the firebase max.
@@ -69,12 +68,6 @@ export async function GET(request: NextRequest) {
     session,
     true
   );
-  console.log("***decodedClaims: ", decodedClaims);
-
-  //This was to check if the user is an admin or not. We are now using Jotai to check for admin status.
-  // const admin = decodedClaims.admin || false;
-
-  // console.log('***decodedClaims: ', decodedClaims, '***admin: ', admin);
 
   if (!decodedClaims) {
     cookies().delete("session");

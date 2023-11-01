@@ -1,9 +1,10 @@
 import ContentCarousel from "@/app/articles/_components/ContentCarousel";
-import HeroContainer from "@/app/dashboard/_components/HeroContainer";
+import HeroContainer from "./_components/HeroContainer";
 import { getSortedArticlesData } from "@articles/getArticlesData";
 
 export default async function Dashboard() {
   const articles = await getSortedArticlesData("date", "desc");
+  await new Promise((resolve) => setTimeout(resolve, 3000));
   return (
     <>
       <HeroContainer />

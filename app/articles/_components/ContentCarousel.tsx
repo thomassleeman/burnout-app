@@ -6,6 +6,8 @@ import defaultImage from "@articles/defaultImage.jpeg";
 import Link from "next/link";
 import { useAtom } from "jotai";
 import { showSearchResultsAtom } from "@/state/store";
+import { ImageWithTextSkeleton } from "@/app/_components/ui/loading/LoadingSkeletons";
+import { CardSkeleton } from "@/app/_components/ui/loading/LoadingSkeletons";
 
 import { useState } from "react";
 import { XMarkIcon, InformationCircleIcon } from "@heroicons/react/24/outline";
@@ -66,8 +68,8 @@ export default function ContentCarousel({
     content = null;
   } else {
     content = (
-      <div className=" bg-white">
-        <div className=" lg:mx-auto lg:max-w-7xl lg:px-8">
+      <div>
+        <div className="lg:mx-auto lg:max-w-7xl lg:px-8">
           <div className="mx-auto">
             <h2 className="text-2xl font-bold tracking-tight text-gray-900">
               {carouselTitle}
@@ -157,3 +159,24 @@ export default function ContentCarousel({
 
   return content;
 }
+
+export const ContentCarouselSkeleton = () => {
+  return (
+    <div>
+      <div className=" lg:mx-auto lg:max-w-7xl lg:px-8">
+        <div className="mx-auto">
+          <div className="w-full">
+            <div className="mb-4 h-6 w-48 rounded-full bg-gray-200 dark:bg-gray-700"></div>
+            <div className="mb-2.5 h-3 w-[20rem] rounded-full bg-gray-200 dark:bg-gray-700"></div>
+          </div>
+        </div>
+        <div className="mt-6 flex snap-x snap-mandatory gap-x-4 overflow-hidden overflow-x-scroll overscroll-x-none md:snap-none md:gap-x-6 lg:gap-x-10">
+          <CardSkeleton />
+          <CardSkeleton />
+          <CardSkeleton />
+          <CardSkeleton />
+        </div>
+      </div>
+    </div>
+  );
+};

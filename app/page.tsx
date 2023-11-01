@@ -5,6 +5,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import brushStrokeTree from "@/components/design/brushStrokeTree.png";
+import brainLogoWithText from "@/components/design/brainLogoWithText.png";
 
 export default function Home() {
   const router = useRouter();
@@ -17,14 +18,14 @@ export default function Home() {
     }
   }, [user, router]);
   return (
-    <div className="flex h-52 flex-col items-center justify-center gap-y-7">
+    <div className="mt-8 flex flex-col items-center justify-center gap-y-7">
       <Image
-        className="h-28 w-auto animate-pulse grayscale"
-        src={brushStrokeTree}
+        className="h-72 w-auto animate-pulse"
+        src={brainLogoWithText}
         alt="Burnout Project Logo"
       />
 
-      <h2 className="text-3xl text-slate-500">Loading...</h2>
+      <h2 className="text-3xl text-green-900">Loading...</h2>
     </div>
   );
 }

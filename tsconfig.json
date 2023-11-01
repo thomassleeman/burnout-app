@@ -38,7 +38,9 @@
     ".next/types/**/*.ts",
     "app/admin/uploadArticle",
     "app/api/uploadArticle",
-    "atoms/isAdminAtom.js"
+    "atoms/isAdminAtom.js",
+    "app/_components/studies/StudyModal.js",
+    "app/chatbot/page.jsx"
   ],
   "exclude": ["node_modules", "functions"]
 }

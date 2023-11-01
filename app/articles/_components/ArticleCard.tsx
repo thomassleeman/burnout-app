@@ -29,7 +29,7 @@ export default function ArticleCard({ article }: Props) {
   return (
     <article
       key={id}
-      className="relative isolate flex h-72 flex-none basis-64 cursor-pointer snap-center snap-always flex-col justify-end overflow-hidden rounded-xl px-4 pb-4 md:snap-none"
+      className="relative isolate flex h-72 flex-none basis-64 snap-center snap-always flex-col justify-end overflow-hidden rounded-xl px-4 pb-4 md:snap-none"
     >
       <Image
         src={headerImage || defaultImage}
@@ -54,7 +54,7 @@ export default function ArticleCard({ article }: Props) {
           <div className="flex items-center gap-x-2.5 text-sm"></div>
         </div>
       </div>
-      <h3 className="mt-3 font-serif text-xl leading-6 text-white">
+      <h3 className="mt-3 font-serif text-xl leading-6 text-white hover:underline hover:underline-offset-2">
         <a href={`/articles/${slug}`}>{title}</a>
       </h3>
     </article>

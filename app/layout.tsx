@@ -4,6 +4,7 @@ import Providers from "@/state/providers";
 
 import Nav from "./_components/ui/nav/Nav";
 import Footer from "./_components/ui/Footer";
+// import GlossaryModal from "./_components/ui/modal/Modal";
 
 //TODO: Header stuff, SEO, etc.
 
@@ -20,14 +21,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="h-full dark:bg-slate-800">
+    //h-full
+    <html lang="en" className=" dark:bg-slate-700 dark:text-white">
       <Providers>
-        <body className="flex h-screen flex-col dark:bg-slate-800">
+        {/* h-screen */}
+        <body className="flex flex-col">
           <Nav />
-          <main className="container mx-auto mb-auto flex flex-col space-y-32 sm:px-6 lg:px-8">
+          {/* space-y-32 */}
+          <main className="container mx-auto mb-auto flex flex-col sm:px-6 lg:px-8">
             {children}
           </main>
-          <Footer />
+          {/* <Footer /> */}
         </body>
       </Providers>
     </html>
