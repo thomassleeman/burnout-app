@@ -174,8 +174,8 @@ export default function Nav() {
   //Nav margins: mb-8 lg:mb-16 in both Disclosure tags lines 177 and 407.
   if (!pathname.includes("/signin") && !pathname.includes("/signup")) {
     content = (
-      // <Disclosure as="nav" className="max-h-fit shadow">
-      <Disclosure as="nav" className="h-16 shadow">
+      <Disclosure as="nav" className="max-h-fit shadow">
+        {/* <Disclosure as="nav" className="h-16 shadow"> */}
         {({ open }) => (
           <>
             <div className="mx-auto my-1 px-2 sm:px-4 lg:px-8">
