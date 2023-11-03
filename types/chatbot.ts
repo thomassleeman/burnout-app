@@ -12,7 +12,9 @@ export type Actions = {
   handleQuestionSix: (userResponseToLastQuestion: string) => void;
   handleQuestionSeven: (userResponseToLastQuestion: string) => void;
   handleQuestionEight: (userResponseToLastQuestion: string) => void;
-  // Add more functions here...
+  handleEndOfInitialAssessment: (userResponseToLastQuestion: string) => void;
+  handleEngaged: () => void;
+  handleNotEngaged: (userBurnoutProfiles: Array<string>) => void;
 };
 
 export type SimpleActionButtonWidget = {
@@ -37,6 +39,13 @@ export type LinkButtonPayload = {
   content: string;
   href: string;
   target: string;
+};
+
+export type InitialAssessmentScores = {
+  exhaustion: number;
+  detachment: number;
+  emotionalImparement: number;
+  cognitiveImparement: number;
 };
 
 // export type Message = {

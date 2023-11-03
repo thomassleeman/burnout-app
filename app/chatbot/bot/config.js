@@ -1,5 +1,6 @@
 import ResponseOptions from "../widgets/ResponseOptions";
 import LinkButton from "../widgets/LinkButton";
+import InitialAssessmentHandler from "../widgets/InitialAssessmentHandler";
 import { initialMessages } from "./messages";
 
 const config = {
@@ -22,6 +23,11 @@ const config = {
     {
       widgetName: "LinkButton",
       widgetFunc: (props) => <LinkButton {...props} />,
+    },
+    {
+      widgetName: "InitialAssessmentHandler",
+      widgetFunc: (props) => <InitialAssessmentHandler {...props} />,
+      mapStateToProps: ["initialAssessmentScores"],
     },
   ],
 };

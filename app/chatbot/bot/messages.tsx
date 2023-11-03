@@ -135,7 +135,7 @@ export const initialAssessmentMessages = {
         widget: "ResponseOptions",
         payload: {
           stream: "responses",
-          category: "cognativeImparement",
+          category: "emotionalImparement",
         },
       }
     ),
@@ -151,7 +151,7 @@ export const initialAssessmentMessages = {
         widget: "ResponseOptions",
         payload: {
           stream: "responses",
-          category: "cognativeImparement",
+          category: "cognitiveImparement",
         },
       }
     ),
@@ -167,7 +167,7 @@ export const initialAssessmentMessages = {
         widget: "ResponseOptions",
         payload: {
           stream: "responses",
-          category: "cognativeImparement",
+          category: "cognitiveImparement",
         },
       }
     ),

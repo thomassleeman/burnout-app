@@ -163,6 +163,96 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
     }));
   };
   ////////////////////////////////////////////////////////////////////////
+  const handleEndOfInitialAssessment = (userResponseToLastQuestion) => {
+    const userMessage = createClientMessage(userResponseToLastQuestion);
+    const botMessage = createChatBotMessage(
+      "Thanks for taking the time to answer those questions..."
+    );
+    const botMessage2 = createChatBotMessage(
+      "Let me take a moment to review your answers...",
+      {
+        delay: 2000,
+        widget: "InitialAssessmentHandler",
+      }
+    );
+
+    setState((prevState) => ({
+      ...prevState,
+      messages: [...prevState.messages, userMessage, botMessage, botMessage2],
+      // lastUpdated: 9,
+    }));
+  };
+  ////////////////////////////////////////////////////////////////////////
+
+  const handleEngaged = () => {
+    const botMessage = createChatBotMessage(
+      "Wow! Sounds like you are doing really well."
+    );
+    const botMessage2 = createChatBotMessage(
+      "I’m not seeing any areas that you are struggling in, but I encourage you to check back in regularly.",
+      {
+        delay: 1000,
+      }
+    );
+    const botMessage3 = createChatBotMessage(
+      "You know, you can do the assessment as many times as you want and track your progress.",
+      {
+        delay: 2000,
+      }
+    );
+    const botMessage4 = createChatBotMessage(
+      "Its important because sometimes its hard to know how stressed we are unless we pause and take stock.",
+      {
+        delay: 3000,
+      }
+    );
+
+    setState((prevState) => ({
+      ...prevState,
+      messages: [
+        ...prevState.messages,
+        botMessage,
+        botMessage2,
+        botMessage3,
+        botMessage4,
+      ],
+    }));
+  };
+  ////////////////////////////////////////////////////////////////////////
+
+  const handleNotEngaged = (profileString) => {
+    const botMessage = createChatBotMessage(
+      "Sounds like you may be struggling."
+    );
+    const botMessage2 = createChatBotMessage(
+      `You seem to be feeling ${profileString}.`,
+      {
+        delay: 1000,
+      }
+    );
+    const botMessage3 = createChatBotMessage(
+      "I would like to ask you some more questions before I make any suggestions.",
+      {
+        delay: 2000,
+      }
+    );
+    const botMessage4 = createChatBotMessage("Is that okay?", {
+      delay: 3000,
+      // widget: "ResponseOptions",
+    });
+
+    setState((prevState) => ({
+      ...prevState,
+      messages: [
+        ...prevState.messages,
+        botMessage,
+        botMessage2,
+        botMessage3,
+        botMessage4,
+      ],
+    }));
+  };
+  ////////////////////////////////////////////////////////////////////////
 
   return (
     <div>
@@ -180,6 +270,9 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
             handleQuestionSix,
             handleQuestionSeven,
             handleQuestionEight,
+            handleEndOfInitialAssessment,
+            handleEngaged,
+            handleNotEngaged,
           },
         });
       })}
