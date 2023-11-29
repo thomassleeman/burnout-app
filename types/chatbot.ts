@@ -25,7 +25,8 @@ export type Actions = {
   handleDistracted: (solitary?: boolean) => void;
   handleSecondAssessmentOneToThree: (
     profile: string,
-    userRatingString: string
+    userRatingString: string,
+    profileStringArray: ProfileStringArray
   ) => void;
   handleSecondAssessmentFourToSevenExhausted: (
     userRatingString: string
@@ -80,6 +81,7 @@ export type InitialAssessmentScores = {
 
 export type UserResponseToLastQuestion = string;
 export type ProfileString = string;
+export type ProfileStringArray = String[];
 
 // export type Message = {
 //   id: string;
