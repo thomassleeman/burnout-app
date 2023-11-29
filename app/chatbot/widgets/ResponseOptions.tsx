@@ -283,7 +283,11 @@ export default function ResponseOptions({
                   case 8:
                   case 9:
                   case 10:
-                    actions.handleSecondAssessmentEightToTen(option.content);
+                    actions.handleSecondAssessmentEightToTen(
+                      stream,
+                      option.content,
+                      profileArray
+                    );
                     break;
                 }
               }

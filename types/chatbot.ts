@@ -28,14 +28,16 @@ export type Actions = {
     userRatingString: string,
     profileStringArray: ProfileStringArray
   ) => void;
-  handleSecondAssessmentFourToSevenExhausted: (
-    userRatingString: string
+  handleSecondAssessmentFourToSeven: (
+    profile: string,
+    userRatingString: string,
+    profileStringArray: ProfileStringArray
   ) => void;
-  handleSecondAssessmentFourToSevenDetached: (userRatingString: string) => void;
-  handleSecondAssessmentFourToSevenEmotional: (
-    userRatingString: string
+  handleSecondAssessmentEightToTen: (
+    profile: string,
+    userRatingString: string,
+    profileStringArray: ProfileStringArray
   ) => void;
-  handleSecondAssessmentEightToTen: (userRatingString: string) => void;
 };
 
 export type SimpleActionButtonWidget = {

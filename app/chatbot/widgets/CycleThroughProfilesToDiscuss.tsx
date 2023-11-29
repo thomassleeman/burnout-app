@@ -1,21 +1,12 @@
 "use client";
 
-import {
-  Payload,
-  Actions,
-  SimpleActionButtonWidget,
-  OneToTenAssessmentButtonWidget,
-  AssessmentButtonWidget,
-  InitialAssessmentScores,
-} from "@/types/chatbot";
+import { Payload, Actions, InitialAssessmentScores } from "@/types/chatbot";
 import { useState } from "react";
 
 export default function CycleThroughProfilesToDiscuss({
-  payload,
   actions,
-  setState,
+
   profileArray,
-  lastUpdated,
 }: {
   payload: Payload;
   actions: Actions;

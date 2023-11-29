@@ -4,7 +4,7 @@ import {
   createClientMessage,
 } from "react-chatbot-kit";
 
-import { ProfileStringArray } from "@/types/chatbot";
+import { ProfileString, ProfileStringArray } from "@/types/chatbot";
 
 export const initialMessages = [
   createChatBotMessage("Hello and welcome!", {}),
@@ -209,6 +209,30 @@ export const initialAssessmentMessages = {
   },
 };
 
+export const secondAssessmentOneToThreeMessages = (profile: ProfileString) => {
+  return [
+    createChatBotMessage(
+      `Sounds like you are really struggling with feeling ${profile}. I imagine it's been difficult for you.`,
+      {
+        delay: 1000,
+      }
+    ),
+    createChatBotMessage(
+      "I think we have some quick advice that might help you. Take a look below.",
+      {
+        delay: 1000,
+        widget: "LinkButton",
+        payload: {
+          profile: profile,
+          content: profile + " article",
+          href: "/articles",
+          target: "_blank",
+        },
+      }
+    ),
+  ];
+};
+
 export const secondAssessmentFourToSevenMessages = {
   exhaustion: [
     createChatBotMessage("Sounds like you’re lacking in energy..", {
@@ -311,6 +335,33 @@ export const secondAssessmentFourToSevenMessages = {
       }
     ),
   ],
+};
+
+export const secondAssessmentEightToTenMessages = (profile: ProfileString) => {
+  return [
+    createChatBotMessage("Sounds like you’re doing really well", {
+      delay: 1000,
+    }),
+    createChatBotMessage(
+      `It now doesn’t seem that you need any help with feeling ${profile}, but I encourage you to check back any time to see how you're doing.`,
+      {
+        delay: 2000,
+      }
+    ),
+    createChatBotMessage(
+      "Even though you are doing well you may be interested in these articles.",
+      {
+        delay: 4000,
+        widget: "LinkButton",
+        payload: {
+          profile: profile,
+          content: profile + " article",
+          href: "/articles",
+          target: "_blank",
+        },
+      }
+    ),
+  ];
 };
 
 export const secondAssessmentCycleMessages = {

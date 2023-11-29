@@ -5,9 +5,10 @@ import {
   noGoAhead,
   tellMeAboutConfidentiality,
   initialAssessmentMessages,
+  secondAssessmentOneToThreeMessages,
   secondAssessmentFourToSevenMessages,
+  secondAssessmentEightToTenMessages,
   secondAssessmentCycleMessages,
-  updateMessages,
 } from "./messages";
 
 const ActionProvider = ({ createChatBotMessage, setState, children }) => {
@@ -164,7 +165,6 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
     setState((prevState) => ({
       ...prevState,
       messages: [...prevState.messages, userMessage, botMessage, botMessage2],
-      // lastUpdated: 9,
     }));
   };
   ////////////////////////////////////////////////////////////////////////
@@ -255,6 +255,10 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
   };
   ////////////////////////////////////////////////////////////////////////
 
+  ////////////////////////////////////////////////////////////////////////
+  ///////////////////////SECOND ASSESSMENT CYCLE/////////////////////////
+  ////////////////////////////////////////////////////////////////////////
+
   const handleBeginCyclingThroughProfilesToDiscuss = (profileStringArray) => {
     const numberOfProfiles = profileStringArray.length;
     const userMessage = createClientMessage("Yes");
@@ -293,111 +297,6 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
         profileArray: profileStringArray,
       };
     });
-  };
-  ////////////////////////////////////////////////////////////////////////
-
-  const handleCycleThroughProfilesToDiscuss = (profileStringArray) => {
-    const numberOfProfiles = profileStringArray.length;
-    const userMessage = createClientMessage("Yes");
-
-    const botMessageA = createChatBotMessage(
-      `Which of the ${numberOfProfiles} feelings below would you like to discuss?`,
-      {
-        delay: 1000,
-        widget: "CycleThroughProfilesToDiscuss",
-      }
-    );
-
-    const botMessageB = createChatBotMessage(
-      `Ok, let's talk about feeling ${profileStringArray[0]} at work`,
-      {
-        delay: 1000,
-        widget: "ProceedToSolitaryProfile",
-        payload: { solitaryProfileString: profileString },
-      }
-    );
-
-    setState((prevState) => ({
-      ...prevState,
-      profileArray: profileStringArray,
-      messages: [...prevState.messages, userMessage, botMessage],
-    }));
-  };
-  ////////////////////////////////////////////////////////////////////////
-
-  const handleChooseProfileToDiscuss = () => {
-    const userMessage = createClientMessage("Yes");
-    const botMessage = createChatBotMessage(
-      "Which of the feelings that I mentioned above would you like to discuss first?",
-      {
-        delay: 1000,
-        widget: "ResponseOptions",
-        payload: {
-          stream: "chooseProfileToDiscuss",
-        },
-      }
-    );
-
-    setState((prevState) => ({
-      ...prevState,
-      messages: [...prevState.messages, userMessage, botMessage],
-    }));
-  };
-  ////////////////////////////////////////////////////////////////////////
-
-  // const handleChooseSubsequentProfileToDiscuss = () => {
-  //   const userMessage = createClientMessage("Yes");
-  //   const botMessage = createChatBotMessage(
-  //     "Which of the other feelings that I mentioned earlier would you now like to discuss?",
-  //     {
-  //       delay: 1000,
-  //       widget: "ResponseOptions",
-  //       payload: {
-  //         stream: "chooseProfileToDiscuss",
-  //       },
-  //     }
-  //   );
-
-  //   setState((prevState) => ({
-  //     ...prevState,
-  //     messages: [...prevState.messages, userMessage, botMessage],
-  //   }));
-  // };
-  ////////////////////////////////////////////////////////////////////////
-
-  // const handleSolitaryProfile = (profileString) => {
-  //   const userMessage = createClientMessage("Yes");
-  //   const botMessage = createChatBotMessage(
-  //     `Ok, let's talk about feeling ${profileString} at work`,
-  //     {
-  //       delay: 1000,
-  //       widget: "ProceedToSolitaryProfile",
-  //       payload: { solitaryProfileString: profileString },
-  //     }
-  //   );
-
-  //   setState((prevState) => ({
-  //     ...prevState,
-  //     messages: [...prevState.messages, userMessage, botMessage],
-  //   }));
-  // };
-  // ////////////////////////////////////////////////////////////////////////
-
-  const handleSolitaryProfile = (profileStringArray) => {
-    const userMessage = createClientMessage("Yes");
-    const botMessage = createChatBotMessage(
-      `Ok, let's talk about feeling ${profileString} at work`,
-      {
-        delay: 1000,
-        widget: "ProceedToSolitaryProfile",
-        payload: { solitaryProfileString: profileString },
-      }
-    );
-
-    setState((prevState) => ({
-      ...prevState,
-      messages: [...prevState.messages, userMessage, botMessage],
-    }));
   };
   ////////////////////////////////////////////////////////////////////////
 
@@ -465,7 +364,6 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
     });
   };
   ////////////////////////////////////////////////////////////////////////
-  //Exerimenting with detached.
 
   const handleDetached = (solitary) => {
     const userMessage = createClientMessage("detached");
@@ -629,7 +527,7 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
     });
   };
   ////////////////////////////////////////////////////////////////////////
-
+  // helper function for this section
   const updateMessages = (
     prevState,
     userMessage,
@@ -665,14 +563,6 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
       newMessages.splice(index, 0, secondAssessmentCycleMessages.botMessageA());
     }
 
-    console.log(
-      "updateMessages log:",
-      "botMessages: ",
-      botMessages,
-      "newMessages: ",
-      newMessages
-    );
-
     return {
       ...prevState,
       messages: newMessages,
@@ -687,81 +577,18 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
     userRatingString,
     profileStringArray
   ) => {
-    const lastProfile = profileStringArray.length === 1;
-    const noMoreProfiles = profileStringArray.length === 0;
     const userMessage = createClientMessage(userRatingString);
-    const botMessage = createChatBotMessage(
-      "Sounds like you are really struggling. I imagine it's been difficult for you."
-    );
-    const botMessage2 = createChatBotMessage(
-      "I think we have some quick advice that might help you. Take a look below.",
-      {
-        delay: 1000,
-        widget: "LinkButton",
-        payload: {
-          profile: profile,
-          content: profile + " article",
-          href: "/articles",
-          target: "_blank",
-        },
-      }
-    );
-    const botMessageA = createChatBotMessage(
-      "Which of the other feelings that I mentioned earlier would you now like to discuss?",
-      {
-        delay: 3000,
-        widget: "CycleThroughProfilesToDiscuss",
-      }
-    );
+    const botMessages = secondAssessmentOneToThreeMessages(profile);
 
-    const botMessageB = createChatBotMessage(
-      `Ok, let's talk about feeling ${profileStringArray[0]} at work`,
-      {
-        delay: 3000,
-        widget: "ProceedToSolitaryProfile",
-        payload: { solitaryProfileString: profileStringArray[0] },
-      }
-    );
-
-    const botMessageC1 = createChatBotMessage(
-      "Thanks for taking the time to answer these questions. I hope you have found this to be helpful.",
-      { delay: 3000 }
-    );
-
-    const botMessageC2 = createChatBotMessage(
-      "You can check back any time to do this exercise again.",
-      {
-        delay: 4000,
-        widget: "LinkButton",
-        payload: { content: "Return to Dashboard", href: "/dashboard" },
-      }
-    );
-
-    setState((prevState) => {
-      let newMessages = [
-        ...prevState.messages,
+    setState((prevState) =>
+      updateMessages(
+        prevState,
         userMessage,
-        botMessage,
-        botMessage2,
-      ];
-
-      const index = newMessages.lastIndexOf(botMessage2) + 1;
-
-      if (lastProfile) {
-        newMessages.splice(index, 0, botMessageB);
-      } else if (noMoreProfiles) {
-        newMessages.splice(index, 0, botMessageC1);
-        newMessages.splice(index + 1, 0, botMessageC2);
-      } else {
-        newMessages.splice(index, 0, botMessageA);
-      }
-
-      return {
-        ...prevState,
-        messages: newMessages,
-        profileArray: profileStringArray,
-      };
-    });
+        botMessages,
+        secondAssessmentCycleMessages,
+        profileStringArray
+      )
+    );
   };
   ////////////////////////////////////////////////////////////////////////
 
@@ -799,212 +626,24 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
     );
   };
   ////////////////////////////////////////////////////////////////////////
-  const handleSecondAssessmentFourToSevenExhausted = (userRatingString) => {
+
+  const handleSecondAssessmentEightToTen = (
+    profile,
+    userRatingString,
+    profileStringArray
+  ) => {
     const userMessage = createClientMessage(userRatingString);
-    const botMessage = createChatBotMessage(
-      "Sounds like you’re lacking in energy..",
-      {
-        delay: 1000,
-      }
-    );
-    const botMessage2 = createChatBotMessage(
-      "Energy levels are effected by many things from deadlines and pace of work but also by stress and anxiety..",
-      {
-        delay: 2000,
-      }
-    );
-    const botMessage3 = createChatBotMessage(
-      "I think we have some advice that might be helpful for you so I’ve added some relevant articles into your recommended reading list...",
-      {
-        delay: 3000,
-      }
-    );
-    const botMessage4 = createChatBotMessage(
-      "Go through them in your own time and come back to me any time when you are ready to check back in.",
-      {
-        delay: 4000,
-      }
-    );
+    const botMessages = secondAssessmentEightToTenMessages(profile);
 
-    setState((prevState) => ({
-      ...prevState,
-      messages: [
-        ...prevState.messages,
+    setState((prevState) =>
+      updateMessages(
+        prevState,
         userMessage,
-        botMessage,
-        botMessage2,
-        botMessage3,
-        botMessage4,
-      ],
-    }));
-  };
-  ////////////////////////////////////////////////////////////////////////
-  const handleSecondAssessmentFourToSevenDetached = (userRatingString) => {
-    const userMessage = createClientMessage(userRatingString);
-    const botMessage = createChatBotMessage(
-      "When you are not invested in your work even the smallest of tasks can feel like a grind.",
-      {
-        delay: 1000,
-      }
+        botMessages,
+        secondAssessmentCycleMessages,
+        profileStringArray
+      )
     );
-    const botMessage2 = createChatBotMessage(
-      "Being engaged in your work is an important factor in work satisfaction and well-being.",
-      {
-        delay: 2000,
-      }
-    );
-    const botMessage3 = createChatBotMessage(
-      "I think we have some advice that might be helpful for you so I’ve added some relevant articles into your recommended reading list...",
-      {
-        delay: 3000,
-      }
-    );
-    const botMessage4 = createChatBotMessage(
-      "Go through them in your own time and come back to me any time when you are ready to check back in.",
-      {
-        delay: 4000,
-      }
-    );
-
-    setState((prevState) => ({
-      ...prevState,
-      messages: [
-        ...prevState.messages,
-        userMessage,
-        botMessage,
-        botMessage2,
-        botMessage3,
-        botMessage4,
-      ],
-    }));
-  };
-  ////////////////////////////////////////////////////////////////////////
-  const handleSecondAssessmentFourToSevenEmotional = (userRatingString) => {
-    const userMessage = createClientMessage(userRatingString);
-    const botMessage = createChatBotMessage(
-      "Sounds like you’re feeling a little tense and agitated.",
-      {
-        delay: 1000,
-      }
-    );
-    const botMessage2 = createChatBotMessage(
-      "Continually feeling this way can be a sign of mental exhaustion, but its not about suppressing feelings, it's important to acknowledge them...",
-      {
-        delay: 2000,
-      }
-    );
-    const botMessage3 = createChatBotMessage(
-      "I think we have some advice that might be helpful for you so I’ve added some relevant articles into your recommended reading list...",
-      {
-        delay: 4000,
-      }
-    );
-    const botMessage4 = createChatBotMessage(
-      "Go through them in your own time and come back to me any time when you are ready to check back in.",
-      {
-        delay: 4000,
-      }
-    );
-
-    setState((prevState) => ({
-      ...prevState,
-      messages: [
-        ...prevState.messages,
-        userMessage,
-        botMessage,
-        botMessage2,
-        botMessage3,
-        botMessage4,
-      ],
-    }));
-  };
-  ////////////////////////////////////////////////////////////////////////
-  const handleSecondAssessmentFourToSevenDistracted = (userRatingString) => {
-    const userMessage = createClientMessage(userRatingString);
-    const botMessage = createChatBotMessage(
-      "When you are struggling to focus, think clearly or remember things, it's hard to get anything done.",
-      {
-        delay: 1000,
-      }
-    );
-    const botMessage2 = createChatBotMessage(
-      "Poor focus can have a number of causes but there are plenty of things you can do to improve it.",
-      {
-        delay: 2000,
-      }
-    );
-    const botMessage3 = createChatBotMessage(
-      "I think I have some advice that might be helpful for you so I’ve added some relevant articles into your recommended reading list...",
-      {
-        delay: 3000,
-      }
-    );
-    const botMessage4 = createChatBotMessage(
-      "Go through them in your own time and come back to me any time when you are ready to check back in.",
-      {
-        delay: 4000,
-      }
-    );
-
-    setState((prevState) => ({
-      ...prevState,
-      messages: [
-        ...prevState.messages,
-        userMessage,
-        botMessage,
-        botMessage2,
-        botMessage3,
-        botMessage4,
-      ],
-    }));
-  };
-  ////////////////////////////////////////////////////////////////////////
-
-  const handleSecondAssessmentEightToTen = (profile, userRatingString) => {
-    const userMessage = createClientMessage(userRatingString);
-    const botMessage = createChatBotMessage(
-      "Sounds like you’re doing really well",
-      {
-        delay: 1000,
-      }
-    );
-    const botMessage2 = createChatBotMessage(
-      "It doesn’t seem now that you need any help in this area but I encourage you to check back any time and we will see how you're doing.",
-      {
-        delay: 2000,
-      }
-    );
-    const botMessage3 = createChatBotMessage(
-      "But I encourage you to check back any time and we will see how your doing",
-      {
-        delay: 3000,
-      }
-    );
-    const botMessage4 = createChatBotMessage(
-      "Even though you are doing well you may be interested in these articles.",
-      {
-        delay: 4000,
-        widget: "LinkButton",
-        payload: {
-          profile: profile,
-          content: profile + " article",
-          href: "/articles",
-          target: "_blank",
-        },
-      }
-    );
-
-    setState((prevState) => ({
-      ...prevState,
-      messages: [
-        ...prevState.messages,
-        userMessage,
-        botMessage,
-        botMessage2,
-        botMessage3,
-        botMessage4,
-      ],
-    }));
   };
   ////////////////////////////////////////////////////////////////////////
 
@@ -1028,21 +667,14 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
             handleEngaged,
             handleNotEngagedNoGoAhead,
             handleNotEngaged,
-            handleChooseProfileToDiscuss,
-            handleSolitaryProfile,
             handleExhausted,
             handleDetached,
             handleEmotional,
             handleDistracted,
             handleSecondAssessmentOneToThree,
             handleSecondAssessmentFourToSeven,
-            handleSecondAssessmentFourToSevenExhausted,
-            handleSecondAssessmentFourToSevenDetached,
-            handleSecondAssessmentFourToSevenEmotional,
-            handleSecondAssessmentFourToSevenDistracted,
             handleSecondAssessmentEightToTen,
             handleBeginCyclingThroughProfilesToDiscuss,
-            handleCycleThroughProfilesToDiscuss,
           },
         });
       })}
