@@ -1,6 +1,8 @@
 import ResponseOptions from "../widgets/ResponseOptions";
 import LinkButton from "../widgets/LinkButton";
 import InitialAssessmentHandler from "../widgets/InitialAssessmentHandler";
+import ProceedToSolitaryProfile from "../widgets/ProceedToSolitaryProfile";
+import CycleThroughProfilesToDiscuss from "../widgets/CycleThroughProfilesToDiscuss";
 import { initialMessages } from "./messages";
 
 const config = {
@@ -13,12 +15,19 @@ const config = {
       cognitiveImparement: 0,
     },
     lastUpdated: 0,
+    profileString: "",
+    profileArray: [],
   },
   widgets: [
     {
       widgetName: "ResponseOptions",
       widgetFunc: (props) => <ResponseOptions {...props} />,
-      mapStateToProps: ["initialAssessmentScores", "lastUpdated"],
+      mapStateToProps: [
+        "initialAssessmentScores",
+        "lastUpdated",
+        "profileString",
+        "profileArray",
+      ],
     },
     {
       widgetName: "LinkButton",
@@ -28,6 +37,16 @@ const config = {
       widgetName: "InitialAssessmentHandler",
       widgetFunc: (props) => <InitialAssessmentHandler {...props} />,
       mapStateToProps: ["initialAssessmentScores"],
+    },
+    {
+      widgetName: "CycleThroughProfilesToDiscuss",
+      widgetFunc: (props) => <CycleThroughProfilesToDiscuss {...props} />,
+      mapStateToProps: ["profileArray"],
+    },
+    {
+      widgetName: "ProceedToSolitaryProfile",
+      widgetFunc: (props) => <ProceedToSolitaryProfile {...props} />,
+      mapStateToProps: ["profileString"],
     },
   ],
 };

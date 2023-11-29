@@ -66,7 +66,7 @@ export default function NewArticleForm() {
                   />
                   <ErrorMessage
                     className="text-sm text-red-400"
-                    name={field}
+                    name={field.label}
                     component="div"
                   />
                 </div>

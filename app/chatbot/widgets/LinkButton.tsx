@@ -7,7 +7,8 @@ export default function GoToDashboard({
 }: {
   payload: LinkButtonPayload;
 }) {
-  const { content, href, target } = payload;
+  const { content, href, target, profile } = payload;
+
   return (
     <div className="">
       <button className="pointer rounded-lg border-2 border-blue-400 bg-white px-4 py-2 text-gray-800 hover:border-blue-600 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-opacity-50">

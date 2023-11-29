@@ -1,4 +1,10 @@
-import { createChatBotMessage, createCustomMessage } from "react-chatbot-kit";
+import {
+  createChatBotMessage,
+  createCustomMessage,
+  createClientMessage,
+} from "react-chatbot-kit";
+
+import { ProfileStringArray } from "@/types/chatbot";
 
 export const initialMessages = [
   createChatBotMessage("Hello and welcome!", {}),
@@ -17,6 +23,7 @@ export const initialMessages = [
 ];
 
 export const goAhead = [
+  createClientMessage("I'm ready, let's go ahead", {}),
   createChatBotMessage("Great! Let’s get started.", {}),
   createChatBotMessage(
     "So, I'm going to give you a few statements that I would like you to consider...",
@@ -36,6 +43,34 @@ export const goAhead = [
       delay: 3000,
       widget: "ResponseOptions",
       payload: { stream: "checkToStart" },
+    }
+  ),
+];
+
+export const noGoAhead = [
+  createClientMessage("I don't want to do this now", {}),
+  createChatBotMessage(
+    "No problem. It's important to check in with yourself regularly just to see how you’re doing. Come back any time if you want to check in and we will take it from there.",
+    {
+      delay: 0,
+      widget: "LinkButton",
+      payload: { content: "Go to Dashboard", href: "/dashboard" },
+    }
+  ),
+];
+
+export const tellMeAboutConfidentiality = [
+  createClientMessage("Tell me more about confidentiality", {}),
+  createChatBotMessage(
+    "Here is an article from our information section that discusses these issues in much greater detail.",
+    {
+      delay: 0,
+      widget: "LinkButton",
+      payload: {
+        content: "Go to confidentiality article",
+        href: "/articles/confidentiality",
+        target: "_blank",
+      },
     }
   ),
 ];
@@ -173,3 +208,175 @@ export const initialAssessmentMessages = {
     ),
   },
 };
+
+export const secondAssessmentFourToSevenMessages = {
+  exhaustion: [
+    createChatBotMessage("Sounds like you’re lacking in energy..", {
+      delay: 1000,
+    }),
+    createChatBotMessage(
+      "Energy levels are effected by many things from deadlines and pace of work but also by stress and anxiety..",
+      {
+        delay: 2000,
+      }
+    ),
+    createChatBotMessage(
+      "I think we have some advice that might be helpful for you so I’ve added some relevant articles into your recommended reading list...",
+      {
+        delay: 3000,
+      }
+    ),
+    createChatBotMessage(
+      "Go through them in your own time and come back to me any time when you are ready to check back in.",
+      {
+        delay: 4000,
+      }
+    ),
+  ],
+  detached: [
+    createChatBotMessage(
+      "When you are not invested in your work even the smallest of tasks can feel like a grind.",
+      {
+        delay: 1000,
+      }
+    ),
+    createChatBotMessage(
+      "Being engaged in your work is an important factor in work satisfaction and well-being.",
+      {
+        delay: 2000,
+      }
+    ),
+    createChatBotMessage(
+      "I think we have some advice that might be helpful for you so I’ve added some relevant articles into your recommended reading list...",
+      {
+        delay: 3000,
+      }
+    ),
+    createChatBotMessage(
+      "Go through them in your own time and come back to me any time when you are ready to check back in.",
+      {
+        delay: 4000,
+      }
+    ),
+  ],
+  emotional: [
+    createChatBotMessage(
+      "Sounds like you’re feeling a little tense and agitated.",
+      {
+        delay: 1000,
+      }
+    ),
+    createChatBotMessage(
+      "Continually feeling this way can be a sign of mental exhaustion, but its not about suppressing feelings, it's important to acknowledge them...",
+      {
+        delay: 2000,
+      }
+    ),
+    createChatBotMessage(
+      "I think we have some advice that might be helpful for you so I’ve added some relevant articles into your recommended reading list...",
+      {
+        delay: 3000,
+      }
+    ),
+    createChatBotMessage(
+      "Go through them in your own time and come back to me any time when you are ready to check back in.",
+      {
+        delay: 4000,
+      }
+    ),
+  ],
+  distracted: [
+    createChatBotMessage(
+      "When you are struggling to focus, think clearly or remember things, it's hard to get anything done.",
+      {
+        delay: 1000,
+      }
+    ),
+    createChatBotMessage(
+      "Poor focus can have a number of causes but there are plenty of things you can do to improve it.",
+      {
+        delay: 2000,
+      }
+    ),
+    createChatBotMessage(
+      "I think I have some advice that might be helpful for you so I’ve added some relevant articles into your recommended reading list...",
+      {
+        delay: 3000,
+      }
+    ),
+    createChatBotMessage(
+      "Go through them in your own time and come back to me any time when you are ready to check back in.",
+      {
+        delay: 4000,
+      }
+    ),
+  ],
+};
+
+export const secondAssessmentCycleMessages = {
+  botMessageA: () =>
+    createChatBotMessage(
+      "Which of the other feelings that I mentioned earlier would you now like to discuss?",
+      {
+        delay: 3000,
+        widget: "CycleThroughProfilesToDiscuss",
+      }
+    ),
+  botMessageB: (profileStringArray: ProfileStringArray) =>
+    createChatBotMessage(
+      `Ok, let's talk about feeling ${profileStringArray[0]} at work`,
+      {
+        delay: 3000,
+        widget: "ProceedToSolitaryProfile",
+        payload: { solitaryProfileString: profileStringArray[0] },
+      }
+    ),
+  botMessageC1: () =>
+    createChatBotMessage(
+      "Thanks for taking the time to answer these questions. I hope you have found this to be helpful.",
+      { delay: 3000 }
+    ),
+  botMessageC2: () =>
+    createChatBotMessage(
+      "You can check back any time to do this exercise again.",
+      {
+        delay: 4000,
+        widget: "LinkButton",
+        payload: { content: "Return to Dashboard", href: "/dashboard" },
+      }
+    ),
+};
+
+// export function updateMessages(
+//   prevState,
+//   userMessage,
+//   secondAssessmentFourToSevenMessages,
+//   secondAssessmentCycleMessages,
+//   lastProfile,
+//   noMoreProfiles,
+//   profileStringArray
+// ) {
+//   let newMessages = [
+//     ...prevState.messages,
+//     userMessage,
+//     botMessage,
+//     botMessage2,
+//   ];
+
+//   const index = newMessages.lastIndexOf(botMessage2) + 1;
+
+//   if (lastProfile) {
+//     newMessages.splice(index, 0, botMessageB);
+//   } else if (noMoreProfiles) {
+//     newMessages.splice(index, 0, botMessageC1);
+//     newMessages.splice(index + 1, 0, botMessageC2);
+//   } else {
+//     newMessages.splice(index, 0, botMessageA);
+//   }
+
+//   return {
+//     ...prevState,
+//     messages: newMessages,
+//     profileArray: profileStringArray,
+//   };
+// }

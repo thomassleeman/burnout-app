@@ -1,6 +1,7 @@
 import { ReactNode } from "react";
 
 export type Actions = {
+  [key: string]: (...args: any[]) => void;
   handleGoAhead: () => void;
   handleNoGoAhead: () => void;
   handleTellMeAboutConfidentiality: () => void;
@@ -14,13 +15,39 @@ export type Actions = {
   handleQuestionEight: (userResponseToLastQuestion: string) => void;
   handleEndOfInitialAssessment: (userResponseToLastQuestion: string) => void;
   handleEngaged: () => void;
-  handleNotEngaged: (userBurnoutProfiles: Array<string>) => void;
+  handleNotEngagedNoGoAhead: () => void;
+  handleNotEngaged: (userBurnoutProfiles: string) => void;
+  handleChooseProfileToDiscuss: () => void;
+  handleSolitaryProfile: (profileString: string) => void;
+  handleExhausted: (solitary?: boolean) => void;
+  handleDetached: (solitary?: boolean) => void;
+  handleEmotional: (solitary?: boolean) => void;
+  handleDistracted: (solitary?: boolean) => void;
+  handleSecondAssessmentOneToThree: (
+    profile: string,
+    userRatingString: string
+  ) => void;
+  handleSecondAssessmentFourToSevenExhausted: (
+    userRatingString: string
+  ) => void;
+  handleSecondAssessmentFourToSevenDetached: (userRatingString: string) => void;
+  handleSecondAssessmentFourToSevenEmotional: (
+    userRatingString: string
+  ) => void;
+  handleSecondAssessmentEightToTen: (userRatingString: string) => void;
 };
 
 export type SimpleActionButtonWidget = {
   id: number;
   content: string;
   action?: (userResponseToLastQuestion?: string) => void;
+};
+
+export type OneToTenAssessmentButtonWidget = {
+  id: number;
+  content: string;
+  // action?: (stream: string, userRatingString: string) => void;
+  value: number;
 };
 
 export type AssessmentButtonWidget = {
@@ -33,9 +60,12 @@ export type AssessmentButtonWidget = {
 export type Payload = {
   stream: string;
   category: string;
+  profileString: string;
+  solitaryProfileString: string;
 };
 
 export type LinkButtonPayload = {
+  profile?: string;
   content: string;
   href: string;
   target: string;
@@ -47,6 +77,9 @@ export type InitialAssessmentScores = {
   emotionalImparement: number;
   cognitiveImparement: number;
 };
+
+export type UserResponseToLastQuestion = string;
+export type ProfileString = string;
 
 // export type Message = {
 //   id: string;

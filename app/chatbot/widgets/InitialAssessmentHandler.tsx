@@ -3,6 +3,7 @@ import { useEffect, useRef, useMemo } from "react";
 import { Payload, Actions } from "@/types/chatbot";
 import Spinner from "@/app/_components/design/Spinner";
 import { profile } from "console";
+import React from "react";
 
 type InitialAssessmentScoreKeys =
   | "exhaustion"
@@ -47,7 +48,7 @@ export default function InitialAssessmentHandler({
       detached: [
         averageInitialAssessmentScores.detachment >= 1.5,
         averageInitialAssessmentScores.detachment / 2,
-        "a sense of detachment from your work",
+        "detached",
       ],
       emotionallyImpared: [
         averageInitialAssessmentScores.emotionalImparement >= 1.5,
@@ -82,22 +83,17 @@ export default function InitialAssessmentHandler({
       "cognativelyImpared",
     ].forEach((key) => {
       if (burnoutProfiles[key][0]) {
-        descriptions.push(
-          burnoutProfiles[key][2]
-          // value: burnoutProfiles[key][1],
-        );
+        descriptions.push(burnoutProfiles[key][2]);
       }
     });
 
-    // descriptions.sort((a, b) => b.value - a.value);
-
-    // const descriptionStringsOrdered = descriptions.map(
-    //   (item) => item.description
-    // );
     return descriptions;
   }
 
-  const userBurnoutProfiles = getBurnoutDescriptions(burnoutProfiles);
+  const userBurnoutProfiles = useMemo(() => {
+    return getBurnoutDescriptions(burnoutProfiles);
+  }, [burnoutProfiles]);
+  console.log("userBurnoutProfiles: ", userBurnoutProfiles);
 
   function createProfileString(userBurnoutProfiles: string[]): string {
     const length = userBurnoutProfiles.length;
@@ -113,6 +109,7 @@ export default function InitialAssessmentHandler({
       }`;
     }
   }
+
   const profileString = createProfileString(userBurnoutProfiles);
 
   useEffect(() => {
