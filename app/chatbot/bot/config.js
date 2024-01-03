@@ -1,12 +1,17 @@
 import ResponseOptions from "../widgets/ResponseOptions";
 import LinkButton from "../widgets/LinkButton";
+import UpdateDbAndReturnToDashButton from "../widgets/UpdateDbAndReturnToDashButton";
 import InitialAssessmentHandler from "../widgets/InitialAssessmentHandler";
 import ProceedToSolitaryProfile from "../widgets/ProceedToSolitaryProfile";
 import CycleThroughProfilesToDiscuss from "../widgets/CycleThroughProfilesToDiscuss";
 import { initialMessages } from "./messages";
+import BotAvatar from "./BotAvatar";
 
 const config = {
   initialMessages: initialMessages,
+  customComponents: {
+    botAvatar: (props) => <BotAvatar {...props} />,
+  },
   state: {
     initialAssessmentScores: {
       exhaustion: 0,
@@ -14,6 +19,13 @@ const config = {
       emotionalImparement: 0,
       cognitiveImparement: 0,
     },
+    secondaryAssessmentScores: {
+      exhaustion: 0,
+      detachment: 0,
+      emotionalImparement: 0,
+      cognitiveImparement: 0,
+    },
+    burnoutProfiles: {},
     lastUpdated: 0,
     profileString: "",
     profileArray: [],
@@ -47,6 +59,11 @@ const config = {
       widgetName: "ProceedToSolitaryProfile",
       widgetFunc: (props) => <ProceedToSolitaryProfile {...props} />,
       mapStateToProps: ["profileString"],
+    },
+    {
+      widgetName: "UpdateDbAndReturnToDashButton",
+      widgetFunc: (props) => <UpdateDbAndReturnToDashButton {...props} />,
+      mapStateToProps: ["initialAssessmentScores", "secondaryAssessmentScores"],
     },
   ],
 };

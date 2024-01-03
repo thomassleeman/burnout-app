@@ -15,6 +15,7 @@ export const initialMessages = [
     "I'd like to ask you some questions. This will take just a few minutes and will allow me to guide you towards content that I believe would be helpful.",
     { delay: 2000 }
   ),
+
   createChatBotMessage("Your answers here are 100% confidential.", {
     delay: 3000,
     widget: "ResponseOptions",
@@ -73,6 +74,13 @@ export const tellMeAboutConfidentiality = [
       },
     }
   ),
+  createChatBotMessage("Shall we proceed?", {
+    delay: 1000,
+    widget: "ResponseOptions",
+    payload: {
+      stream: "checkToProceedAfterArticle",
+    },
+  }),
 ];
 
 export const initialAssessmentMessages = {
@@ -220,7 +228,7 @@ export const secondAssessmentOneToThreeMessages = (profile: ProfileString) => {
     createChatBotMessage(
       "I think we have some quick advice that might help you. Take a look below.",
       {
-        delay: 1000,
+        delay: 2000,
         widget: "LinkButton",
         payload: {
           profile: profile,
@@ -392,8 +400,7 @@ export const secondAssessmentCycleMessages = {
       "You can check back any time to do this exercise again.",
       {
         delay: 4000,
-        widget: "LinkButton",
-        payload: { content: "Return to Dashboard", href: "/dashboard" },
+        widget: "UpdateDbAndReturnToDashButton",
       }
     ),
 };

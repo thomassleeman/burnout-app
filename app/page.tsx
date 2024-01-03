@@ -20,12 +20,15 @@ export default function Home() {
   return (
     <div className="mt-8 flex flex-col items-center justify-center gap-y-7">
       <Image
-        className="h-72 w-auto animate-pulse"
+        className="h-72 w-auto animate-pulse rounded-2xl dark:animate-none dark:shadow-2xl dark:shadow-yellow-200"
+        // className="h-72 w-auto"
         src={brainLogoWithText}
         alt="Burnout Project Logo"
       />
 
-      <h2 className="text-3xl text-green-900">Loading...</h2>
+      <h2 className="text-3xl text-green-900 dark:text-slate-200">
+        Loading...
+      </h2>
     </div>
   );
 }

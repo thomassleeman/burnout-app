@@ -33,7 +33,7 @@ const ArticleSummary = ({ summary, title }: ArticleSummaryProps) => {
   } else {
     content = (
       <div className="absolute bottom-0 right-0 h-full w-full cursor-default bg-white p-3 opacity-90">
-        <h2 className="mb-2 font-serif text-lg font-light text-gray-600">
+        <h2 className="mb-2 font-serif text-lg font-light text-gray-600 dark:text-slate-50">
           {title}
         </h2>
         <p className="text-gray-800">{summary}</p>
@@ -71,7 +71,7 @@ export default function ContentCarousel({
       <div>
         <div className="lg:mx-auto lg:max-w-7xl lg:px-8">
           <div className="mx-auto">
-            <h2 className="text-2xl font-bold tracking-tight text-gray-900">
+            <h2 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-slate-50">
               {carouselTitle}
             </h2>
             <p className="mt-2 text-lg leading-8 text-gray-600">

@@ -17,8 +17,6 @@ export default function CycleThroughProfilesToDiscuss({
 }) {
   const [currentPosition, setCurrentPosition] = useState(true);
 
-  console.log("profileArray: ", profileArray);
-
   const chooseProfileToDiscuss = profileArray.map((profile, index) => ({
     id: index,
     content: profile,

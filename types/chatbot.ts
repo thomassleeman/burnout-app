@@ -16,7 +16,10 @@ export type Actions = {
   handleEndOfInitialAssessment: (userResponseToLastQuestion: string) => void;
   handleEngaged: () => void;
   handleNotEngagedNoGoAhead: () => void;
-  handleNotEngaged: (userBurnoutProfiles: string) => void;
+  handleNotEngaged: (
+    profileString: string,
+    userBurnoutProfiles: BurnoutProfiles
+  ) => void;
   handleChooseProfileToDiscuss: () => void;
   handleSolitaryProfile: (profileString: string) => void;
   handleExhausted: (solitary?: boolean) => void;
@@ -40,6 +43,15 @@ export type Actions = {
   ) => void;
 };
 
+export type BurnoutProfiles = {
+  engaged: boolean;
+  overExtended: (string | number | boolean)[];
+  detached: (string | number | boolean)[];
+  emotionallyImpaired: (string | number | boolean)[];
+  cognitivelyImpaired: (string | number | boolean)[];
+  burntOut: boolean;
+};
+
 export type SimpleActionButtonWidget = {
   id: number;
   content: string;
@@ -49,7 +61,6 @@ export type SimpleActionButtonWidget = {
 export type OneToTenAssessmentButtonWidget = {
   id: number;
   content: string;
-  // action?: (stream: string, userRatingString: string) => void;
   value: number;
 };
 
@@ -85,42 +96,9 @@ export type UserResponseToLastQuestion = string;
 export type ProfileString = string;
 export type ProfileStringArray = String[];
 
-// export type Message = {
-//   id: string;
-//   message: string;
-//   trigger?: string;
-//   end?: boolean;
-// };
-
-// export type Options = {
-//   id: string;
-//   options: {
-//     value: number;
-//     label: string;
-//     trigger: string;
-//   }[];
-// };
-
-// export interface Component {
-//   id: string;
-//   component: ReactNode;
-//   trigger: string;
-// }
-
-// export type Steps = (Message | Options | Component)[];
-
-// export interface BotRedirectProps {
-//   url: string;
-//   message: string;
-// }
-
-// // define results from chatbot.
-// export type RenderedStep = {
-//   id: string;
-//   message: string;
-//   value?: number;
-// };
-
-// export interface ChatResults {
-//   renderedSteps: RenderedStep[];
-// }
+export type AssessmentScores = {
+  exhaustion: number;
+  detachment: number;
+  emotionalImparement: number;
+  cognitiveImparement: number;
+};

@@ -52,7 +52,7 @@ export default function SetSessionCookie() {
           });
           if (response.status === 200) {
             const data = await response.json();
-            console.log("data.decodedToken: ", data.decodedToken);
+            // console.log("data.decodedToken: ", data.decodedToken);
             setIsAdmin(data.decodedToken?.admin);
             setUsername(data.decodedToken?.name);
             setUserID(data.decodedToken?.uid);
@@ -76,7 +76,7 @@ export default function SetSessionCookie() {
 
     // Cleanup the listener on component unmount
     return () => unsubscribe();
-  }, [router, setIsAdmin, setAnyError]);
+  }, [router, setUserID, setUsername, setIsAdmin, setAnyError]);
 
   let content;
   if (session) {

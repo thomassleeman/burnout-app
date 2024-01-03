@@ -22,10 +22,12 @@ export default function RootLayout({
 }) {
   return (
     //h-full
-    <html lang="en" className=" dark:bg-slate-700 dark:text-white">
+    // <html lang="en" className="dark:bg-slate-700 dark:text-white">
+    // <html lang="en" className="dark">
+    <html lang="en">
       <Providers>
-        {/* h-screen */}
-        <body className="flex flex-col">
+        <body className="flex flex-col bg-amber-50/75 dark:bg-gradient-to-tr dark:from-slate-950 dark:via-slate-800 dark:to-zinc-900 dark:text-white">
+          {/* <body> */}
           <Nav />
           {/* space-y-32 */}
           <main className="container mx-auto mb-auto flex flex-col sm:px-6 lg:px-8">

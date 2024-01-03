@@ -12,5 +12,5 @@ export const metadata = {
 };
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  return <article className={`${martel.className}`}>{children}</article>;
+  return <div className={`${martel.className}`}>{children}</div>;
 }

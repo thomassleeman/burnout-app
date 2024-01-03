@@ -51,11 +51,7 @@ export async function POST(request: NextRequest, response: NextResponse) {
 
 /* GET */
 export async function GET(request: NextRequest) {
-  // const session = cookies().get("session")?.value || "";
-
-  // console.log("request headers: ", request.headers.get("Cookie"));
-  // console.log("cookies.get(session): ", session);
-
+  //Get the session cookie from the browser
   const session = request.headers.get("Cookie");
 
   //Validate if the cookie exists

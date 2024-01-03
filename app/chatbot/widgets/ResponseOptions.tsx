@@ -54,15 +54,35 @@ export default function ResponseOptions({
   ];
   /* ------------------------------------------------------------------------------------------------------------------- */
 
+  const checkToProceedAfterArticle: SimpleActionButtonWidget[] = [
+    {
+      id: 0,
+      content: "I'm ready, let's go ahead.",
+      action: actions.handleGoAhead,
+    },
+    {
+      id: 1,
+      content: "I don't want to do this now",
+      action: actions.handleNoGoAhead,
+    },
+  ];
+  /* ------------------------------------------------------------------------------------------------------------------- */
+
   const checkToStart: SimpleActionButtonWidget[] = [
     {
       id: 0,
       content: "Got it, let's start.",
       action: actions.handleQuestionOne,
     },
-    { id: 1, content: "Tell me more about why this is useful" },
+    // { id: 1, content: "Tell me more about why this is useful" },
+    {
+      id: 1,
+      content: "I don't want to do this now",
+      action: actions.handleNoGoAhead,
+    },
   ];
   /* ------------------------------------------------------------------------------------------------------------------- */
+
   const yesOrNo: SimpleActionButtonWidget[] = [
     {
       id: 0,
@@ -72,17 +92,6 @@ export default function ResponseOptions({
     },
     { id: 1, content: "No", action: actions.handleNotEngagedNoGoAhead },
   ];
-  // const yesOrNo: SimpleActionButtonWidget[] = [
-  //   {
-  //     id: 0,
-  //     content: "Yes",
-  //     action: () =>
-  //       profileStringArray.length > 1
-  //         ? actions.handleChooseProfileToDiscuss()
-  //         : actions.handleSolitaryProfile(profileString),
-  //   },
-  //   { id: 1, content: "No", action: actions.handleNotEngagedNoGoAhead },
-  // ];
   /* ------------------------------------------------------------------------------------------------------------------- */
 
   //In action provider, each action of the initial assessment sequence is allocated its own number to a the state variable lastUpdated. so 1 for question1, etc.
@@ -178,13 +187,6 @@ export default function ResponseOptions({
 
   /* ------------------------------------------------------------------------------------------------------------------- */
 
-  // Type guard function
-  // function isOneToTenAssessmentButtonWidgetArray(
-  //   array: CurrentOptions
-  // ): array is OneToTenAssessmentButtonWidget[] {
-  //   return array.length > 0 && "value" in array[0];
-  // }
-
   type CurrentOptions =
     | SimpleActionButtonWidget[]
     | AssessmentButtonWidget[]
@@ -193,6 +195,9 @@ export default function ResponseOptions({
 
   if (stream === "checkToProceed") {
     currentOptions = checkToProceed;
+  }
+  if (stream === "checkToProceedAfterArticle") {
+    currentOptions = checkToProceedAfterArticle;
   }
 
   if (stream === "checkToStart") {
@@ -269,11 +274,6 @@ export default function ResponseOptions({
                   case 5:
                   case 6:
                   case 7:
-                    // actions[
-                    //   `handleSecondAssessmentFourToSeven${
-                    //     stream.charAt(0).toUpperCase() + stream.slice(1)
-                    //   }`
-                    // ](stream, option.content, profileArray);
                     actions.handleSecondAssessmentFourToSeven(
                       stream,
                       option.content,
@@ -293,18 +293,6 @@ export default function ResponseOptions({
               }
             } else if (currentOptions === chooseProfileToDiscuss) {
               /* --------------------------------------------- CHOOSE PROFILE TO DISCUSS --------------------------------------------- */
-
-              // setState((prevState: any) => ({
-              //   ...prevState,
-              //   initialAssessmentScores: {
-              //     ...prevState.initialAssessmentScores,
-              //     [payload.category]:
-              //       "score" in option
-              //         ? prevState.initialAssessmentScores[payload.category] +
-              //           option.score
-              //         : prevState.initialAssessmentScores[payload.category],
-              //   },
-              // }));
               setCurrentPosition(false);
               if ("action" in option && typeof option.action === "function") {
                 option.action();

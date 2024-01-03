@@ -13,10 +13,43 @@ adminInit();
 
 const db = getFirestore();
 
-/* Sorted Articles */
+/* Sorted Articles, also requires a limit so as not to retreive everything */
 export async function getSortedArticlesData(orderedBy: string, order: string) {
   const articlesCollection = db.collection("articles");
   const snapshot = await articlesCollection.orderBy(orderedBy, order).get();
+
+  const allArticlesData: Article[] = [];
+  snapshot.forEach((doc: DocumentSnapshot) => {
+    const data = doc.data();
+    if (!data) return;
+    const article: Article = {
+      id: doc.id,
+      title: data.title,
+      date: data.date.toDate(), // Firestore Timestamp needs to be converted to JavaScript Date object
+      slug: data.slug,
+      content: data.content,
+      headerImage: data.headerImage,
+      headerImageAlt: data.headerImageAlt,
+      author: data.author,
+      category: data.category,
+      summary: data.summary,
+    };
+    allArticlesData.push(article);
+  });
+
+  return allArticlesData;
+}
+
+export async function getSortedLimitedArticlesData(
+  orderedBy: string,
+  order: string,
+  limit: number
+) {
+  const articlesCollection = db.collection("articles");
+  const snapshot = await articlesCollection
+    .orderBy(orderedBy, order)
+    .limit(limit)
+    .get();
 
   const allArticlesData: Article[] = [];
   snapshot.forEach((doc: DocumentSnapshot) => {

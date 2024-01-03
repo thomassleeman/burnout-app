@@ -1,14 +1,11 @@
 .react-chatbot-kit-chat-container {
   height: calc(100vh - 4rem);
   margin-top: 0;
-  /* @apply flex h-full w-full flex-col; */
-  /* @apply w-full rounded-sm border border-gray-200; */
   @apply w-full rounded-sm;
 }
 
 .react-chatbot-kit-chat-inner-container {
-  /* @apply flex h-full w-full flex-col; */
-  @apply flex h-full flex-col;
+  @apply flex h-full flex-col bg-transparent;
 }
 /* ---Inside inner container------ */
 .react-chatbot-kit-chat-header {
@@ -16,12 +13,10 @@
 }
 
 .react-chatbot-kit-chat-input-container {
-  /* display: none; */
-  @apply h-10;
+  @apply h-10 dark:bg-transparent;
 }
 
 .react-chatbot-kit-chat-message-container {
-  /* @apply flex h-full w-full flex-col items-start gap-3 overflow-scroll p-4; */
   height: calc(100% - 2.5rem);
   @apply flex flex-col items-start gap-3
     overflow-scroll p-4;
@@ -31,18 +26,16 @@
 
 /* -----Inside input container---------- */
 .react-chatbot-kit-chat-input {
-  /* cursor: not-allowed; */
   cursor: default;
   outline: none;
   caret-color: transparent;
-  @apply focus:outline-none;
+  @apply bg-amber-50/75 focus:outline-none dark:bg-slate-700/50;
 }
 
 .react-chatbot-kit-chat-input-form {
 }
 
 .react-chatbot-kit-chat-input::placeholder {
-  /* color: #808080; */
   @apply text-gray-400;
 }
 
@@ -50,7 +43,7 @@
   cursor: not-allowed;
   pointer-events: none;
   outline: none;
-  @apply bg-gray-300 focus:outline-none;
+  @apply bg-gray-300 focus:outline-none dark:bg-slate-600;
 }
 
 .react-chatbot-kit-chat-btn-send-icon {

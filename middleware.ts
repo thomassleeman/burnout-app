@@ -46,8 +46,11 @@ export async function middleware(request: NextRequest, response: NextResponse) {
   }
 
   //Check if the user is an admin
-  if (pathname.startsWith("/admin") && !signedInUserAdmin) {
-    return NextResponse.redirect(new URL("/401", request.url));
+  if (pathname.startsWith("/admin")) {
+    if (!signedInUserAdmin) {
+      return NextResponse.redirect(new URL("/401", request.url));
+    }
+    console.log("signedInUserAdmin: ", signedInUserAdmin);
   }
 
   //My account is the only super user

@@ -1,7 +1,5 @@
 //next
 import Link from "next/link";
-//functions
-// import redirectSignedInUsers from "../redirectSignedInUsers";
 //components
 import EmailSignUpUI from "./emailSignUp/EmailSignUpUI";
 import OAuthUI from "../oAuth/OAuthUI";

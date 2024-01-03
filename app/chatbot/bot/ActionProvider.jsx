@@ -11,7 +11,14 @@ import {
   secondAssessmentCycleMessages,
 } from "./messages";
 
-const ActionProvider = ({ createChatBotMessage, setState, children }) => {
+import updateDatabase from "../widgets/functions/updateDatabase";
+
+const ActionProvider = ({
+  createChatBotMessage,
+  setState,
+  state,
+  children,
+}) => {
   ////////////////////////////////////////////////////////////////////////
   const handleGoAhead = () => {
     const messages = goAhead;
@@ -170,6 +177,7 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
   ////////////////////////////////////////////////////////////////////////
 
   const handleEngaged = () => {
+    console.log("handleEngaged");
     const botMessage = createChatBotMessage(
       "Wow! Sounds like you are doing really well."
     );
@@ -205,7 +213,7 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
   };
   ////////////////////////////////////////////////////////////////////////
 
-  const handleNotEngaged = (profileString) => {
+  const handleNotEngaged = (profileString, burnoutProfiles) => {
     const botMessage = createChatBotMessage(
       `You seem to be feeling ${profileString}.`,
       {
@@ -233,6 +241,7 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
       ...prevState,
       messages: [...prevState.messages, botMessage, botMessage2, botMessage3],
       profileString: profileString,
+      burnoutProfiles: burnoutProfiles,
     }));
   };
   ////////////////////////////////////////////////////////////////////////
@@ -316,13 +325,13 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
       delay: 1000,
     });
     const botMessage2 = createChatBotMessage(
-      "1 being the most depleted you have ever felt...",
+      "10 being the most depleted you have ever felt...",
       {
         delay: 2000,
       }
     );
     const botMessage3 = createChatBotMessage(
-      "...and 10 being the most energised you have ever felt,",
+      "...and 1 being the most energised you have ever felt,",
       {
         delay: 3000,
       }
@@ -371,13 +380,13 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
       delay: 1000,
     });
     const botMessage2 = createChatBotMessage(
-      " 1 being the most most indifferent you have ever felt...",
+      "10 being the most most indifferent you have ever felt...",
       {
         delay: 2000,
       }
     );
     const botMessage3 = createChatBotMessage(
-      "...and 10 being the most invested and engaged you have ever felt,",
+      "...and 1 being the most invested and engaged you have ever felt,",
       {
         delay: 3000,
       }
@@ -425,13 +434,13 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
       delay: 1000,
     });
     const botMessage2 = createChatBotMessage(
-      " 1 being the most agitated and tense you have ever felt...",
+      " 10 being the most agitated and tense you have ever felt...",
       {
         delay: 2000,
       }
     );
     const botMessage3 = createChatBotMessage(
-      "...and 10 being the most calm and stable you have ever felt,",
+      "...and 1 being the most calm and stable you have ever felt,",
       {
         delay: 3000,
       }
@@ -479,13 +488,13 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
       delay: 1000,
     });
     const botMessage2 = createChatBotMessage(
-      "1 being the most most scattered and distracted you have ever been...",
+      "10 being the most most scattered and distracted you have ever been...",
       {
         delay: 2000,
       }
     );
     const botMessage3 = createChatBotMessage(
-      "...and 10 being the most focused and engaged you have ever been,",
+      "...and 1 being the most focused and engaged you have ever been,",
       {
         delay: 3000,
       }
@@ -527,9 +536,12 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
     });
   };
   ////////////////////////////////////////////////////////////////////////
+
+  ////////////////////////////////////////////////////////////////////////
   // helper function for this section
   const updateMessages = (
     prevState,
+    state,
     userMessage,
     botMessages,
     secondAssessmentCycleMessages,
@@ -572,7 +584,39 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
 
   //////////////////////////////////////////////////////////////////////////////////////////
 
-  const handleSecondAssessmentOneToThree = (
+  const updateSecondaryAssessmentScores = (
+    prevState,
+    profile,
+    userRatingString
+  ) => {
+    const originalProfileNames = {
+      exhausted: "exhaustion",
+      detached: "detachment",
+      emotional: "emotionalImparement",
+      distracted: "cognitiveImparement",
+    };
+
+    // Find the key in originalProfileNames that matches the profile argument
+    const originalProfileName = originalProfileNames[profile];
+
+    // Convert userRatingString to a number
+    const userRatingNumber = Number(userRatingString);
+
+    const updatedSecondaryAssessmentScores = {
+      ...prevState.secondaryAssessmentScores,
+      [originalProfileName]: userRatingNumber,
+    };
+    console.log("secondaryAssScores: ", updatedSecondaryAssessmentScores);
+
+    return {
+      ...prevState,
+      secondaryAssessmentScores: updatedSecondaryAssessmentScores,
+    };
+  };
+
+  //////////////////////////////////////////////////////////////////////////////////////////
+
+  const handleSecondAssessmentEightToTen = (
     profile,
     userRatingString,
     profileStringArray
@@ -580,15 +624,24 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
     const userMessage = createClientMessage(userRatingString);
     const botMessages = secondAssessmentOneToThreeMessages(profile);
 
-    setState((prevState) =>
-      updateMessages(
+    setState((prevState) => {
+      const prevStateMessagesUpdated = updateMessages(
         prevState,
+        state,
         userMessage,
         botMessages,
         secondAssessmentCycleMessages,
         profileStringArray
-      )
-    );
+      );
+
+      const newState = updateSecondaryAssessmentScores(
+        prevStateMessagesUpdated,
+        profile,
+        userRatingString
+      );
+
+      return newState;
+    });
   };
   ////////////////////////////////////////////////////////////////////////
 
@@ -615,19 +668,28 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
         break;
     }
 
-    setState((prevState) =>
-      updateMessages(
+    setState((prevState) => {
+      const prevStateMessagesUpdated = updateMessages(
         prevState,
+        state,
         userMessage,
         botMessages,
         secondAssessmentCycleMessages,
         profileStringArray
-      )
-    );
+      );
+
+      const newState = updateSecondaryAssessmentScores(
+        prevStateMessagesUpdated,
+        profile,
+        userRatingString
+      );
+
+      return newState;
+    });
   };
   ////////////////////////////////////////////////////////////////////////
 
-  const handleSecondAssessmentEightToTen = (
+  const handleSecondAssessmentOneToThree = (
     profile,
     userRatingString,
     profileStringArray
@@ -635,15 +697,24 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
     const userMessage = createClientMessage(userRatingString);
     const botMessages = secondAssessmentEightToTenMessages(profile);
 
-    setState((prevState) =>
-      updateMessages(
+    setState((prevState) => {
+      const prevStateMessagesUpdated = updateMessages(
         prevState,
+        state,
         userMessage,
         botMessages,
         secondAssessmentCycleMessages,
         profileStringArray
-      )
-    );
+      );
+
+      const newState = updateSecondaryAssessmentScores(
+        prevStateMessagesUpdated,
+        profile,
+        userRatingString
+      );
+
+      return newState;
+    });
   };
   ////////////////////////////////////////////////////////////////////////
 

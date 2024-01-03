@@ -867,6 +867,7 @@ target: "\_blank",
 ////////////////////////////////////////////////////////////////////////
 
 return (
+
 <div>
 {React.Children.map(children, (child) => {
 return React.cloneElement(child, {
@@ -901,3 +902,5 @@ handleSecondAssessmentOneToThree,
 };
 
 export default ActionProvider;
+
+firebase ext:install firebase/storage-resize-images --project=burnout-project

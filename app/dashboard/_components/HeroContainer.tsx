@@ -21,13 +21,11 @@ const cards = [
 
 export default function HeroContainer() {
   return (
-    <div className="grid gap-6 md:grid-cols-2 md:gap-16">
+    // <div className="grid gap-6 md:grid-cols-2 md:gap-16">
+    <div className="grid grid-rows-2 gap-6 md:grid-cols-2 md:grid-rows-1 md:gap-16">
       {cards.map((card) => {
         return (
-          <div
-            key={card.id}
-            className="mx-2 h-96 overflow-hidden rounded-lg shadow lg:h-80"
-          >
+          <div key={card.id} className="mx-2 overflow-hidden ">
             {card.component}
           </div>
         );
@@ -41,10 +39,7 @@ export function HeroContainerSkeleton() {
     <div className="grid gap-6 md:grid-cols-2 md:gap-16">
       {cards.map((card) => {
         return (
-          <div
-            key={card.id}
-            className="mx-2 h-96  overflow-hidden rounded-lg shadow lg:h-80"
-          >
+          <div key={card.id} className="mx-2 overflow-hidden">
             {card.skeleton}
           </div>
         );

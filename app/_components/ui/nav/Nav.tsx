@@ -29,6 +29,7 @@ import SearchResults from "@/app/_components/ui/nav/SearchResults";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 //design assets
 import brainLogo from "@/components/design/brainLogo.png";
+import brainLogoWithText from "@/components/design/brainLogoWithText.png";
 //heroicons
 import { MagnifyingGlassIcon } from "@heroicons/react/20/solid";
 import {
@@ -51,14 +52,16 @@ const navigation = {
 
 const pageIndicator = {
   lg: {
-    current: "border-indigo-500 text-gray-900",
+    current:
+      "border-green-700 text-gray-900 dark:text-slate-50 dark:border-emerald-300 ",
     default:
-      "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700",
+      "border-transparent text-gray-600 hover:border-gray-300 hover:text-gray-700 dark:text-slate-50 ",
   },
   sm: {
-    current: "bg-indigo-50 border-indigo-500 text-indigo-700",
+    current:
+      "bg-indigo-50 border-indigo-500 text-indigo-700 dark:text-slate-50",
     default:
-      "border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800",
+      "border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800 dark:text-slate-50",
   },
 };
 
@@ -174,7 +177,10 @@ export default function Nav() {
   //Nav margins: mb-8 lg:mb-16 in both Disclosure tags lines 177 and 407.
   if (!pathname.includes("/signin") && !pathname.includes("/signup")) {
     content = (
-      <Disclosure as="nav" className="max-h-fit shadow">
+      <Disclosure
+        as="nav"
+        className="max-h-fit bg-transparent shadow dark:border-pink-700 dark:text-slate-50"
+      >
         {/* <Disclosure as="nav" className="h-16 shadow"> */}
         {({ open }) => (
           <>
@@ -184,10 +190,10 @@ export default function Nav() {
                   <div className="flex flex-shrink-0 items-center">
                     <Link href="/dashboard" className="h-full">
                       <Image
-                        className="h-5/6 w-auto pr-12"
+                        className="h-full w-auto pr-12"
                         // src={brushStrokeTree}
-                        src={brainLogo}
-                        alt="Burnout Project Logo"
+                        src={brainLogoWithText}
+                        alt="MindHub Logo"
                       />{" "}
                     </Link>
                   </div>
@@ -285,8 +291,9 @@ export default function Nav() {
                       leaveFrom="transform opacity-100 scale-100"
                       leaveTo="transform opacity-0 scale-95"
                     >
-                      <Menu.Items className="absolute right-0 z-50 mt-2 w-48 origin-top-right rounded-md bg-slate-50 py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:bg-slate-800">
-                        <Menu.Item>
+                      <Menu.Items className="absolute right-0 z-50 mt-2 w-48 origin-top-right rounded-md bg-slate-50 py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:bg-slate-800 dark:hover:bg-slate-700">
+                        {/* Reinstate this when profile page is built */}
+                        {/* <Menu.Item>
                           {({ active }) => (
                             <a
                               // if userID is known, link to profile page, else link to signin page
@@ -298,11 +305,12 @@ export default function Nav() {
                                 "block px-4 py-2 text-sm text-gray-700"
                               )}
                             >
-                              Your Profile
+                              My Profile
                             </a>
                           )}
-                        </Menu.Item>
-                        <Menu.Item>
+                        </Menu.Item> */}
+                        {/* Reinstate this once settings page is built. */}
+                        {/* <Menu.Item>
                           {({ active }) => (
                             <a
                               href="#"
@@ -314,14 +322,14 @@ export default function Nav() {
                               Settings
                             </a>
                           )}
-                        </Menu.Item>
+                        </Menu.Item> */}
                         <Menu.Item>
                           {({ active }) => (
                             <a
                               href="/signout"
                               className={classNames(
                                 active ? "bg-gray-100" : "",
-                                "block px-4 py-2 text-sm text-gray-700"
+                                "block px-4 py-2 text-sm text-gray-700 dark:text-slate-50 dark:hover:bg-slate-700"
                               )}
                             >
                               Sign out
@@ -376,7 +384,8 @@ export default function Nav() {
               </div>
               <div className="border-t border-gray-200 pb-3 pt-4">
                 <div className="mt-3 space-y-1">
-                  <Disclosure.Button
+                  {/* Reinstate once profile and settings have been completed. */}
+                  {/* <Disclosure.Button
                     as="a"
                     href={`/profile/[${userID}]/page.tsx`}
                     className="block px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800"
@@ -389,11 +398,11 @@ export default function Nav() {
                     className="block px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800"
                   >
                     Settings
-                  </Disclosure.Button>
+                  </Disclosure.Button> */}
                   <Disclosure.Button
                     as="a"
                     href="/signout"
-                    className="block px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800"
+                    className="block px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800 dark:text-slate-50 dark:hover:bg-slate-700"
                   >
                     Sign out
                   </Disclosure.Button>
@@ -416,8 +425,8 @@ export default function Nav() {
                     <Image
                       className="h-5/6 w-auto pr-12"
                       // src={brushStrokeTree}
-                      src={brainLogo}
-                      alt="Burnout Project Logo"
+                      src={brainLogoWithText}
+                      alt="MindHub Logo"
                     />{" "}
                   </div>
                   <div className="hidden lg:ml-6 lg:flex lg:space-x-8">
