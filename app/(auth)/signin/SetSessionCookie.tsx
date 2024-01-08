@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 import { getIdToken } from "firebase/auth";
 import { auth } from "@/firebase/auth/appConfig";
@@ -28,6 +29,17 @@ export default function SetSessionCookie() {
   const [, setUsername] = useAtom(usernameAtom);
   const [, setUserID] = useAtom(userIDAtom);
   const [authStateLoading, setAuthStateLoading] = useState(false);
+
+  const [showLink, setShowLink] = useState(false);
+
+  // useEffect(() => {
+  //   const timer = setTimeout(() => {
+  //     setShowLink(true);
+  //   }, 2500);
+
+  //   // Cleanup the timer on component unmount
+  //   return () => clearTimeout(timer);
+  // }, []);
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async (user) => {
@@ -59,7 +71,8 @@ export default function SetSessionCookie() {
             setSession(true);
             setAuthStateLoading(false);
             // await new Promise((resolve) => setTimeout(resolve, 3000));
-            router.push("/dashboard");
+          } else {
+            console.log("response.status: ", response.status);
           }
         } catch (err) {
           console.log("set token error from signin page: ", err);
@@ -78,15 +91,31 @@ export default function SetSessionCookie() {
     return () => unsubscribe();
   }, [router, setUserID, setUsername, setIsAdmin, setAnyError]);
 
+  useEffect(() => {
+    if (session) {
+      router.push("/dashboard");
+    }
+  });
+
   let content;
   if (session) {
     content = (
-      <div className="flex gap-x-4 align-middle">
-        <h2 className="text-4xl font-bold leading-9 tracking-tight text-slate-600 md:mb-8">
-          Signed in
-        </h2>
-        <CheckIcon className="h-5 w-5 text-green-400" aria-hidden="true" />
-      </div>
+      <>
+        <div className="flex gap-x-4 align-middle">
+          <h2 className="text-4xl font-bold leading-9 tracking-tight text-slate-600 md:mb-8">
+            Signed in
+          </h2>
+          <CheckIcon className="h-5 w-5 text-green-400" aria-hidden="true" />
+        </div>
+        {/* {showLink ? ( */}
+        <Link
+          href="/dashboard"
+          className="text-emerald-700 hover:text-emerald-600"
+        >
+          Go to dashboard
+        </Link>
+        {/* ) : null} */}
+      </>
     );
   }
   if (!session && !authStateLoading) {

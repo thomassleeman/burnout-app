@@ -270,6 +270,7 @@ const ActionProvider = ({
 
   const handleBeginCyclingThroughProfilesToDiscuss = (profileStringArray) => {
     const numberOfProfiles = profileStringArray.length;
+    console.log("profileStringArray[0]: ", profileStringArray[0]);
     const userMessage = createClientMessage("Yes");
 
     const botMessage1 = createChatBotMessage(
@@ -284,8 +285,9 @@ const ActionProvider = ({
       `Ok, let's talk about feeling ${profileStringArray[0]} at work`,
       {
         delay: 1000,
-        widget: "responseOption",
-        payload: { stream: profileStringArray[0] },
+        // widget: "responseOptions",
+        widget: "ProceedToSolitaryProfile",
+        payload: { solitaryProfileString: profileStringArray[0] },
       }
     );
 

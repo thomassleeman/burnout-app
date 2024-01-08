@@ -9,7 +9,17 @@ import { ExclamationTriangleIcon, XMarkIcon } from "@heroicons/react/20/solid";
 export default function ErrorAlert() {
   const [anyError, setAnyError] = useAtom(anyErrorAtom);
 
-  // console.log(`anyError, ${anyError} ${!anyError.message}`);
+  //define error message with user-friendly text for common errors
+  const errorMessage = () => {
+    let message = anyError.message;
+    if (message.includes("Firebase:")) {
+      message = message.replace("Firebase:", "");
+    }
+    if (message.includes("invalid-login-credentials")) {
+      message = "Invalid login credentials";
+    }
+    return message;
+  };
 
   return (
     <div
@@ -26,11 +36,11 @@ export default function ErrorAlert() {
         </div>
         <div className="ml-3">
           <p className="text-start text-sm font-medium text-red-800">
-            {`Error: ${anyError.message.replace("Firebase:", "")}`}
+            {errorMessage()}
           </p>
         </div>
         <div className="ml-auto pl-3">
-          <div className="-mx-1.5 -my-1.5">
+          {/* <div className="-mx-1.5 -my-1.5">
             <button
               type="button"
               onClick={() => setAnyError({ message: "" })}
@@ -39,7 +49,7 @@ export default function ErrorAlert() {
               <span className="sr-only">Dismiss</span>
               <XMarkIcon className="h-5 w-5" aria-hidden="true" />
             </button>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

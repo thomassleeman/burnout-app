@@ -16,13 +16,6 @@ export default function SignOut() {
   const [apiSignoutErr, setApiSignoutErr] = useState({});
   const router = useRouter();
 
-  // useEffect(() => {
-  //   if (!user) {
-  //     router.push("/signin");
-  //   }
-  // }, [user, router]);
-
-  console.log("user: ", user);
   const [signOut, loading, fbError] = useSignOut(auth);
 
   const handleSignOut = async () => {
@@ -68,7 +61,8 @@ export default function SignOut() {
 
                       <button
                         onClick={handleSignOut}
-                        className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                        // className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                        className="flex w-full justify-center rounded-md bg-emerald-800 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-emerald-700 focus-visible:outline focus-visible:outline-emerald-600 focus-visible:ring-2 focus-visible:ring-offset-2"
                       >
                         {!loading && user ? (
                           "Sign Out"

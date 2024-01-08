@@ -43,7 +43,6 @@ export default async function updateDatabase(
     setDoc(
       userRef,
       {
-        displayName: "Thomas Sleeman",
         exercises: {
           [assessmentRecordName]: {
             ...assessmentsObject,
