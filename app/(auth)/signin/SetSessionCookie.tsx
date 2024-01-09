@@ -30,19 +30,9 @@ export default function SetSessionCookie() {
   const [, setUserID] = useAtom(userIDAtom);
   const [authStateLoading, setAuthStateLoading] = useState(false);
 
-  const [showLink, setShowLink] = useState(false);
-
-  // useEffect(() => {
-  //   const timer = setTimeout(() => {
-  //     setShowLink(true);
-  //   }, 2500);
-
-  //   // Cleanup the timer on component unmount
-  //   return () => clearTimeout(timer);
-  // }, []);
-
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged(async (user) => {
+    // const unsubscribe = auth.onAuthStateChanged(async (user) => {
+    const unsubscribe = auth.onIdTokenChanged(async (user) => {
       setAuthStateLoading(true);
       if (user) {
         if (!user.emailVerified) {
@@ -64,13 +54,12 @@ export default function SetSessionCookie() {
           });
           if (response.status === 200) {
             const data = await response.json();
-            // console.log("data.decodedToken: ", data.decodedToken);
             setIsAdmin(data.decodedToken?.admin);
             setUsername(data.decodedToken?.name);
             setUserID(data.decodedToken?.uid);
             setSession(true);
             setAuthStateLoading(false);
-            // await new Promise((resolve) => setTimeout(resolve, 3000));
+            console.log("router: ", router);
           } else {
             console.log("response.status: ", response.status);
           }
@@ -93,9 +82,11 @@ export default function SetSessionCookie() {
 
   useEffect(() => {
     if (session) {
+      console.log("Session is true, navigating to dashboard");
+
       router.push("/dashboard");
     }
-  });
+  }, [session, router]);
 
   let content;
   if (session) {
@@ -107,13 +98,19 @@ export default function SetSessionCookie() {
           </h2>
           <CheckIcon className="h-5 w-5 text-green-400" aria-hidden="true" />
         </div>
-        {/* {showLink ? ( */}
-        <Link
+        {/* <Link
           href="/dashboard"
           className="text-emerald-700 hover:text-emerald-600"
         >
           Go to dashboard
-        </Link>
+        </Link> */}
+        <a
+          href="/dashboard"
+          className="text-emerald-700 hover:text-emerald-600"
+        >
+          Go to dashboard
+        </a>
+        <p>Please refresh page to continue</p>
         {/* ) : null} */}
       </>
     );
