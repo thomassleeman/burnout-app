@@ -83,8 +83,9 @@ export default function SetSessionCookie() {
   useEffect(() => {
     if (session) {
       console.log("Session is true, navigating to dashboard");
+      window.location.assign("/dashboard");
 
-      router.push("/dashboard");
+      // router.push("/dashboard");
     }
   }, [session, router]);
 
