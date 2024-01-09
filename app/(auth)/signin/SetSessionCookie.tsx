@@ -98,19 +98,14 @@ export default function SetSessionCookie() {
           </h2>
           <CheckIcon className="h-5 w-5 text-green-400" aria-hidden="true" />
         </div>
-        {/* <Link
-          href="/dashboard"
-          className="text-emerald-700 hover:text-emerald-600"
-        >
-          Go to dashboard
-        </Link> */}
+        {/* Using a instead of link here as Link is not working is some scenarios. */}
         <a
           href="/dashboard"
           className="text-emerald-700 hover:text-emerald-600"
         >
           Go to dashboard
         </a>
-        <p>Please refresh page to continue</p>
+
         {/* ) : null} */}
       </>
     );
