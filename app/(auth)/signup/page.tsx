@@ -11,14 +11,10 @@ export default async function SignUp() {
   return (
     <>
       <main className="mt-10">
-        {/* <div className="flex min-h-full flex-1"> */}
         <ErrorAlert />
         <div className="flex flex-1 flex-col justify-center px-4 sm:px-6 md:py-12  lg:flex-none lg:px-20 xl:px-24">
           <div className="mx-auto w-full max-w-sm lg:w-96">
             <div>
-              {/* <p className="mb-6 text-sm text-gray-500">
-                  Let&apos;s sign you up with a new account...
-                </p> */}
               <h2 className="text-4xl font-bold leading-9 tracking-tight text-slate-600 md:mb-8">
                 Sign up
               </h2>

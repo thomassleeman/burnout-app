@@ -72,5 +72,6 @@ export const config = {
     "/dashboard",
     "/profile/:path*",
     "/admin/:path*",
+    "/settings",
   ],
 };

@@ -310,22 +310,22 @@ export default function Nav() {
                           )}
                         </Menu.Item> */}
                         {/* Reinstate this once settings page is built. */}
-                        {/* <Menu.Item>
+                        <Menu.Item>
                           {({ active }) => (
                             <a
-                              href="#"
+                              href="/signin/resetpassword"
                               className={classNames(
                                 active ? "bg-gray-100" : "",
                                 "block px-4 py-2 text-sm text-gray-700"
                               )}
                             >
-                              Settings
+                              Reset password
                             </a>
                           )}
-                        </Menu.Item> */}
+                        </Menu.Item>
                         <Menu.Item>
                           {({ active }) => (
-                            <a
+                            <Link
                               href="/signout"
                               className={classNames(
                                 active ? "bg-gray-100" : "",
@@ -333,7 +333,7 @@ export default function Nav() {
                               )}
                             >
                               Sign out
-                            </a>
+                            </Link>
                           )}
                         </Menu.Item>
                       </Menu.Items>

@@ -64,13 +64,20 @@ export default function ResetPassword() {
 
   const [, setAnyError] = useAtom(anyErrorAtom);
 
+  let origin: String | undefined;
+  if (process.env.NODE_ENV === "development") {
+    origin = process.env.NEXT_PUBLIC_DEV_ORIGIN;
+  } else {
+    origin = process.env.NEXT_PUBLIC_PROD_ORIGIN;
+  }
+
   /* TODO: This is working, however, 
   1. The email link revels NEXT_PUBLIC_FIREBASE_API_KEY - Is that normal?
   2. Link refers to "burnout project" and "project-941881196808"  */
   const handleSubmit = async () => {
     const actionCodeSettings = {
       //TODO: change this to the correct url
-      url: "http://localhost:3000/signin/resetpassword/confirm",
+      url: `${origin}/signin/resetpassword/confirm`,
       // iOS: {
       //   bundleId: 'com.example.ios',
       // },
