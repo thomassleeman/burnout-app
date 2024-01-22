@@ -12,16 +12,15 @@ export default function Home() {
   const [user] = useAuthState(auth);
   useEffect(() => {
     if (user) {
-      router.push("/dashboard");
+      window.location.assign("/dashboard");
     } else {
-      router.push("/signin");
+      window.location.assign("/signin");
     }
   }, [user, router]);
   return (
     <div className="mt-8 flex flex-col items-center justify-center gap-y-7">
       <Image
         className="h-72 w-auto animate-pulse rounded-2xl dark:animate-none dark:shadow-2xl dark:shadow-yellow-200"
-        // className="h-72 w-auto"
         src={brainLogoWithText}
         alt="Burnout Project Logo"
       />

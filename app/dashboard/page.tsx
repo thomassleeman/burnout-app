@@ -4,8 +4,7 @@ import { getSortedLimitedArticlesData } from "@articles/getArticlesData";
 
 export default async function Dashboard() {
   const articles = await getSortedLimitedArticlesData("date", "desc", 10);
-  await new Promise((resolve) => setTimeout(resolve, 3000));
-  console.log("Dashboard Page");
+
   return (
     <>
       <HeroContainer />
