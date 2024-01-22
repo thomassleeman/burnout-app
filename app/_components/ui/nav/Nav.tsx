@@ -67,10 +67,17 @@ const pageIndicator = {
 
 /* -------------- USER INDICATOR -------------------- */
 const UserIndicator = () => {
-  const [username] = useAtom(usernameAtom);
-  const [userID] = useAtom(userIDAtom);
+  const [username, setUsername] = useAtom(usernameAtom);
+  const [userID, setUserID] = useAtom(userIDAtom);
 
-  if (!userID) return null;
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (!user) return;
+      setUsername(user.displayName || "");
+    });
+  }, []);
+
+  // if (!userID) return null;
 
   if (username) {
     const usernameArray = username.split(" ");
@@ -143,6 +150,12 @@ export default function Nav() {
       getArticles();
     });
   }, [getArticles]);
+
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (!user) return;
+    });
+  }, []);
 
   const navSearch = async (searchTerm: string) => {
     const articles = await getArticles();
@@ -325,6 +338,19 @@ export default function Nav() {
                         </Menu.Item>
                         <Menu.Item>
                           {({ active }) => (
+                            <a
+                              href="/settings"
+                              className={classNames(
+                                active ? "bg-gray-100" : "",
+                                "block px-4 py-2 text-sm text-gray-700"
+                              )}
+                            >
+                              Settings
+                            </a>
+                          )}
+                        </Menu.Item>
+                        <Menu.Item>
+                          {({ active }) => (
                             <Link
                               href="/signout"
                               className={classNames(
@@ -391,14 +417,14 @@ export default function Nav() {
                     className="block px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800"
                   >
                     Your Profile
-                  </Disclosure.Button>
+                  </Disclosure.Button>*/}
                   <Disclosure.Button
                     as="a"
-                    href="#"
+                    href="/settings"
                     className="block px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800"
                   >
                     Settings
-                  </Disclosure.Button> */}
+                  </Disclosure.Button>
                   <Disclosure.Button
                     as="a"
                     href="/signout"

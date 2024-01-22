@@ -1,4 +1,4 @@
-import brainLogo from "@/components/design/brainLogo.png";
+import brainLogoCompressed from "@/components/design/brainLogoCompressed.png";
 import Image from "next/image";
 
 export default function BotAvatar() {
@@ -6,7 +6,7 @@ export default function BotAvatar() {
     <>
       <Image
         alt="MindHub Logo"
-        src={brainLogo}
+        src={brainLogoCompressed}
         className="h-10 w-auto pr-4 drop-shadow-lg"
       />
     </>

@@ -37,34 +37,7 @@ export async function POST(request: NextRequest, response: NextResponse) {
 
   //Get the userID from the decoded cookie
   const userID = decodedClaims.uid;
-  console.log("userID: ", userID);
-
-  // const burnoutProfiles = await request.json();
-  //   const burnoutProfiles = request.body;
-  //   console.log("burnoutProfiles: ", burnoutProfiles);
-
-  //Update the database
-  //   try {
-  //     const userRef = doc(db, "users", userID);
-
-  //     // const createdAt = new Date();
-  //     await setDoc(
-  //       userRef,
-  //       //   {
-  //       //     exercises: {
-  //       //       assessments: { ...burnoutProfiles, createdAt },
-  //       //     },
-  //       //   },
-  //       {
-  //         displayName: "Jane Doe",
-  //       },
-  //       { merge: true }
-  //     );
-  //     console.log("assessment added");
-  //   } catch (error) {
-  //     console.error("Error creating assessment document", error);
-  //     return { error };
-  //   }
+  console.log("userID(route): ", userID);
 
   return NextResponse.json({ userID });
 }
