@@ -198,12 +198,12 @@ export default function Nav() {
         {({ open }) => (
           <>
             <div className="mx-auto my-1 px-2 sm:px-4 lg:px-8">
-              <div className="flex h-16 justify-between">
-                <div className="flex px-2 lg:px-0">
+              <div className="flex h-16">
+                <div className="flex lg:px-0">
                   <div className="flex flex-shrink-0 items-center">
                     <Link href="/dashboard" className="h-full">
                       <Image
-                        className="h-full w-auto pr-12"
+                        className="h-full w-auto pr-4 md:pr-12"
                         // src={brushStrokeTree}
                         src={brainLogoWithText}
                         alt="MindHub Logo"
@@ -257,7 +257,7 @@ export default function Nav() {
                       <input
                         id="search"
                         name="search"
-                        className="block w-full rounded-md border-0 py-1.5 pl-10 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                        className="block w-full rounded-md border-0 py-1.5 pl-10 pr-1 text-xs text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-emerald-600 sm:leading-6"
                         placeholder="Search Articles"
                         type="search"
                         onChange={(e) => setSearchTerm(e.target.value)}

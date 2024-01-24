@@ -10,6 +10,7 @@ export default function IntroCoursePrompt() {
             className="absolute inset-0 -z-10 h-full w-full object-cover"
             // src="https://source.unsplash.com/1K9T5YiZ2WU"
             src="https://firebasestorage.googleapis.com/v0/b/burnout-project.appspot.com/o/images%2Fui-images%2Fstressed%20man%20outside.jpeg?alt=media&token=96abc240-8ee2-4bbd-a722-a9bd04323f66"
+            // src="gs://burnout-project.appspot.com/images/calls-to-action/man-holding-glasses.jpeg"
             alt="Burnout course image"
             width="500"
             height="500"

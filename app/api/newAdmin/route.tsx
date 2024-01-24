@@ -1,6 +1,6 @@
-import { adminInit } from '@/firebase/auth/adminConfig';
-import { NextRequest, NextResponse } from 'next/server';
-import { auth } from 'firebase-admin';
+import { adminInit } from "@/firebase/auth/adminConfig";
+import { NextRequest, NextResponse } from "next/server";
+import { auth } from "firebase-admin";
 // const {
 //   getFirestore,
 //   Timestamp,
@@ -17,7 +17,7 @@ export async function POST(request: NextRequest) {
     const { name, id } = body;
     if (!name || !id) {
       return NextResponse.json(
-        { error: 'Missing name or id' },
+        { error: "Missing name or id" },
         { status: 400 }
       );
     }
@@ -36,15 +36,15 @@ export async function POST(request: NextRequest) {
     //   );
     // }
 
-    const createNewAdmin = await auth().setCustomUserClaims(id, {
+    await auth().setCustomUserClaims(id, {
       admin: true,
     });
 
     return NextResponse.json({}, { status: 200 });
   } catch (error) {
-    console.error('******Error in POST handler:', error);
+    console.error("******Error in POST handler:", error);
     return NextResponse.json(
-      { error: 'Internal server error' },
+      { error: "Internal server error" },
       { status: 500 }
     );
   }
