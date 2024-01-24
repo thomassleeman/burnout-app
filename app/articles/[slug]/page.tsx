@@ -13,6 +13,7 @@ import defaultImage from "../defaultImage.jpeg";
 import Modal from "@/components/ui/modal/Modal";
 
 import MarkDown from "markdown-to-jsx";
+import testArticle from "./testArticle.md";
 
 export default async function Article({
   params,

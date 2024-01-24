@@ -1,3 +1,4 @@
+// use https://github.com/CSFrequency/react-firebase-hooks/tree/master/auth to power this page
 "use client";
 import { auth } from "@/firebase/auth/appConfig";
 import { useAuthState } from "react-firebase-hooks/auth";

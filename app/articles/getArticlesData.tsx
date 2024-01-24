@@ -108,17 +108,33 @@ export async function getArticleData(slug: string) {
     return count;
   };
 
+  // Fetch the content of the MDX file
+  const response = await fetch(doc.data().content);
+  const mdxContent = await response.text();
+
   const article: Article = {
     id: doc.id,
     title: doc.data().title,
     date: doc.data().date.toDate(), // Firestore Timestamp needs to be converted to JavaScript Date object
     slug: doc.data().slug,
-    content: doc.data().content,
+    content: mdxContent, // Use the fetched MDX content
     headerImage: doc.data().headerImage,
     headerImageAlt: doc.data().headerImageAlt,
-    readingTime: readingTime(doc.data().content),
+    readingTime: readingTime(mdxContent), // Use the fetched MDX content for reading time calculation
     author: doc.data().author,
   };
+
+  // const article: Article = {
+  //   id: doc.id,
+  //   title: doc.data().title,
+  //   date: doc.data().date.toDate(), // Firestore Timestamp needs to be converted to JavaScript Date object
+  //   slug: doc.data().slug,
+  //   content: doc.data().content,
+  //   headerImage: doc.data().headerImage,
+  //   headerImageAlt: doc.data().headerImageAlt,
+  //   readingTime: readingTime(doc.data().content),
+  //   author: doc.data().author,
+  // };
 
   return article;
 }
