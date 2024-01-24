@@ -88,7 +88,7 @@ export default function GoogleButton({ loading }: { loading: boolean }) {
   if (loading) {
     content = (
       <div className="flex w-full items-center justify-center gap-5 rounded-md border bg-white px-2 text-gray-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#24292F]">
-        <p className="text-sm">Loading...</p>
+        <p className="p-0 text-sm">Loading...</p>
         <Spinner stroke="blue" />
       </div>
     );
@@ -96,7 +96,7 @@ export default function GoogleButton({ loading }: { loading: boolean }) {
     content = (
       <div className="flex w-full items-center justify-center gap-3 rounded-md border bg-white px-2 text-gray-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#24292F]">
         <GoogleIcon />
-        <p className={roboto.className}>Google</p>
+        <span className={roboto.className}>Google</span>
       </div>
     );
   }
