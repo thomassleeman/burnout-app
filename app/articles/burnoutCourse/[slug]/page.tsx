@@ -4,12 +4,12 @@ import { useRemarkSync } from "react-remark";
 import rehypeRaw from "rehype-raw";
 import rehypeSanitize from "rehype-sanitize";
 
-import getFormattedDate from "../getFormattedDate";
-import { getSortedArticlesData, getArticleData } from "../getArticlesData";
+import getFormattedDate from "../../getFormattedDate";
+import { getSortedArticlesData, getArticleData } from "../../getArticlesData";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
-import defaultImage from "../defaultImage.jpeg";
+import defaultImage from "../../defaultImage.jpeg";
 import Modal from "@/components/ui/modal/Modal";
 
 import MarkDown from "markdown-to-jsx";
@@ -54,20 +54,9 @@ export default async function Article({
     pubDate = "";
   }
 
-  // const reactContent = useRemarkSync(content || "");
-
-  // export const MixedHTMLSanitized = ({ content }) => {
-  // const reactContent = useRemarkSync(content || "", {
-  //   remarkToRehypeOptions: { allowDangerousHtml: true },
-  //   //@ts-ignore
-  //   rehypePlugins: [rehypeRaw, rehypeSanitize],
-  // });
-
-  /* ---------------- */
-
   return (
     <article className="prose prose-slate mx-auto px-6 dark:prose-invert md:prose-lg">
-      <h1 className="mb-0 mt-4 text-lg md:text-xl lg:text-5xl">{title}</h1>
+      <h1 className="not-prose my-4 text-3xl lg:text-5xl">{title}</h1>
       <div className="not-prose flex">
         <p className="mt-0">{pubDate}</p>
         <p className="mx-3">&ndash;</p>
@@ -84,15 +73,11 @@ export default async function Article({
         alt={headerImageAlt || title}
         priority={true}
       ></Image>
-      {/* <div className="first-letter:float-left first-letter:mr-2 first-letter:text-6xl first-letter:font-extrabold first-letter:text-green-900">
-        {reactContent}
-      </div> */}
+
       <div className="first-letter:float-left first-letter:mr-2 first-letter:text-6xl first-letter:font-extrabold first-letter:text-green-900">
         <MarkDown>{content}</MarkDown>
       </div>
-      <p>
-        <Link href="/articles">← Back to library</Link>
-      </p>
+
       {showModal && study && <Modal currentUrl={currentUrl} studyId={study} />}
     </article>
   );

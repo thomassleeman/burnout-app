@@ -10,6 +10,25 @@ export default function SettingsPage() {
   const provider = providerUser?.providerId;
   const passwordUser = provider === "password";
 
+  console.log("user", user);
+
+  const daysSince = (dateString: string) => {
+    // Parse the date string into a Date object
+    const date = new Date(dateString);
+
+    // Get the current date
+    const now = new Date();
+
+    // Calculate the difference in milliseconds
+    const diffInMilliseconds = now.getTime() - date.getTime();
+
+    // Convert milliseconds to days
+    const diffInDays = diffInMilliseconds / (1000 * 60 * 60 * 24);
+
+    // Return the difference, rounded down to the nearest whole number
+    return Math.floor(diffInDays);
+  };
+
   if (loading) {
     return (
       <div className="mt-8 flex flex-col items-center justify-center gap-y-7">
@@ -68,7 +87,11 @@ export default function SettingsPage() {
               </dt>
               <dd className="mt-1 flex text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
                 <span className="flex-grow">{user.email}</span>
-                <span className="ml-4 flex-shrink-0">
+                <span
+                  className={`ml-4 flex-shrink-0 ${
+                    passwordUser ? "inline-block" : "hidden"
+                  }`}
+                >
                   <button
                     type="button"
                     className="rounded-md font-medium text-emerald-600 hover:text-emerald-500"
@@ -78,6 +101,30 @@ export default function SettingsPage() {
                 </span>
               </dd>
             </div>
+            {/* account created */}
+            <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+              <dt className="text-sm font-medium leading-6 text-gray-900">
+                Account created
+              </dt>
+              <dd className="mt-1 flex text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+                <span className="flex-grow">{user?.metadata.creationTime}</span>
+              </dd>
+            </div>
+            {/* days since account created */}
+            <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+              <dt className="text-sm font-medium leading-6 text-gray-900">
+                Member for
+              </dt>
+              <dd className="mt-1 flex text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+                <span className="flex-grow">
+                  {user?.metadata.creationTime
+                    ? daysSince(user.metadata.creationTime)
+                    : "Loading..."}{" "}
+                  days
+                </span>
+              </dd>
+            </div>
+            {/* ----- */}
           </dl>
         </div>
       </main>
