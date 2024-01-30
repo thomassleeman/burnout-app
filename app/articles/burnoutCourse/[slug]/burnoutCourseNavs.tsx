@@ -48,11 +48,11 @@ function BurnoutCourseHeadNav({ slug }: BurnoutCourseNavProps) {
           <AcademicCapIcon className="h-6 w-6" />
           <h3 className=" font-mono  md:text-lg lg:text-xl">Burnout Course</h3>
         </div>
-        <div className="sm:hidden">
+        {/* <div className="sm:hidden">
           <label htmlFor="tabs" className="sr-only">
             Select a tab
-          </label>
-          <select
+          </label> */}
+        {/* <select
             id="tabs"
             name="tabs"
             className="block w-full rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-emerald-700 focus:outline-none focus:ring-emerald-700 sm:text-sm"
@@ -61,9 +61,21 @@ function BurnoutCourseHeadNav({ slug }: BurnoutCourseNavProps) {
             {tabs.map((tab) => (
               <option key={tab.name}>{tab.name}</option>
             ))}
-          </select>
-        </div>
-        <div className="hidden sm:block">
+          </select> */}
+        {/* <form method="get" id="articleForm">
+            <select
+              name="article"
+              onChange={() => document.getElementById("articleForm").submit()}
+            >
+              {tabs.map((tab) => (
+                <option key={tab.name} value={tab.url}>
+                  {tab.name}
+                </option>
+              ))}
+            </select>
+          </form> */}
+        {/* </div> */}
+        <div className="">
           <div className="border-y border-gray-200">
             <nav
               className="-mb-px flex space-x-8 overflow-x-scroll "
