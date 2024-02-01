@@ -97,7 +97,7 @@ export default function Footer() {
                 <item.icon className="h-6 w-6" aria-hidden={true} />
                 <div className=" text-gray-400 hover:text-gray-500">
                   <span className="sr-only">{item.name}</span>
-                  <p className="text-xs">{item.text}</p>
+                  <span className="text-xs">{item.text}</span>
                 </div>
               </a>
             </>

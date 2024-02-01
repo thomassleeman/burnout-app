@@ -11,6 +11,8 @@ import Link from "next/link";
 import Image from "next/image";
 import defaultImage from "../../defaultImage.jpeg";
 import Modal from "@/components/ui/modal/Modal";
+import TextToSpeech from "../../_components/TextToSpeach";
+import Share from "../../_components/Share";
 
 import MarkDown from "markdown-to-jsx";
 import testArticle from "./testArticle.md";
@@ -55,16 +57,22 @@ export default async function Article({
   }
 
   return (
-    <article className="prose prose-slate mx-auto px-6 dark:prose-invert md:prose-lg">
-      <h1 className="not-prose my-4 text-3xl lg:text-5xl">{title}</h1>
-      <div className="not-prose flex">
-        <p className="mt-0">{pubDate}</p>
-        <p className="mx-3">&ndash;</p>
-        <p className="mt-0">{author || "Burnout Project Team"}</p>
+    <article className="prose prose-slate mx-auto dark:prose-invert md:prose-lg">
+      <div className="px-6">
+        <h1 className="not-prose my-4 text-3xl lg:text-5xl">{title}</h1>
+        <div className="not-prose flex">
+          <p className="mt-0">{pubDate}</p>
+          <p className="mx-3">&ndash;</p>
+          <p className="mt-0">{author || "Burnout Project Team"}</p>
+        </div>
+        <div className="flex items-center justify-between">
+          <p className="not-prose text-green-800">
+            {readingTime ? `${Math.round(readingTime)} min read` : null}
+          </p>
+          <TextToSpeech text={content} />
+        </div>
+        <Share />
       </div>
-      <p className="not-prose text-green-800">
-        {readingTime ? `${Math.round(readingTime)} min read` : null}
-      </p>
 
       <Image
         width={1200}
@@ -72,9 +80,10 @@ export default async function Article({
         src={headerImage || defaultImage}
         alt={headerImageAlt || title}
         priority={true}
+        className="mt-2"
       ></Image>
 
-      <div className="first-letter:float-left first-letter:mr-2 first-letter:text-6xl first-letter:font-extrabold first-letter:text-green-900">
+      <div className="px-6 first-letter:float-left first-letter:mr-2 first-letter:text-6xl first-letter:font-extrabold first-letter:text-green-900">
         <MarkDown>{content}</MarkDown>
       </div>
 
