@@ -11,9 +11,9 @@ import { Analytics } from "@vercel/analytics/react";
 //TODO: Header stuff, SEO, etc.
 
 export const metadata: Metadata = {
-  title: "Burnout Project",
+  title: "The Burnout Project",
   description:
-    "A project to help people with burnout and pay Tom and Aaron's heating bills in the process",
+    "A comprehensive guide to understanding and preventing burnout. Includes practical exercises and resources for enhancing workplace wellness.",
 };
 
 export const viewport: Viewport = {

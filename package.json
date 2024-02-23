@@ -35,6 +35,7 @@
     "next": "^14.0.4",
     "next-mdx-remote": "^4.4.1",
     "npm": "^9.7.1",
+    "openai": "^4.28.0",
     "postcss": "8.4.24",
     "query-string": "^8.1.0",
     "react": "^18.2.0",

@@ -97,15 +97,13 @@ const TextToSpeech = ({ text }: Props) => {
     <div
       className={`${
         !isStopped
-          ? "fixed bottom-3 right-2 bg-emerald-100 outline-sky-200 md:static md:rounded-xl md:bg-emerald-300/25 md:outline-sky-400/25"
-          : "static  bg-emerald-300/25"
-      } flex items-center space-x-4 rounded-xl px-3 py-1 outline outline-offset-4 outline-sky-400/25 md:space-x-2`}
+          ? "fixed bottom-3 right-2 bg-emerald-100 outline-emerald-500 md:static md:rounded-xl md:bg-emerald-300/25 md:outline-sky-400/25"
+          : "static  bg-emerald-300/25 outline-sky-400/25"
+      } flex items-center space-x-4 rounded-xl px-3 py-1 outline outline-offset-4  md:space-x-2`}
     >
       {playerText()}
-      {/* <div className="flex"> */}
       {isPaused || isStopped ? play : pause}
       {stop}
-      {/* </div> */}
     </div>
   );
 };
