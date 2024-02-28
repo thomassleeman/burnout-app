@@ -118,6 +118,7 @@ export async function getArticleData(slug: string) {
     date: doc.data().date.toDate(), // Firestore Timestamp needs to be converted to JavaScript Date object
     slug: doc.data().slug,
     content: mdxContent, // Use the fetched MDX content
+    audio: doc.data().audio,
     headerImage: doc.data().headerImage,
     headerImageAlt: doc.data().headerImageAlt,
     readingTime: readingTime(mdxContent), // Use the fetched MDX content for reading time calculation

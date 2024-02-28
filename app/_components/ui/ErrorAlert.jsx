@@ -18,6 +18,10 @@ export default function ErrorAlert() {
     if (message.includes("invalid-login-credentials")) {
       message = "Invalid login credentials";
     }
+    if (message.includes("ensure this value has at most 4096 characters")) {
+      message =
+        "Audio will not successfully be created as article is too long. The audio for this article will need to be created manually.";
+    }
     return message;
   };
 

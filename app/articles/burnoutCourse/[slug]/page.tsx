@@ -43,6 +43,7 @@ export default async function Article({
     title,
     date,
     content,
+    audio,
     headerImage,
     headerImageAlt,
     author,
@@ -69,7 +70,12 @@ export default async function Article({
           <p className="not-prose text-green-800">
             {readingTime ? `${Math.round(readingTime)} min read` : null}
           </p>
-          <TextToSpeech text={content} />
+          {/* <TextToSpeech text={content} /> */}
+          <div className="flex flex-col items-center">
+            <audio controls>
+              <source src={audio} type="audio/mpeg" />
+            </audio>
+          </div>
         </div>
         <Share />
       </div>
@@ -88,6 +94,9 @@ export default async function Article({
       </div>
 
       {showModal && study && <Modal currentUrl={currentUrl} studyId={study} />}
+      <small className="mt-1 text-xs">
+        <sup>&#42;</sup> Audio for this article is provided by an ai voice.
+      </small>
     </article>
   );
 }
