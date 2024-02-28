@@ -13,7 +13,7 @@ import Spinner from "@/components/design/Spinner";
 //openai
 import OpenAI from "openai";
 //jotai
-import { useAtom } from "jotai";
+import { atom, useAtom } from "jotai";
 import { anyErrorAtom } from "@/state/store";
 //components
 import ErrorAlert from "@/components/ui/ErrorAlert";
@@ -22,6 +22,7 @@ export default function NewArticleForm() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [percent, setPercent] = useState(0);
+  const anyErrorAtom = atom<Error | null>(null);
   const [, setAnyError] = useAtom(anyErrorAtom);
 
   const fields = [
@@ -82,7 +83,7 @@ export default function NewArticleForm() {
 
         return buffer;
       } catch (error) {
-        setAnyError(error);
+        setAnyError(error as Error);
         return null;
       }
     };
@@ -98,26 +99,36 @@ export default function NewArticleForm() {
       contentType: "audio/mp3",
     };
 
-    const audioUploadTask = uploadBytesResumable(
-      audioStorageRef,
-      audioBlob,
-      audioMetadata
-    );
+    let audioUploadTask;
 
-    audioUploadTask.on(
-      "state_changed",
-      (snapshot) => {
-        const percentCompleted = Math.round(
-          (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-        );
-        setPercent(percentCompleted);
-      },
-      (err) => console.log(err)
-    );
+    if (audioBlob !== null) {
+      audioUploadTask = uploadBytesResumable(
+        audioStorageRef,
+        audioBlob,
+        audioMetadata
+      );
+    }
+
+    if (audioUploadTask !== undefined) {
+      audioUploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          const percentCompleted = Math.round(
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+          );
+          setPercent(percentCompleted);
+        },
+        (err) => console.log(err)
+      );
+    }
 
     await audioUploadTask;
 
-    const audioUrl = await getDownloadURL(audioUploadTask.snapshot.ref);
+    let audioUrl;
+
+    if (audioUploadTask) {
+      audioUrl = await getDownloadURL(audioUploadTask.snapshot.ref);
+    }
 
     const imageUploadTask = uploadBytesResumable(imageStorageRef, image);
 
@@ -163,7 +174,7 @@ export default function NewArticleForm() {
       audio: audioUrl,
     };
 
-    setFieldValues(finalFieldValues);
+    // setFieldValues(finalFieldValues);
 
     const finalDocRef = doc(db, "articles", finalFieldValues.slug);
     await setDoc(finalDocRef, finalFieldValues);

@@ -1,7 +1,7 @@
 type Article = {
   id: string;
   title: string;
-  audio: string;
+  audio?: string;
   content: string;
   slug: string;
   date?: string;
