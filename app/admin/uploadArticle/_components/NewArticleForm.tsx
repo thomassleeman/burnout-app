@@ -1,3 +1,5 @@
+/* This is a client component that imports a server action to handle the openai api call for text-to-voice processing*/
+
 "use client";
 //react
 import { useState } from "react";
@@ -11,18 +13,17 @@ import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { doc, setDoc, serverTimestamp } from "firebase/firestore";
 import Spinner from "@/components/design/Spinner";
 //openai
-import OpenAI from "openai";
+// import OpenAI from "openai";
 //jotai
-import { atom, useAtom } from "jotai";
+import { useAtom } from "jotai";
 import { anyErrorAtom } from "@/state/store";
 //components
-import ErrorAlert from "@/components/ui/ErrorAlert";
+import { generateAudioFromText } from "@actions/openaiActions";
 
 export default function NewArticleForm() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [percent, setPercent] = useState(0);
-  const anyErrorAtom = atom<Error | null>(null);
   const [, setAnyError] = useAtom(anyErrorAtom);
 
   const fields = [
@@ -55,40 +56,35 @@ export default function NewArticleForm() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setLoading(true);
 
     if (!image) {
       alert("Please upload an image first!");
+      setLoading(false);
       return;
     }
 
     if (!fieldValues.content) {
       alert("Please enter some content!");
+      setLoading(false);
       return;
     }
 
-    const handleSpeech = async () => {
-      const openai = new OpenAI({
-        apiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
-        dangerouslyAllowBrowser: true,
-      });
+    /* A uint8Array cannot be sent from the server component to the client component. Hence it is necessary to convert to a base64String, send that and then convert back to uint8Array on the client side.  */
 
-      try {
-        const response = await openai.audio.speech.create({
-          model: "tts-1-hd",
-          voice: "alloy",
-          input: fieldValues.content,
-        });
+    const base64String = await generateAudioFromText(fieldValues.content);
+    if (!base64String) {
+      alert("There was an error generating the audio. Please try again later.");
+      setLoading(false);
+      return;
+    }
 
-        const buffer = Buffer.from(await response.arrayBuffer());
-
-        return buffer;
-      } catch (error) {
-        setAnyError(error as Error);
-        return null;
-      }
-    };
-
-    const audioBlob = await handleSpeech();
+    let audioBlob = Uint8Array.from(atob(base64String), (c) => c.charCodeAt(0));
+    if (!audioBlob) {
+      alert("There was an error generating the audio. Please try again later.");
+      setLoading(false);
+      return;
+    }
 
     const imageStorageRef = ref(storage, `/images/${fieldValues.slug}/head`);
     const contentStorageRef = ref(storage, `/content/${fieldValues.slug}`);
@@ -96,39 +92,35 @@ export default function NewArticleForm() {
 
     const audioMetadata = {
       // Should this be audiompeg?
-      contentType: "audio/mp3",
+      contentType: "audio/mpeg",
     };
 
-    let audioUploadTask;
+    const audioUploadTask = uploadBytesResumable(
+      audioStorageRef,
+      audioBlob,
+      audioMetadata
+    );
 
-    if (audioBlob !== null) {
-      audioUploadTask = uploadBytesResumable(
-        audioStorageRef,
-        audioBlob,
-        audioMetadata
-      );
+    if (!audioUploadTask) {
+      alert("There was an error generating the audio. Please try again later.");
+      setLoading(false);
+      return;
     }
 
-    if (audioUploadTask !== undefined) {
-      audioUploadTask.on(
-        "state_changed",
-        (snapshot) => {
-          const percentCompleted = Math.round(
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-          );
-          setPercent(percentCompleted);
-        },
-        (err) => console.log(err)
-      );
-    }
+    audioUploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        const percentCompleted = Math.round(
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+        );
+        setPercent(percentCompleted);
+      },
+      (err) => setAnyError(err)
+    );
 
     await audioUploadTask;
 
-    let audioUrl;
-
-    if (audioUploadTask) {
-      audioUrl = await getDownloadURL(audioUploadTask.snapshot.ref);
-    }
+    const audioUrl = await getDownloadURL(audioUploadTask.snapshot.ref);
 
     const imageUploadTask = uploadBytesResumable(imageStorageRef, image);
 
@@ -140,7 +132,7 @@ export default function NewArticleForm() {
         );
         setPercent(percentCompleted);
       },
-      (err) => console.log(err)
+      (err) => setAnyError(err)
     );
 
     await imageUploadTask;
@@ -160,7 +152,7 @@ export default function NewArticleForm() {
         );
         setPercent(percentCompleted);
       },
-      (err) => console.log(err)
+      (err) => setAnyError(err)
     );
 
     await contentUploadTask;
@@ -174,54 +166,52 @@ export default function NewArticleForm() {
       audio: audioUrl,
     };
 
-    // setFieldValues(finalFieldValues);
+    setFieldValues(finalFieldValues);
 
     const finalDocRef = doc(db, "articles", finalFieldValues.slug);
     await setDoc(finalDocRef, finalFieldValues);
+    setLoading(false);
 
     router.push(`/articles/${fieldValues.slug}`);
   };
 
   return (
-    <form className="flex flex-col gap-5" onSubmit={handleSubmit}>
-      <ErrorAlert />
+    <form onSubmit={handleSubmit} className="flex flex-col gap-5">
       <div>
-        <div>
-          {fields.map((field) => {
-            return (
-              <div key={field.label} className="my-3 flex gap-x-5">
-                {field.type === "textarea" ? (
-                  <textarea
-                    className="block w-full rounded-md border border-gray-300 bg-white px-3 py-2 shadow-sm focus:border-slate-500 focus:outline-none focus:ring-slate-500 dark:border-blue-400/50 dark:bg-slate-700 sm:text-sm"
-                    name={field.label}
-                    placeholder={field.label}
-                    rows={field.label === "content" ? 15 : 5}
-                    // cols={field.label === "content" ? 100 : 10}
-                    onChange={(e) => {
-                      setFieldValues({
-                        ...fieldValues,
-                        [field.label]: e.target.value,
-                      });
-                    }}
-                  />
-                ) : (
-                  <input
-                    className="block w-full rounded-md border border-gray-300 bg-white px-3 py-2 shadow-sm focus:border-slate-500 focus:outline-none focus:ring-slate-500 dark:border-blue-400/50 dark:bg-slate-700 sm:text-sm"
-                    type={field.type}
-                    name={field.label}
-                    placeholder={field.label}
-                    onChange={(e) => {
-                      setFieldValues({
-                        ...fieldValues,
-                        [field.label]: e.target.value,
-                      });
-                    }}
-                  />
-                )}
-              </div>
-            );
-          })}
-        </div>
+        {fields.map((field) => {
+          return (
+            <div key={field.label} className="my-3 gap-x-5">
+              {field.type === "textarea" ? (
+                <textarea
+                  className="block w-full rounded-md border border-gray-300 bg-white px-3 py-2 shadow-sm focus:border-slate-500 focus:outline-none focus:ring-slate-500 dark:border-blue-400/50 dark:bg-slate-700 sm:text-sm"
+                  name={field.label}
+                  placeholder={field.label}
+                  rows={field.label === "content" ? 15 : 5}
+                  // cols={field.label === "content" ? 100 : 10}
+                  onChange={(e) => {
+                    setFieldValues({
+                      ...fieldValues,
+                      [field.label]: e.target.value,
+                    });
+                  }}
+                />
+              ) : (
+                <input
+                  className="block w-full max-w-sm rounded-md border border-gray-300 bg-white px-3 py-2 shadow-sm focus:border-slate-500 focus:outline-none focus:ring-slate-500 dark:border-blue-400/50 dark:bg-slate-700 sm:text-sm"
+                  type={field.type}
+                  name={field.label}
+                  placeholder={field.label}
+                  onChange={(e) => {
+                    setFieldValues({
+                      ...fieldValues,
+                      [field.label]: e.target.value,
+                    });
+                  }}
+                />
+              )}
+            </div>
+          );
+        })}
       </div>
       <div>
         <label
@@ -237,7 +227,7 @@ export default function NewArticleForm() {
             type="file"
             accept="image/*"
             onChange={handleImageChange}
-            className="block w-full cursor-pointer rounded-md border border-gray-300 bg-white px-3 py-2 shadow-sm focus:border-slate-500 focus:outline-none focus:ring-slate-500 dark:border-blue-400/50 dark:bg-slate-700 sm:text-sm"
+            className="block w-full max-w-sm cursor-pointer rounded-md border border-gray-300 bg-white px-3 py-2 shadow-sm focus:border-slate-500 focus:outline-none focus:ring-slate-500 dark:border-blue-400/50 dark:bg-slate-700 sm:text-sm"
           />
           <h2 className="text-red-700">
             {percent > 0 ? `${percent}% uploaded.` : null}
@@ -247,9 +237,9 @@ export default function NewArticleForm() {
       <button
         type="submit"
         disabled={loading}
-        className="flex w-full justify-center rounded-md bg-green-900 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-green-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-900"
+        className="rounded-md bg-emerald-800 px-3 py-1.5 text-center font-semibold leading-6 text-white shadow-sm hover:bg-green-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-900 md:my-8 md:w-56"
       >
-        {!loading ? "Submit" : <Spinner />}
+        {!loading ? "Submit" : "...Loading"}
       </button>
     </form>
   );

@@ -28,7 +28,8 @@
       "@state": ["app/state/*"],
       "@chatbot/*": ["app/chatbot/*"],
       "@types/*": ["./types/*"],
-      "@articles/*": ["app/articles/*"]
+      "@articles/*": ["app/articles/*"],
+      "@actions/*": ["app/actions/*"]
     }
   },
   "include": [
