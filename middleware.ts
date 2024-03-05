@@ -55,7 +55,7 @@ export async function middleware(request: NextRequest, response: NextResponse) {
   //My account is the only super user
   if (
     pathname.includes("superuser") &&
-    signedInUserUid !== process.env.NEXT_PUBLIC_SUPER_USER_UID
+    signedInUserUid !== process.env.SUPER_USER_UID
   ) {
     return NextResponse.redirect(new URL("/401", request.url));
   }
