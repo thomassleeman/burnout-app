@@ -1,16 +1,22 @@
 "use client";
-import { ArrowRightIcon } from "@heroicons/react/24/outline";
-import getFormattedDate from "@/app/articles/getFormattedDate";
+//react
+import { useState } from "react";
+//next.js
 import Image from "next/image";
-import defaultImage from "@articles/defaultImage.jpeg";
 import Link from "next/link";
+//jotai
 import { useAtom } from "jotai";
 import { showSearchResultsAtom } from "@/state/store";
+//components
+import getFormattedDate from "@/app/articles/getFormattedDate";
+import defaultImage from "@articles/defaultImage.jpeg";
 import { ImageWithTextSkeleton } from "@/app/_components/ui/loading/LoadingSkeletons";
 import { CardSkeleton } from "@/app/_components/ui/loading/LoadingSkeletons";
-
-import { useState } from "react";
+import PlayArticle from "./playArticle";
+//Icons
+// import { ArrowRightIcon } from "@heroicons/react/24/outline";
 import { XMarkIcon, InformationCircleIcon } from "@heroicons/react/24/outline";
+import { Play } from "next/font/google";
 
 interface ArticleSummaryProps {
   summary: string;
@@ -75,15 +81,15 @@ export default function ContentCarousel({
               {carouselTitle}
             </h2>
             <p className="mt-2 text-lg leading-8 text-gray-600">
-              {carouselTagline}.{" "}
-              <span className="ml-2 text-right text-sm text-green-900 md:ml-4">
+              {carouselTagline}. {<br className="inline md:hidden" />}
+              <span className="text-right text-sm text-green-900 md:ml-2 md:ml-4">
                 {/* Say article for 1 article and articles for many */}
                 {`${articles.length} ${
-                  articles.length === 1 ? "article" : "articles"
+                  articles.length === 1 ? "article." : "articles."
                 }`}
-                {articles.length === 1 ? null : (
+                {/* {articles.length === 1 ? null : (
                   <ArrowRightIcon className="inline-block h-5 w-5" />
-                )}
+                )} */}
               </span>
             </p>
           </div>
@@ -99,6 +105,7 @@ export default function ContentCarousel({
                 category,
                 summary,
                 author,
+                audio,
               } = article;
 
               let formattedDate;
@@ -125,6 +132,8 @@ export default function ContentCarousel({
                   <span className="absolute right-0 top-4 rounded-l-lg bg-gray-700 px-3 py-1.5 text-xs text-white opacity-70">
                     {author}
                   </span>
+
+                  <PlayArticle audio={audio || ""} />
 
                   {summary ? (
                     <ArticleSummary summary={summary} title={title} />

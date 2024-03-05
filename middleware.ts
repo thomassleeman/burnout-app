@@ -31,7 +31,6 @@ export async function middleware(request: NextRequest, response: NextResponse) {
 
   //If the user is already logged in and they navigate to the signup or signin page, redirect them to the dashboard
   if ((pathname === "/signup" || pathname === "/signin") && session) {
-    console.log("decodedClaims: ", signedInUser.decodedClaims);
     return NextResponse.redirect(new URL("/dashboard", request.url));
   }
 
@@ -67,8 +66,8 @@ export async function middleware(request: NextRequest, response: NextResponse) {
 //Add your protected routes
 export const config = {
   matcher: [
-    // "/signup",
-    // "/signin",
+    "/signup",
+    "/signin",
     "/dashboard",
     "/profile/:path*",
     "/admin/:path*",

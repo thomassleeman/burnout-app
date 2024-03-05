@@ -1,11 +1,15 @@
-import { DocumentSnapshot } from "firebase/firestore";
+//
+import { getAuth } from "firebase-admin/auth";
 
-const {
+import userIdAction from "@actions/userIdAction";
+
+import {
   getFirestore,
+  DocumentSnapshot,
   Timestamp,
   FieldValue,
   Filter,
-} = require("firebase-admin/firestore");
+} from "firebase-admin/firestore";
 
 import { adminInit } from "@/firebase/auth/adminConfig";
 
@@ -14,7 +18,10 @@ adminInit();
 const db = getFirestore();
 
 /* Sorted Articles, also requires a limit so as not to retreive everything */
-export async function getSortedArticlesData(orderedBy: string, order: string) {
+export async function getSortedArticlesData(
+  orderedBy: string,
+  order: "asc" | "desc"
+) {
   const articlesCollection = db.collection("articles");
   const snapshot = await articlesCollection.orderBy(orderedBy, order).get();
 
@@ -42,7 +49,7 @@ export async function getSortedArticlesData(orderedBy: string, order: string) {
 
 export async function getSortedLimitedArticlesData(
   orderedBy: string,
-  order: string,
+  order: "asc" | "desc",
   limit: number
 ) {
   const articlesCollection = db.collection("articles");
@@ -66,11 +73,70 @@ export async function getSortedLimitedArticlesData(
       author: data.author,
       category: data.category,
       summary: data.summary,
+      audio: data.audio || "",
     };
     allArticlesData.push(article);
   });
 
   return allArticlesData;
+}
+
+export async function getRecommendedArticlesData() {
+  const userId = await userIdAction();
+  if (!userId) {
+    return;
+  }
+
+  const userRef = db.collection("users").doc(userId);
+
+  const doc = await userRef.get();
+  if (!doc.exists) {
+    return;
+  }
+
+  const user = doc.data();
+  if (!user) {
+    return;
+  }
+
+  const recommendedArticles = user.articles.recommended;
+  if (!recommendedArticles) {
+    return;
+  }
+  console.log("Recommended articles:", recommendedArticles);
+
+  try {
+    const articlesRef = db.collection("articles");
+    const returnedArticles = await articlesRef
+      .where("slug", "in", recommendedArticles)
+      .get();
+    console.log("returnedArticles:", returnedArticles.docs.length);
+
+    const articlesToReturn: Article[] = [];
+
+    returnedArticles.forEach((doc) => {
+      const data = doc.data();
+      if (!data) return;
+      const article: Article = {
+        id: doc.id,
+        title: data.title,
+        date: data.date.toDate(), // Firestore Timestamp needs to be converted to JavaScript Date object
+        slug: data.slug,
+        content: data.content,
+        headerImage: data.headerImage,
+        headerImageAlt: data.headerImageAlt,
+        author: data.author || "",
+        category: data.category || "",
+        summary: data.summary || "",
+        audio: data.audio || "",
+      };
+      articlesToReturn.push(article);
+    });
+    console.log("articlesToReturn:", articlesToReturn);
+    return articlesToReturn;
+  } catch (error) {
+    console.error("Error getting recommended articles data:", error);
+  }
 }
 
 /* Single Article data */
@@ -124,18 +190,6 @@ export async function getArticleData(slug: string) {
     readingTime: readingTime(mdxContent), // Use the fetched MDX content for reading time calculation
     author: doc.data().author,
   };
-
-  // const article: Article = {
-  //   id: doc.id,
-  //   title: doc.data().title,
-  //   date: doc.data().date.toDate(), // Firestore Timestamp needs to be converted to JavaScript Date object
-  //   slug: doc.data().slug,
-  //   content: doc.data().content,
-  //   headerImage: doc.data().headerImage,
-  //   headerImageAlt: doc.data().headerImageAlt,
-  //   readingTime: readingTime(doc.data().content),
-  //   author: doc.data().author,
-  // };
 
   return article;
 }
