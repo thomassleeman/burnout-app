@@ -12,7 +12,7 @@ import getFormattedDate from "@/app/articles/getFormattedDate";
 import defaultImage from "@articles/defaultImage.jpeg";
 import { ImageWithTextSkeleton } from "@/app/_components/ui/loading/LoadingSkeletons";
 import { CardSkeleton } from "@/app/_components/ui/loading/LoadingSkeletons";
-import PlayArticle from "./playArticle";
+import PlayArticle from "./PlayArticle";
 //Icons
 // import { ArrowRightIcon } from "@heroicons/react/24/outline";
 import { XMarkIcon, InformationCircleIcon } from "@heroicons/react/24/outline";

@@ -3,7 +3,8 @@ import type { Metadata, Viewport } from "next";
 import Providers from "@/state/providers";
 
 import Nav from "./_components/ui/nav/Nav";
-import Footer from "./_components/ui/Footer";
+import MediaPlayer from "@/components/ui/MediaPlayer";
+
 // import GlossaryModal from "./_components/ui/modal/Modal";
 
 import { Analytics } from "@vercel/analytics/react";
@@ -11,7 +12,7 @@ import { Analytics } from "@vercel/analytics/react";
 //TODO: Header stuff, SEO, etc.
 
 export const metadata: Metadata = {
-  title: "The Burnout Project",
+  title: "The Burnout Hub",
   description:
     "A comprehensive guide to understanding and preventing burnout. Includes practical exercises and resources for enhancing workplace wellness.",
 };
@@ -35,6 +36,7 @@ export default function RootLayout({
             {children}
             <Analytics />
           </main>
+          {/* <MediaPlayer /> */}
         </body>
       </Providers>
     </html>
