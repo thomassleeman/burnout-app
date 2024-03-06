@@ -66,6 +66,8 @@ export default function ContentCarousel({
   carouselTagline = "",
   articles = [],
 }: ContentCarouselProps) {
+  const [playingAudioId, setPlayingAudioId] = useState<string | null>(null);
+
   const [showSearchResults, setShowSearchResults] = useAtom(
     showSearchResultsAtom
   );
@@ -133,7 +135,15 @@ export default function ContentCarousel({
                     {author}
                   </span>
 
-                  <PlayArticle audio={audio || ""} />
+                  <PlayArticle
+                    audio={audio || ""}
+                    anotherArticleIsPlaying={
+                      playingAudioId !== null && id !== playingAudioId
+                    }
+                    isPlaying={id === playingAudioId}
+                    onPlay={() => setPlayingAudioId(id)}
+                    onPauseOrStop={() => setPlayingAudioId(null)}
+                  />
 
                   {summary ? (
                     <ArticleSummary summary={summary} title={title} />

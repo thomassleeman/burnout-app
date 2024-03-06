@@ -1,23 +1,17 @@
-//
-import { getAuth } from "firebase-admin/auth";
-
-import userIdAction from "@actions/userIdAction";
-
-import {
-  getFirestore,
-  DocumentSnapshot,
-  Timestamp,
-  FieldValue,
-  Filter,
-} from "firebase-admin/firestore";
-
+//Firestore
+import { getFirestore, DocumentSnapshot } from "firebase-admin/firestore";
+//Firebase config
 import { adminInit } from "@/firebase/auth/adminConfig";
+//server actions
+import userIdAction from "@actions/userIdAction";
 
 adminInit();
 
 const db = getFirestore();
 
-/* Sorted Articles, also requires a limit so as not to retreive everything */
+/* ----------------------------------------------------------------------------------------- */
+
+/* This function will retreive everything! */
 export async function getSortedArticlesData(
   orderedBy: string,
   order: "asc" | "desc"
@@ -46,6 +40,8 @@ export async function getSortedArticlesData(
 
   return allArticlesData;
 }
+
+/* ----------------------------------------------------------------------------------------- */
 
 export async function getSortedLimitedArticlesData(
   orderedBy: string,
@@ -80,6 +76,8 @@ export async function getSortedLimitedArticlesData(
 
   return allArticlesData;
 }
+
+/* ----------------------------------------------------------------------------------------- */
 
 export async function getRecommendedArticlesData() {
   const userId = await userIdAction();
@@ -138,6 +136,8 @@ export async function getRecommendedArticlesData() {
     console.error("Error getting recommended articles data:", error);
   }
 }
+
+/* ----------------------------------------------------------------------------------------- */
 
 /* Single Article data */
 export async function getArticleData(slug: string) {

@@ -1,5 +1,6 @@
 import ContentCarousel from "@/app/articles/_components/ContentCarousel";
 import HeroContainer from "./_components/HeroContainer";
+import Footer from "../_components/ui/Footer";
 import {
   getSortedLimitedArticlesData,
   getRecommendedArticlesData,
@@ -24,6 +25,7 @@ export default async function Dashboard() {
           articles={latestArticles}
         />
       </div>
+      <Footer />
     </>
   );
 }

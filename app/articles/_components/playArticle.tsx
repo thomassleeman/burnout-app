@@ -1,32 +1,73 @@
-import { useState, useEffect, useRef } from "react";
-import { PauseCircleIcon, PlayCircleIcon } from "@heroicons/react/24/outline";
+"use client";
 
+import { useState, useEffect, useRef } from "react";
+import { PlayIcon, PauseIcon, StopIcon } from "@heroicons/react/20/solid";
 interface PlayArticleProps {
   audio: string;
+  isPlaying: boolean;
+  onPlay: () => void;
+  onPauseOrStop: () => void;
+  // Add this line
+  anotherArticleIsPlaying: boolean;
 }
 
-export default function PlayArticle({ audio }: PlayArticleProps) {
-  const [isPlaying, setIsPlaying] = useState(false);
-  const audioRef = useRef(new Audio(audio));
+export default function PlayArticle({
+  audio,
+  isPlaying,
+  onPlay,
+  onPauseOrStop,
+  anotherArticleIsPlaying,
+}: PlayArticleProps) {
+  // const [isPlaying, setIsPlaying] = useState(false);
+
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  //   //Check to ensure this does not attempt to run on the server which causes hydration errors
+  useEffect(() => {
+    audioRef.current = new Audio(audio);
+  }, [audio]);
 
   useEffect(() => {
-    if (isPlaying) {
-      audioRef.current.play();
-    } else {
-      audioRef.current.pause();
+    if (audioRef.current) {
+      if (isPlaying) {
+        audioRef.current.play();
+      } else {
+        audioRef.current.pause();
+      }
     }
   }, [isPlaying]);
 
+  const handleStop = () => {
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+      onPauseOrStop();
+    }
+  };
+
   return (
-    <button onClick={() => setIsPlaying(!isPlaying)}>
-      {isPlaying ? (
-        <PauseCircleIcon className="absolute left-2 top-2 h-12 w-12 animate-pulse rounded-xl bg-slate-400 text-white opacity-90 " />
-      ) : (
-        <PlayCircleIcon className="absolute left-2 top-2 h-12 w-12 rounded-xl bg-slate-400 text-white opacity-90 " />
+    <span
+      className={`absolute left-2 top-2 flex gap-x-2 ${
+        anotherArticleIsPlaying && "hidden"
+      }`}
+    >
+      <button onClick={() => (isPlaying ? onPauseOrStop() : onPlay())}>
+        {isPlaying ? (
+          <PauseIcon className=" h-12 w-12 animate-pulse text-white md:h-10 md:w-10" />
+        ) : (
+          <PlayIcon className=" h-12 w-12 text-white md:h-10 md:w-10" />
+        )}
+      </button>
+      {isPlaying && (
+        <button onClick={handleStop}>
+          <StopIcon className=" h-12 w-12 text-white md:h-10 md:w-10" />
+        </button>
       )}
-    </button>
+    </span>
   );
 }
+
+/* -------------------------------------- */
 
 // import { useState, useEffect, useRef } from "react";
 // import { PauseCircleIcon, PlayCircleIcon } from "@heroicons/react/24/outline";
