@@ -1,21 +1,12 @@
-import { visit } from "unist-util-visit";
-import { fromMarkdown } from "mdast-util-from-markdown";
-import { useRemarkSync } from "react-remark";
-import rehypeRaw from "rehype-raw";
-import rehypeSanitize from "rehype-sanitize";
-
 import getFormattedDate from "../../getFormattedDate";
-import { getSortedArticlesData, getArticleData } from "../../getArticlesData";
+import { getArticleData } from "../../getArticlesData";
 import { notFound } from "next/navigation";
-import Link from "next/link";
 import Image from "next/image";
 import defaultImage from "../../defaultImage.jpeg";
 import Modal from "@/components/ui/modal/Modal";
-import TextToSpeech from "../../_components/TextToSpeach";
 import Share from "../../_components/Share";
 
 import MarkDown from "markdown-to-jsx";
-import testArticle from "./testArticle.md";
 
 export default async function Article({
   params,

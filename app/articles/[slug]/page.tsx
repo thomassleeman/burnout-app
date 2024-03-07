@@ -1,11 +1,5 @@
-import { visit } from "unist-util-visit";
-import { fromMarkdown } from "mdast-util-from-markdown";
-import { useRemarkSync } from "react-remark";
-import rehypeRaw from "rehype-raw";
-import rehypeSanitize from "rehype-sanitize";
-
 import getFormattedDate from "../getFormattedDate";
-import { getSortedArticlesData, getArticleData } from "../getArticlesData";
+import { getArticleData } from "../getArticlesData";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
@@ -13,8 +7,6 @@ import defaultImage from "../defaultImage.jpeg";
 import Modal from "@/components/ui/modal/Modal";
 
 import MarkDown from "markdown-to-jsx";
-import testArticle from "./testArticle.md";
-import TextToSpeech from "../_components/TextToSpeach";
 import Share from "../_components/Share";
 
 export default async function Article({
@@ -58,17 +50,6 @@ export default async function Article({
   } else {
     pubDate = "";
   }
-
-  // const reactContent = useRemarkSync(content || "");
-
-  // export const MixedHTMLSanitized = ({ content }) => {
-  // const reactContent = useRemarkSync(content || "", {
-  //   remarkToRehypeOptions: { allowDangerousHtml: true },
-  //   //@ts-ignore
-  //   rehypePlugins: [rehypeRaw, rehypeSanitize],
-  // });
-
-  /* ---------------- */
 
   return (
     <article className="prose prose-slate mx-auto dark:prose-invert md:prose-lg">

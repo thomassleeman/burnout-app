@@ -97,6 +97,10 @@ export async function getRecommendedArticlesData() {
     return;
   }
 
+  if (!user.articles) {
+    return;
+  }
+
   const recommendedArticles = user.articles.recommended;
   if (!recommendedArticles) {
     return;
@@ -178,6 +182,26 @@ export async function getArticleData(slug: string) {
   const response = await fetch(doc.data().content);
   const mdxContent = await response.text();
 
+  // const article: Article = {
+  //   id: doc.id,
+  //   title: doc.data().title,
+  //   date: doc.data().date.toDate(), // Firestore Timestamp needs to be converted to JavaScript Date object
+  //   slug: doc.data().slug,
+  //   content: mdxContent, // Use the fetched MDX content
+  //   audio: doc.data().audio,
+  //   headerImage: doc.data().headerImage,
+  //   headerImageAlt: doc.data().headerImageAlt,
+  //   readingTime: readingTime(mdxContent), // Use the fetched MDX content for reading time calculation
+  //   author: doc.data().author,
+  // };
+
+  // Find the header image URL from the images array
+  const images = doc.data().images || [];
+  const headerImageObj = images.find(
+    (image: { name: string; image: string }) => image.name === "head"
+  );
+  const headerImage = headerImageObj ? headerImageObj.image : "";
+
   const article: Article = {
     id: doc.id,
     title: doc.data().title,
@@ -185,7 +209,7 @@ export async function getArticleData(slug: string) {
     slug: doc.data().slug,
     content: mdxContent, // Use the fetched MDX content
     audio: doc.data().audio,
-    headerImage: doc.data().headerImage,
+    headerImage: headerImage, // Use the found header image URL
     headerImageAlt: doc.data().headerImageAlt,
     readingTime: readingTime(mdxContent), // Use the fetched MDX content for reading time calculation
     author: doc.data().author,

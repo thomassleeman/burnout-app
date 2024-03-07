@@ -1,28 +1,13 @@
-"use client";
-import { TypeAnimation } from "react-type-animation";
 import Link from "next/link";
 
 export default function CheckInPrompt() {
   return (
-    // <div className="grid h-full grid-cols-1 place-content-around rounded-sm border border-emerald-500 p-8 dark:bg-slate-800 ">
     <div className="pattern-background flex flex-col space-y-6 rounded-sm p-8 dark:border dark:border-sky-500/25 dark:bg-slate-700/50">
       <div className="font-extrabold">
         <h1 className="bg-gradient-to-r from-green-500 to-blue-500 bg-clip-text text-5xl text-transparent">
           It&apos;s time to check in...
         </h1>
         <h2 className="mt-4 text-xl text-gray-600 dark:text-sky-300">
-          {/* <TypeAnimation
-            // style={{ height: "90px", display: "inline-block" }}
-            sequence={[
-              "How are you feeling about work?",
-              8000,
-              "Let our chatbot guide you through some basic questions..",
-              6000,
-              "...and we'll make some suggestions about content that you might find helpful.",
-              6000,
-              "It will take around 5 minutes :)",
-            ]}
-          /> */}
           Let our chatbot guide you to identify work stress points...
         </h2>
       </div>
