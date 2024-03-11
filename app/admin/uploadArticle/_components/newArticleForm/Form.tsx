@@ -140,11 +140,7 @@ export default function Form() {
       return;
     }
 
-    /* Add header image to images */
-    // setImages((prevImages) => [
-    //   ...prevImages,
-    //   { name: "head", image: headerImage },
-    // ]);
+    /* Add header image to images - Use a variable as useState is async and therefore too slow.*/
 
     const allImages = [...images, { name: "head", image: headerImage }];
 

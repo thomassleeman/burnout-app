@@ -58,14 +58,22 @@ export async function getSortedLimitedArticlesData(
   snapshot.forEach((doc: DocumentSnapshot) => {
     const data = doc.data();
     if (!data) return;
+
+    // Find the header image URL from the images array
+    const images = data ? data.images || [] : [];
+    const headerImageObj = images.find(
+      (image: { name: string; image: string }) => image.name === "head"
+    );
+    const headerImage = headerImageObj ? headerImageObj.image : "";
+
     const article: Article = {
       id: doc.id,
       title: data.title,
       date: data.date.toDate(), // Firestore Timestamp needs to be converted to JavaScript Date object
       slug: data.slug,
       content: data.content,
-      headerImage: data.headerImage,
-      headerImageAlt: data.headerImageAlt,
+      headerImage: headerImage,
+      headerImageAlt: `Header image for the article ${data.title}`,
       author: data.author,
       category: data.category,
       summary: data.summary,
@@ -119,14 +127,21 @@ export async function getRecommendedArticlesData() {
     returnedArticles.forEach((doc) => {
       const data = doc.data();
       if (!data) return;
+
+      const images = doc.data().images || [];
+      const headerImageObj = images.find(
+        (image: { name: string; image: string }) => image.name === "head"
+      );
+      const headerImage = headerImageObj ? headerImageObj.image : "";
+
       const article: Article = {
         id: doc.id,
         title: data.title,
         date: data.date.toDate(), // Firestore Timestamp needs to be converted to JavaScript Date object
         slug: data.slug,
         content: data.content,
-        headerImage: data.headerImage,
-        headerImageAlt: data.headerImageAlt,
+        headerImage: headerImage,
+        headerImageAlt: `Header image for the article ${data.title}`,
         author: data.author || "",
         category: data.category || "",
         summary: data.summary || "",
@@ -181,19 +196,6 @@ export async function getArticleData(slug: string) {
   // Fetch the content of the MDX file
   const response = await fetch(doc.data().content);
   const mdxContent = await response.text();
-
-  // const article: Article = {
-  //   id: doc.id,
-  //   title: doc.data().title,
-  //   date: doc.data().date.toDate(), // Firestore Timestamp needs to be converted to JavaScript Date object
-  //   slug: doc.data().slug,
-  //   content: mdxContent, // Use the fetched MDX content
-  //   audio: doc.data().audio,
-  //   headerImage: doc.data().headerImage,
-  //   headerImageAlt: doc.data().headerImageAlt,
-  //   readingTime: readingTime(mdxContent), // Use the fetched MDX content for reading time calculation
-  //   author: doc.data().author,
-  // };
 
   // Find the header image URL from the images array
   const images = doc.data().images || [];
