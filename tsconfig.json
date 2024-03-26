@@ -41,7 +41,7 @@
     "app/api/uploadArticle",
     "atoms/isAdminAtom.js",
     "app/_components/studies/StudyModal.js",
-    "app/chatbot/page.jsx"
+    "app/chatbot/burnout-assessment/page.jsx"
   ],
   "exclude": ["node_modules", "functions"]
 }

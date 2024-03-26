@@ -38,11 +38,11 @@ const ArticleSummary = ({ summary, title }: ArticleSummaryProps) => {
     );
   } else {
     content = (
-      <div className="absolute bottom-0 right-0 h-full w-full cursor-default overflow-y-scroll bg-white p-3 opacity-95">
-        <h2 className="mb-2 font-serif text-lg font-light text-gray-600 dark:text-slate-50">
+      <div className="absolute bottom-0 right-0 h-full w-full cursor-default overflow-y-scroll bg-slate-800 p-5 opacity-95">
+        <h2 className="mb-3 font-serif text-lg font-semibold text-slate-200 dark:text-slate-50">
           {title}
         </h2>
-        <p className=" text-gray-800">{summary}</p>
+        <p className=" font-serif text-sm text-gray-100">{summary}</p>
         <span
           onClick={() => setOpen(false)}
           className="absolute bottom-0 right-0 h-9 w-9 rounded-tl-lg bg-white px-3 py-1.5 text-sm text-gray-700 opacity-70 hover:cursor-pointer hover:bg-gray-200 hover:text-gray-900"

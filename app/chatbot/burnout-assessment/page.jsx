@@ -1,11 +1,11 @@
 "use client";
 
-import config from "./bot/config.js";
-import MessageParser from "./bot/MessageParser";
-import ActionProvider from "./bot/ActionProvider";
+import config from "@chatbot/bot/config.js";
+import MessageParser from "@chatbot/bot/MessageParser.jsx";
+import ActionProvider from "@chatbot/bot/ActionProvider.jsx";
 import Chatbot from "react-chatbot-kit";
 import "react-chatbot-kit/build/main.css";
-import "./bot/customStyles.css";
+import "@chatbot/bot/customStyles.css";
 
 const ChatbotPage = () => {
   return (

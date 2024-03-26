@@ -1,7 +1,6 @@
 import Image from "next/image";
 import logo from "@/components/design/brainLogo.png";
 import { PlayIcon, PauseIcon, StopIcon } from "@heroicons/react/20/solid";
-import { GoForward15Icon, GoBack15Icon } from "./forwardBack15";
 import Marquee from "@/components/design/Marquee";
 
 export default function MediaPlayer() {

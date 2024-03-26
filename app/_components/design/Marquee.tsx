@@ -1,4 +1,10 @@
-export default function Marquee(props) {
+interface MarqueeProps {
+  title: string;
+  subtext: string;
+  classes: string;
+}
+
+export default function Marquee(props: MarqueeProps) {
   const { title, subtext, classes } = props;
   return (
     <div className={`relative flex overflow-hidden border ${classes}`}>
