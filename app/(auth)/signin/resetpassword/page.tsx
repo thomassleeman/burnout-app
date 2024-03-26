@@ -108,64 +108,64 @@ export default function ResetPassword() {
   return (
     <>
       <main className="min-h-screen">
-        <div className="flex min-h-full flex-1">
-          <div className="flex flex-1 flex-col justify-center px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
-            <div className="mx-auto w-full max-w-sm lg:w-96">
-              <ResetText sent={sent} />
-              <div className="mt-10">
-                <div>
-                  <form className="space-y-6">
-                    <div>
-                      <label
-                        htmlFor="email"
-                        className="block text-sm font-medium leading-6 text-gray-900"
-                      >
-                        Email address
-                      </label>
-                      <div className="mt-2">
-                        <input
-                          type="email"
-                          name="email"
-                          value={email}
-                          onChange={(e) => setEmail(e.target.value)}
-                          required
-                          className="block w-full rounded-md border-0 px-4 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                        />
-                      </div>
+        {/* <div className="flex min-h-full flex-1"> */}
+        <div className="flex flex-1 flex-col justify-center px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
+          <div className="mx-auto w-full max-w-sm lg:w-96">
+            <ResetText sent={sent} />
+            <div className="mt-10">
+              <div>
+                <form className="space-y-6">
+                  <div>
+                    <label
+                      htmlFor="email"
+                      className="block text-sm font-medium leading-6 text-gray-900"
+                    >
+                      Email address
+                    </label>
+                    <div className="mt-2">
+                      <input
+                        type="email"
+                        name="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        required
+                        className="block w-full rounded-md border-0 px-4 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-emerald-600 sm:text-sm sm:leading-6"
+                      />
                     </div>
+                  </div>
 
-                    <div>
-                      <button
-                        onClick={handleSubmit}
-                        type="button"
-                        disabled={sending || sent}
-                        className="disabled:opacity-500 flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:cursor-not-allowed disabled:bg-gray-300 disabled:text-gray-500"
-                      >
-                        {sent ? "sent" : !sending ? "Send" : "Sending..."}
-                      </button>
-                    </div>
-                  </form>
-                </div>
-              </div>
-              <div className="mt-12 w-full text-center">
-                <p className="text-sm text-gray-400 ">
-                  Return to{" "}
-                  <Link className="text-blue-400" href="/signin">
-                    Sign in{" "}
-                  </Link>
-                  page
-                </p>
+                  <div>
+                    <button
+                      onClick={handleSubmit}
+                      type="button"
+                      disabled={sending || sent}
+                      className="disabled:opacity-500 flex w-full justify-center rounded-md bg-emerald-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-emerald-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600 disabled:cursor-not-allowed disabled:bg-gray-300 disabled:text-gray-500"
+                    >
+                      {sent ? "sent" : !sending ? "Send" : "Sending..."}
+                    </button>
+                  </div>
+                </form>
               </div>
             </div>
+            <div className="mt-12 w-full text-center">
+              <p className="text-sm text-gray-400 ">
+                Return to{" "}
+                <Link className="text-green-500" href="/signin">
+                  Sign in{" "}
+                </Link>
+                page
+              </p>
+            </div>
           </div>
-          <div className="relative hidden w-0 flex-1 lg:block">
+        </div>
+        {/* <div className="relative hidden w-0 flex-1 lg:block">
             <img
               className="absolute inset-0 h-full w-full object-cover"
               src="https://images.unsplash.com/photo-1496917756835-20cb06e75b4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1908&q=80"
               alt=""
             />
-          </div>
-        </div>
+          </div> */}
+        {/* </div> */}
       </main>
     </>
   );

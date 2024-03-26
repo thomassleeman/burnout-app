@@ -31,18 +31,18 @@ const ArticleSummary = ({ summary, title }: ArticleSummaryProps) => {
     content = (
       <span
         onClick={() => setOpen(true)}
-        className="absolute bottom-0 right-0 h-9 w-9 cursor-pointer rounded-tl-lg bg-white px-3 py-1.5 text-sm text-gray-700 opacity-70 hover:opacity-90"
+        className="absolute bottom-0 right-0 h-9 w-9 cursor-pointer rounded-tl-lg bg-gray-50 px-3 py-1.5 text-sm text-gray-700 opacity-70 hover:opacity-90"
       >
         <InformationCircleIcon className="absolute bottom-2 right-2 h-5 w-5" />
       </span>
     );
   } else {
     content = (
-      <div className="absolute bottom-0 right-0 h-full w-full cursor-default bg-white p-3 opacity-90">
+      <div className="absolute bottom-0 right-0 h-full w-full cursor-default overflow-y-scroll bg-white p-3 opacity-95">
         <h2 className="mb-2 font-serif text-lg font-light text-gray-600 dark:text-slate-50">
           {title}
         </h2>
-        <p className="text-gray-800">{summary}</p>
+        <p className=" text-gray-800">{summary}</p>
         <span
           onClick={() => setOpen(false)}
           className="absolute bottom-0 right-0 h-9 w-9 rounded-tl-lg bg-white px-3 py-1.5 text-sm text-gray-700 opacity-70 hover:cursor-pointer hover:bg-gray-200 hover:text-gray-900"

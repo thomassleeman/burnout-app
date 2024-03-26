@@ -1,5 +1,6 @@
 // use https://github.com/CSFrequency/react-firebase-hooks/tree/master/auth to power this page
 "use client";
+import Link from "next/link";
 import { auth } from "@/firebase/auth/appConfig";
 import { useAuthState } from "react-firebase-hooks/auth";
 
@@ -123,6 +124,13 @@ export default function SettingsPage() {
                   days
                 </span>
               </dd>
+            </div>
+            <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+              <dt className="font-medium leading-6 text-emerald-900 hover:text-emerald-700">
+                <Link className="" href="/signin/resetpassword">
+                  Reset Password
+                </Link>
+              </dt>
             </div>
             {/* ----- */}
           </dl>

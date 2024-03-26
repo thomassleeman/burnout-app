@@ -3,7 +3,7 @@ import type { Metadata, Viewport } from "next";
 import Providers from "@/state/providers";
 
 import Nav from "./_components/ui/nav/Nav";
-import MediaPlayer from "@/components/ui/MediaPlayer";
+// import MediaPlayer from "@/app/_components/ui/audioPlayer/AudioPlayer";
 
 // import GlossaryModal from "./_components/ui/modal/Modal";
 

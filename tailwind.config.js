@@ -14,24 +14,28 @@ module.exports = {
           "100%": { transform: "translateX(-100%)" },
         },
       },
-      animation: {
-        marquee: "marquee 25s linear infinite",
-      },
       keyframes: {
         wave: {
-          // '0%': { transform: 'rotate(0.0deg)' },
           "0%": { transform: "rotate(28deg)" },
           "25%": { transform: "rotate(-24deg)" },
           "50%": { transform: "rotate(28deg)" },
           "75%": { transform: "rotate(-24deg)" },
           "100%": { transform: "rotate(28deg)" },
-          // '60%': { transform: 'rotate(0.0deg)' },
-          // '100%': { transform: 'rotate(0.0deg)' },
+        },
+        marquee: {
+          "0%": { transform: "translateX(0%)" },
+          "100%": { transform: "translateX(-100%)" },
+        },
+        marquee2: {
+          "0%": { transform: "translateX(100%)" },
+          "100%": { transform: "translateX(0%)" },
         },
       },
       animation: {
         wave: "wave 2s linear infinite",
         "spin-slow": "spin 2s linear infinite",
+        marquee: "marquee 25s linear infinite",
+        marquee2: "marquee2 25s linear infinite",
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",

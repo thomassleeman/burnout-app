@@ -1,37 +1,21 @@
 "use client";
 //react
-import { Fragment, useEffect, useState, useCallback } from "react";
+import { Fragment } from "react";
 //next
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
-//firebase
-import { auth } from "@/firebase/auth/appConfig";
-import { onAuthStateChanged } from "firebase/auth";
 
-import { db } from "@/firebase/auth/appConfig";
-//firestore
-import { collection, getDocs } from "firebase/firestore";
-//jotai
-import { useAtom } from "jotai";
-import {
-  isAdminAtom,
-  showSearchResultsAtom,
-  usernameAtom,
-  userIDAtom,
-} from "@/state/store";
 //components
-import Spinner from "@/components/design/Spinner";
-import UserIcon from "@/components/design/icons/UserIcon";
-import SearchResults from "@/app/_components/ui/nav/SearchResults";
+import NavSearch from "./_components/NavSearch";
+import UserIndicator from "./_components/UserIndicator";
 //functions
 //headlessui
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 //design assets
 import brainLogo from "@/components/design/brainLogo.png";
-import brainLogoWithText from "@/components/design/brainLogoWithText.png";
 //heroicons
-import { MagnifyingGlassIcon } from "@heroicons/react/20/solid";
+
 import {
   Bars3Icon,
   BellIcon,
@@ -39,16 +23,28 @@ import {
   AdjustmentsHorizontalIcon,
 } from "@heroicons/react/24/outline";
 
+/* -------------- NAVIGATION ARRAY -------------------- */
+
 const navigation = {
-  registeredUser: [
-    { name: "Dashboard", href: "/dashboard" },
-    { name: "Library", href: "/articles" },
-  ],
+  registeredUser: {
+    mainNav: [
+      { name: "Dashboard", href: "/dashboard" },
+      { name: "Library", href: "/articles" },
+    ],
+    settingsNav: [
+      { name: "Settings", href: "/settings" },
+      { name: "Sign Out", href: "/signout" },
+    ],
+  },
+
   guest: [
     { name: "What is burnout?", href: "#" },
     { name: "Articles", href: "/articles" },
   ],
 };
+/* -------------------------------------------------------------- */
+
+/* -------------- PAGE INDICATOR -------------------- */
 
 const pageIndicator = {
   lg: {
@@ -59,131 +55,20 @@ const pageIndicator = {
   },
   sm: {
     current:
-      "bg-indigo-50 border-indigo-500 text-indigo-700 dark:text-slate-50",
+      "bg-emerald-700/25 border-emerald-800 text-green-800 dark:text-slate-50",
     default:
       "border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800 dark:text-slate-50",
   },
 };
-
-/* -------------- USER INDICATOR -------------------- */
-const UserIndicator = () => {
-  const [username, setUsername] = useAtom(usernameAtom);
-  const [userID, setUserID] = useAtom(userIDAtom);
-
-  useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      if (!user) return;
-      setUsername(user.displayName || "");
-    });
-  }, []);
-
-  // if (!userID) return null;
-
-  if (username) {
-    const usernameArray = username.split(" ");
-    const initials = usernameArray[0][0] + usernameArray[1][0];
-
-    return (
-      <div className="ml-6 flex h-3/4 w-auto items-center justify-center self-center  justify-self-end rounded-full bg-green-900 p-3">
-        <div className="text-xl font-thin uppercase text-white">{initials}</div>
-      </div>
-    );
-  }
-  if (userID && !username) {
-    return (
-      <div className="ml-6 flex h-3/4 w-auto items-center justify-center self-center  justify-self-end rounded-full bg-green-900 p-3">
-        <div className="text-xl font-thin uppercase text-black">
-          <UserIcon />
-        </div>
-      </div>
-    );
-  } else return null;
-};
 /* -------------------------------------------------------------- */
-/* -------------------------------------------------------------- */
+
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
 }
+/* -------------------------------------------------------------- */
 
 export default function Nav() {
   const pathname = usePathname();
-  const [userID] = useAtom(userIDAtom);
-
-  /* --------------------------------------------------------- */
-  //--------------------- SEARCH FUNCTION ---------------------//
-  /* --------------------------------------------------------- */
-
-  const [searchTerm, setSearchTerm] = useState("");
-
-  const [searchResults, setSearchResults] = useState<Article[]>([
-    // { title: "no search", id: "0", content: "", slug: "" },
-  ]);
-
-  const [showSearchResults, setShowSearchResults] = useAtom(
-    showSearchResultsAtom
-  );
-
-  const getArticles = useCallback(async () => {
-    const articlesRef = collection(db, "articles");
-    const articlesSnapshot = await getDocs(articlesRef);
-    const articlesList = articlesSnapshot.docs.map((doc) => {
-      const data = doc.data();
-      return {
-        id: doc.id,
-        title: data.title,
-        date: data.date.toDate(),
-        slug: data.slug,
-        content: data.content,
-        headerImage: data.headerImage,
-        headerImageAlt: data.headerImageAlt,
-        category: data.category,
-        summary: data.summary,
-        author: data.author,
-      };
-    });
-    return articlesList;
-  }, []);
-
-  useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      if (!user) return;
-      getArticles();
-    });
-  }, [getArticles]);
-
-  useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      if (!user) return;
-    });
-  }, []);
-
-  const navSearch = async (searchTerm: string) => {
-    const articles = await getArticles();
-    const results = articles.filter(
-      (article) =>
-        article.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        article.category.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        article.summary.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-    if (results.length === 0) {
-      setSearchResults([
-        { title: "no results found", id: "0", content: "", slug: "" },
-      ]);
-    } else {
-      setSearchResults(results);
-    }
-  };
-
-  useEffect(() => {
-    setShowSearchResults(searchResults.length > 0);
-  }, [searchResults, setShowSearchResults]);
-
-  //--------------------- END SEARCH FUNCTION ---------------------//
-  /* ------------------------------------------------------------- */
-  /* ------------------------------------------------------------- */
-
-  //This is linked to the signin page onAuthChanged callback and therefore will only return true for a session where a user has just signed in. This offers an additional layer of security but not a great user experience. Consider changing as admin user numbers grow.
-  const [isAdmin] = useAtom(isAdminAtom);
 
   let content;
 
@@ -198,20 +83,20 @@ export default function Nav() {
         {({ open }) => (
           <>
             <div className="mx-auto my-1 px-2 sm:px-4 lg:px-8">
-              <div className="flex h-16">
+              <div className="flex h-16 justify-between">
+                {/* Logo and page links */}
                 <div className="flex lg:px-0">
                   <div className="flex flex-shrink-0 items-center">
                     <Link href="/dashboard" className="h-full">
                       <Image
                         className="h-full w-auto pr-4 md:pr-12"
-                        // src={brushStrokeTree}
-                        src={brainLogoWithText}
+                        src={brainLogo}
                         alt="MindHub Logo"
                       />{" "}
                     </Link>
                   </div>
                   <div className="hidden lg:ml-6 lg:flex lg:space-x-8">
-                    {navigation.registeredUser.map((page) => {
+                    {navigation.registeredUser.mainNav.map((page) => {
                       return (
                         <Link
                           key={page.name}
@@ -226,59 +111,16 @@ export default function Nav() {
                         </Link>
                       );
                     })}
-                    {isAdmin && (
-                      <Link
-                        href="/admin"
-                        className={`inline-flex items-center border-b-2 px-1 pt-1 text-sm font-medium ${
-                          pathname === "/admin"
-                            ? pageIndicator.lg.current
-                            : pageIndicator.lg.default
-                        }`}
-                      >
-                        Admin
-                      </Link>
-                    )}
                   </div>
                 </div>
+                {/* ----------------------------------------- */}
 
-                {/* ------- NAV SEARCH ----------*/}
-                <div className="flex flex-1 items-center justify-center px-2 lg:ml-6 lg:justify-end">
-                  <div className="w-full max-w-lg lg:max-w-xs">
-                    <label htmlFor="search" className="sr-only">
-                      Search Articles
-                    </label>
-                    <div className="relative">
-                      <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                        <MagnifyingGlassIcon
-                          className="h-5 w-5 text-gray-400"
-                          aria-hidden="true"
-                        />
-                      </div>
-                      <input
-                        id="search"
-                        name="search"
-                        className="block w-full rounded-md border-0 py-1.5 pl-10 pr-1 text-xs text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-emerald-600 sm:leading-6"
-                        placeholder="Search Articles"
-                        type="search"
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                        onKeyDown={(e) => {
-                          if (e.key === "Enter" && searchTerm !== "") {
-                            navSearch(searchTerm);
-                          }
-                        }}
-                      />
-                    </div>
-                  </div>
-                  {showSearchResults ? (
-                    <SearchResults articles={searchResults} />
-                  ) : null}
-                </div>
-                {/* ------------------- */}
-
+                {/* Search, notifications, options and user indicator */}
                 <div className="hidden lg:ml-4 lg:flex lg:items-center">
+                  <NavSearch className="hidden lg:inline-block" />
                   <button
                     type="button"
-                    className="flex-shrink-0 rounded-full p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                    className="flex-shrink-0 rounded-full p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2"
                   >
                     <span className="sr-only">View notifications</span>
                     <BellIcon
@@ -287,7 +129,7 @@ export default function Nav() {
                     />
                   </button>
 
-                  {/* Profile dropdown */}
+                  {/* Dropdown Options */}
                   <Menu as="div" className="relative ml-4 flex-shrink-0">
                     <div>
                       <Menu.Button className="flex rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-green-700 focus:ring-offset-2">
@@ -304,94 +146,48 @@ export default function Nav() {
                       leaveFrom="transform opacity-100 scale-100"
                       leaveTo="transform opacity-0 scale-95"
                     >
-                      <Menu.Items className="absolute right-0 z-50 mt-2 w-48 origin-top-right rounded-md bg-slate-50 py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:bg-slate-800 dark:hover:bg-slate-700">
-                        {/* Reinstate this when profile page is built */}
-                        {/* <Menu.Item>
-                          {({ active }) => (
-                            <a
-                              // if userID is known, link to profile page, else link to signin page
-                              href={`${
-                                userID ? `/profile/${userID}` : "/signin"
-                              }`}
-                              className={classNames(
-                                active ? "bg-gray-100" : "",
-                                "block px-4 py-2 text-sm text-gray-700"
-                              )}
-                            >
-                              My Profile
-                            </a>
-                          )}
-                        </Menu.Item> */}
-                        {/* Reinstate this once settings page is built. */}
-                        <Menu.Item>
-                          {({ active }) => (
-                            <a
-                              href="/signin/resetpassword"
-                              className={classNames(
-                                active ? "bg-gray-100" : "",
-                                "block px-4 py-2 text-sm text-gray-700"
-                              )}
-                            >
-                              Reset password
-                            </a>
-                          )}
-                        </Menu.Item>
-                        <Menu.Item>
-                          {({ active }) => (
-                            <a
-                              href="/settings"
-                              className={classNames(
-                                active ? "bg-gray-100" : "",
-                                "block px-4 py-2 text-sm text-gray-700"
-                              )}
-                            >
-                              Settings
-                            </a>
-                          )}
-                        </Menu.Item>
-                        <Menu.Item>
-                          {({ active }) => (
-                            <Link
-                              href="/signout"
-                              className={classNames(
-                                active ? "bg-gray-100" : "",
-                                "block px-4 py-2 text-sm text-gray-700 dark:text-slate-50 dark:hover:bg-slate-700"
-                              )}
-                            >
-                              Sign out
-                            </Link>
-                          )}
-                        </Menu.Item>
+                      <Menu.Items className="absolute right-0 z-50 mt-2 w-48 origin-top-right rounded-sm bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:bg-slate-800 dark:hover:bg-slate-700">
+                        {navigation.registeredUser.settingsNav.map((page) => (
+                          <Menu.Item key={page.name}>
+                            {({ active }) => (
+                              <Link
+                                href={page.href}
+                                className={classNames(
+                                  active
+                                    ? "border-green-600 bg-green-800/25"
+                                    : "border-transparent",
+                                  "block border-l-4 px-4 py-2 text-slate-700"
+                                )}
+                              >
+                                {page.name}
+                              </Link>
+                            )}
+                          </Menu.Item>
+                        ))}
                       </Menu.Items>
                     </Transition>
                   </Menu>
+                  <UserIndicator />
                 </div>
-                <UserIndicator />
-                {/* Mobile menu button */}
-                {
-                  <div className="ml-3 flex items-center lg:hidden">
-                    <Disclosure.Button className="inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
-                      <span className="sr-only">Open main menu</span>
-                      {open ? (
-                        <XMarkIcon
-                          className="block h-6 w-6"
-                          aria-hidden="true"
-                        />
-                      ) : (
-                        <Bars3Icon
-                          className="block h-6 w-6"
-                          aria-hidden="true"
-                        />
-                      )}
-                    </Disclosure.Button>
-                  </div>
-                }
+                {/* -------------------------------------------------------------------- */}
+                {/*------------------------- Mobile hamburger / x icon -------------------------*/}
+                <div className="ml-3 flex items-center lg:hidden">
+                  <Disclosure.Button className="inline-flex items-center justify-center rounded-md p-2 text-gray-700 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-emerald-500">
+                    <span className="sr-only">Open main menu</span>
+                    {open ? (
+                      <XMarkIcon className="block h-8 w-8" aria-hidden="true" />
+                    ) : (
+                      <Bars3Icon className="block h-8 w-8" aria-hidden="true" />
+                    )}
+                  </Disclosure.Button>
+                </div>
+                {/*----------------------------------------------------------------------*/}
               </div>
             </div>
-
+            {/*-------------- MOBILE MENU ----------------*/}
             <Disclosure.Panel className="lg:hidden">
               <div className="space-y-1 pb-3 pt-2">
-                {navigation.registeredUser.map((page) => {
+                {navigation.registeredUser.mainNav.map((page) => {
                   return (
                     <Disclosure.Button
                       key={page.name}
@@ -410,15 +206,23 @@ export default function Nav() {
               </div>
               <div className="border-t border-gray-200 pb-3 pt-4">
                 <div className="mt-3 space-y-1">
-                  {/* Reinstate once profile and settings have been completed. */}
-                  {/* <Disclosure.Button
-                    as="a"
-                    href={`/profile/[${userID}]/page.tsx`}
-                    className="block px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800"
-                  >
-                    Your Profile
-                  </Disclosure.Button>*/}
-                  <Disclosure.Button
+                  {navigation.registeredUser.settingsNav.map((page) => (
+                    <Disclosure.Button
+                      key={page.name}
+                      as="a"
+                      href={page.href}
+                      // className="block px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800"
+                      className={`block border-l-4 py-2 pl-3 pr-4 text-base font-medium ${
+                        pathname === page.href
+                          ? pageIndicator.sm.current
+                          : pageIndicator.sm.default
+                      }`}
+                    >
+                      {page.name}
+                    </Disclosure.Button>
+                  ))}
+                </div>
+                {/* <Disclosure.Button
                     as="a"
                     href="/settings"
                     className="block px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800"
@@ -432,9 +236,13 @@ export default function Nav() {
                   >
                     Sign out
                   </Disclosure.Button>
+                </div> */}
+                <div className="px-4 py-4">
+                  <NavSearch />
                 </div>
               </div>
             </Disclosure.Panel>
+            {/* ------------------------------ */}
           </>
         )}
       </Disclosure>
@@ -450,8 +258,7 @@ export default function Nav() {
                   <div className="flex flex-shrink-0 items-center">
                     <Image
                       className="h-5/6 w-auto pr-12"
-                      // src={brushStrokeTree}
-                      src={brainLogoWithText}
+                      src={brainLogo}
                       alt="MindHub Logo"
                     />{" "}
                   </div>
@@ -482,7 +289,7 @@ export default function Nav() {
 
                 <div className="flex items-center lg:hidden">
                   {/* Mobile menu button */}
-                  <Disclosure.Button className="inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
+                  <Disclosure.Button className="inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-emerald-500">
                     <span className="sr-only">Open main menu</span>
                     {open ? (
                       <XMarkIcon className="block h-6 w-6" aria-hidden="true" />
@@ -493,6 +300,8 @@ export default function Nav() {
                 </div>
               </div>
             </div>
+
+            {/*  -------------------------------------------------------------------------------------------------------------- */}
 
             <Disclosure.Panel className="lg:hidden">
               <div className="space-y-1 pb-3 pt-2">

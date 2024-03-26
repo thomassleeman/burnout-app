@@ -23,14 +23,22 @@ export async function getSortedArticlesData(
   snapshot.forEach((doc: DocumentSnapshot) => {
     const data = doc.data();
     if (!data) return;
+
+    // Find the header image URL from the images array
+    const images = data ? data.images || [] : [];
+    const headerImageObj = images.find(
+      (image: { name: string; image: string }) => image.name === "head"
+    );
+    const headerImage = headerImageObj ? headerImageObj.image : "";
+
     const article: Article = {
       id: doc.id,
       title: data.title,
       date: data.date.toDate(), // Firestore Timestamp needs to be converted to JavaScript Date object
       slug: data.slug,
       content: data.content,
-      headerImage: data.headerImage,
-      headerImageAlt: data.headerImageAlt,
+      headerImage: headerImage,
+      headerImageAlt: data.title,
       author: data.author,
       category: data.category,
       summary: data.summary,
@@ -113,14 +121,12 @@ export async function getRecommendedArticlesData() {
   if (!recommendedArticles) {
     return;
   }
-  console.log("Recommended articles:", recommendedArticles);
 
   try {
     const articlesRef = db.collection("articles");
     const returnedArticles = await articlesRef
       .where("slug", "in", recommendedArticles)
       .get();
-    console.log("returnedArticles:", returnedArticles.docs.length);
 
     const articlesToReturn: Article[] = [];
 
@@ -149,7 +155,6 @@ export async function getRecommendedArticlesData() {
       };
       articlesToReturn.push(article);
     });
-    console.log("articlesToReturn:", articlesToReturn);
     return articlesToReturn;
   } catch (error) {
     console.error("Error getting recommended articles data:", error);
