@@ -23,25 +23,44 @@ export default function HitComponent({
 }: HitProps): JSX.Element {
   const formattedDate = getFormattedDate(hit.date);
   return (
-    <div>
+    <Link href={`articles/${hit.slug}`}>
       {" "}
       <li key={hit.slug} className="relative p-3 hover:bg-slate-100">
         <time dateTime={hit.date} className=" text-xs text-gray-600">
           {formattedDate}
         </time>
-        <Link
-          href={`articles/${hit.slug}`}
+        <Highlight
+          hit={hit}
+          attribute="title"
           className="block truncate text-sm font-semibold leading-6 text-gray-900"
-        >
-          <Highlight hit={hit} attribute="title" />
-          <span className="absolute inset-0" />
-        </Link>
+        />
+        <span className="absolute inset-0" />
         <Highlight
           hit={hit}
           attribute="author"
           className="text-xs text-sky-800"
         />
       </li>
-    </div>
+    </Link>
+    // <div>
+    //   {" "}
+    //   <li key={hit.slug} className="relative p-3 hover:bg-slate-100">
+    //     <time dateTime={hit.date} className=" text-xs text-gray-600">
+    //       {formattedDate}
+    //     </time>
+    //     <Link
+    //       href={`articles/${hit.slug}`}
+    //       className="block truncate text-sm font-semibold leading-6 text-gray-900"
+    //     >
+    //       <Highlight hit={hit} attribute="title" />
+    //       <span className="absolute inset-0" />
+    //     </Link>
+    //     <Highlight
+    //       hit={hit}
+    //       attribute="author"
+    //       className="text-xs text-sky-800"
+    //     />
+    //   </li>
+    // </div>
   );
 }
