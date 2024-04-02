@@ -50,7 +50,7 @@ export default function SearchResults({
                       </p>
                       <button>
                         <Link
-                          className="mt-10 text-sm text-blue-600"
+                          className="mt-10 text-sm text-emerald-800"
                           href="/articles"
                         >
                           Go to library
@@ -60,7 +60,7 @@ export default function SearchResults({
                     <div className="ml-4 flex flex-shrink-0">
                       <button
                         type="button"
-                        className="inline-flex rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                        className="inline-flex rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2"
                         onClick={() => {
                           setOpen(false);
                         }}
@@ -113,7 +113,7 @@ export default function SearchResults({
                   <div className="mt-5 place-self-end sm:mt-6">
                     <button
                       type="button"
-                      className="inline-flex justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                      className="inline-flex justify-center rounded-md bg-emerald-700 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-emerald-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600"
                       onClick={() => setOpen(false)}
                     >
                       Close

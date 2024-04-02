@@ -31,8 +31,6 @@ export default async function Article({
   const articleData = await getArticleData(slug);
   if (!articleData) notFound();
 
-  console.log(articleData, "articleData");
-
   const {
     title,
     date,

@@ -7,7 +7,7 @@ import { usePathname } from "next/navigation";
 import Image from "next/image";
 
 //components
-import NavSearch from "./_components/NavSearch";
+import NavSearch from "./search/NavSearch";
 import UserIndicator from "./_components/UserIndicator";
 //functions
 //headlessui
@@ -87,7 +87,7 @@ export default function Nav() {
                 {/* Logo and page links */}
                 <div className="flex lg:px-0">
                   <div className="flex flex-shrink-0 items-center">
-                    <Link href="/dashboard" className="h-full">
+                    <Link href="/dashboard" className="m-2 h-12 lg:h-14">
                       <Image
                         className="h-full w-auto pr-4 md:pr-12"
                         src={brainLogo}
@@ -117,7 +117,7 @@ export default function Nav() {
 
                 {/* Search, notifications, options and user indicator */}
                 <div className="hidden lg:ml-4 lg:flex lg:items-center">
-                  <NavSearch className="hidden lg:inline-block" />
+                  <NavSearch />
                   <button
                     type="button"
                     className="flex-shrink-0 rounded-full p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2"
@@ -169,19 +169,31 @@ export default function Nav() {
                   </Menu>
                   <UserIndicator />
                 </div>
-                {/* -------------------------------------------------------------------- */}
-                {/*------------------------- Mobile hamburger / x icon -------------------------*/}
-                <div className="ml-3 flex items-center lg:hidden">
-                  <Disclosure.Button className="inline-flex items-center justify-center rounded-md p-2 text-gray-700 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-emerald-500">
-                    <span className="sr-only">Open main menu</span>
-                    {open ? (
-                      <XMarkIcon className="block h-8 w-8" aria-hidden="true" />
-                    ) : (
-                      <Bars3Icon className="block h-8 w-8" aria-hidden="true" />
-                    )}
-                  </Disclosure.Button>
+                <div className="flex lg:hidden">
+                  {/* ------------------------ Mobile Nav Search -------------------------- */}
+                  <div className="flex items-center">
+                    <NavSearch />
+                  </div>
+                  {/* -------------------------------------------------------------------- */}
+                  {/*------------------------- Mobile hamburger / x icon -------------------------*/}
+                  <div className="ml-3 flex items-center">
+                    <Disclosure.Button className="inline-flex items-center justify-center rounded-md p-2 text-gray-700 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-emerald-500">
+                      <span className="sr-only">Open main menu</span>
+                      {open ? (
+                        <XMarkIcon
+                          className="block h-8 w-8"
+                          aria-hidden="true"
+                        />
+                      ) : (
+                        <Bars3Icon
+                          className="block h-8 w-8"
+                          aria-hidden="true"
+                        />
+                      )}
+                    </Disclosure.Button>
+                  </div>
+                  {/*----------------------------------------------------------------------*/}
                 </div>
-                {/*----------------------------------------------------------------------*/}
               </div>
             </div>
             {/*-------------- MOBILE MENU ----------------*/}
@@ -211,7 +223,6 @@ export default function Nav() {
                       key={page.name}
                       as="a"
                       href={page.href}
-                      // className="block px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800"
                       className={`block border-l-4 py-2 pl-3 pr-4 text-base font-medium ${
                         pathname === page.href
                           ? pageIndicator.sm.current
@@ -221,24 +232,6 @@ export default function Nav() {
                       {page.name}
                     </Disclosure.Button>
                   ))}
-                </div>
-                {/* <Disclosure.Button
-                    as="a"
-                    href="/settings"
-                    className="block px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800"
-                  >
-                    Settings
-                  </Disclosure.Button>
-                  <Disclosure.Button
-                    as="a"
-                    href="/signout"
-                    className="block px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800 dark:text-slate-50 dark:hover:bg-slate-700"
-                  >
-                    Sign out
-                  </Disclosure.Button>
-                </div> */}
-                <div className="px-4 py-4">
-                  <NavSearch />
                 </div>
               </div>
             </Disclosure.Panel>
