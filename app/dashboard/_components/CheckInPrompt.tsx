@@ -2,11 +2,14 @@ import Link from "next/link";
 
 export default function CheckInPrompt() {
   return (
-    <div className="pattern-background flex flex-col space-y-6 rounded-sm p-8 dark:border dark:border-sky-500/25 dark:bg-slate-700/50">
+    <div className="pattern-background flex flex-col space-y-6  rounded-xl border-2 border-slate-300/25 p-8 dark:border-sky-500/25 dark:bg-slate-700/50">
       <div className="font-extrabold">
-        <h1 className="bg-gradient-to-r from-green-500 to-blue-500 bg-clip-text text-5xl text-transparent">
+        <h1 className=" animate-text bg-gradient-to-r from-green-500 via-yellow-500 to-red-500 bg-clip-text text-5xl text-transparent">
           It&apos;s time to check in...
         </h1>
+        {/* <h1 className="bg-gradient-to-r from-green-500 to-blue-500 bg-clip-text text-5xl text-transparent">
+          It&apos;s time to check in...
+        </h1> */}
         <h2 className="mt-4 text-xl text-gray-600 dark:text-sky-300">
           Let our chatbot guide you to identify work stress points...
         </h2>
