@@ -6,10 +6,10 @@ import { AcademicCapIcon } from "@heroicons/react/20/solid";
 export default function IntroCoursePrompt() {
   return (
     <Link href="/articles/burnoutCourse/defining-burnout">
-      <div className="h-full">
-        <article className="relative isolate flex h-full w-full">
+      <div className="h-full ">
+        <article className="relative isolate flex h-full w-full rounded-lg">
           <Image
-            className="absolute inset-0 -z-10 h-full w-full object-cover"
+            className="absolute inset-0 -z-10 h-full w-full rounded-lg object-cover"
             src={manHoldingGlasses}
             alt="Burnout course image"
             width="500"

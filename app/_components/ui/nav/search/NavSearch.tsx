@@ -31,7 +31,7 @@ import {
 export default function NavSearch() {
   return (
     <Popover className="relative">
-      <Popover.Button className="mr-2 inline-flex items-center gap-x-1 p-2 text-sm font-semibold leading-6 text-sky-600">
+      <Popover.Button className="inline-flex items-center gap-x-1 p-2 text-sm font-semibold leading-6 text-sky-600 lg:mr-3">
         {/* <span className="hidden lg:block">Resources</span> */}
         <MagnifyingGlassIcon className="h-5 w-5" />
         <ChevronDownIcon className=" h-5 w-5 text-sky-600" aria-hidden="true" />
@@ -89,7 +89,7 @@ export default function NavSearch() {
                     href="www.algolia.com"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-x-1"
+                    className="mt-2 flex items-center gap-x-1"
                   >
                     <span className="text-xs text-gray-500">Powered by </span>
                     <Image

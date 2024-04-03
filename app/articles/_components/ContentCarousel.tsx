@@ -14,7 +14,7 @@ import { ImageWithTextSkeleton } from "@/app/_components/ui/loading/LoadingSkele
 import { CardSkeleton } from "@/app/_components/ui/loading/LoadingSkeletons";
 import PlayArticle from "./PlayArticle";
 //Icons
-// import { ArrowRightIcon } from "@heroicons/react/24/outline";
+import { ArrowRightIcon } from "@heroicons/react/24/outline";
 import { XMarkIcon, InformationCircleIcon } from "@heroicons/react/24/outline";
 import { Play } from "next/font/google";
 
@@ -82,18 +82,43 @@ export default function ContentCarousel({
             <h2 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-slate-50">
               {carouselTitle}
             </h2>
-            <p className="mt-2 text-lg leading-8 text-gray-600">
-              {carouselTagline}. {<br className="inline md:hidden" />}
-              <span className="text-right text-sm text-green-900 md:ml-2 md:ml-4">
-                {/* Say article for 1 article and articles for many */}
+
+            {/* {carouselTagline && (
+              <div className="text leading-8 text-gray-600">
+                <span className="mr-4">{carouselTagline}</span>
+                <br className="inline md:hidden" />
+                <span className="text-right text-sm text-green-900">
+                  {`${articles.length} ${
+                    articles.length === 1 ? "article" : "articles"
+                  }`}
+                  {articles.length === 1 ? null : (
+                    <ArrowRightIcon className="ml-2 inline-block h-4 w-4 lg:hidden" />
+                  )}
+                </span>
+              </div>
+            )}
+            {!carouselTagline && (
+              <div className="text leading-8 text-gray-600">
+                <span className="text-right text-sm text-green-900">
+                  {`${articles.length} ${
+                    articles.length === 1 ? "article" : "articles"
+                  }`}
+                  {articles.length === 1 ? null : (
+                    <ArrowRightIcon className="ml-2 inline-block h-4 w-4 lg:hidden" />
+                  )}
+                </span>
+              </div>
+            )} */}
+            <div className="text leading-8 text-gray-600">
+              <span className="text-right text-sm text-green-900">
                 {`${articles.length} ${
-                  articles.length === 1 ? "article." : "articles."
+                  articles.length === 1 ? "article" : "articles"
                 }`}
-                {/* {articles.length === 1 ? null : (
-                  <ArrowRightIcon className="inline-block h-5 w-5" />
-                )} */}
+                {articles.length === 1 ? null : (
+                  <ArrowRightIcon className="ml-2 inline-block h-4 w-4 lg:hidden" />
+                )}
               </span>
-            </p>
+            </div>
           </div>
           <div className="mt-6 flex h-80 snap-x snap-mandatory gap-x-4 overflow-x-scroll overscroll-x-none md:snap-none md:gap-x-6 lg:gap-x-10">
             {articles.map((article) => {

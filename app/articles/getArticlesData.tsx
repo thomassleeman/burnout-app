@@ -163,6 +163,100 @@ export async function getRecommendedArticlesData() {
 
 /* ----------------------------------------------------------------------------------------- */
 
+// export async function getArticlesByCategory(
+//   orderedBy: string,
+//   order: "asc" | "desc",
+//   limit: number
+// ) {
+//   const articlesCollection = db.collection("articles");
+//   const snapshot = await articlesCollection
+//     .orderBy("category", "asc")
+//     .limit(100)
+//     .get();
+
+//   const allArticlesData: Article[] = [];
+//   snapshot.forEach((doc: DocumentSnapshot) => {
+//     const data = doc.data();
+//     if (!data) return;
+
+//     // Find the header image URL from the images array
+//     const images = data ? data.images || [] : [];
+//     const headerImageObj = images.find(
+//       (image: { name: string; image: string }) => image.name === "head"
+//     );
+//     const headerImage = headerImageObj ? headerImageObj.image : "";
+
+//     const article: Article = {
+//       id: doc.id,
+//       title: data.title,
+//       date: data.date.toDate(), // Firestore Timestamp needs to be converted to JavaScript Date object
+//       slug: data.slug,
+//       content: data.content,
+//       headerImage: headerImage,
+//       headerImageAlt: `Header image for the article ${data.title}`,
+//       author: data.author,
+//       category: data.category,
+//       summary: data.summary,
+//       audio: data.audio || "",
+//     };
+//     allArticlesData.push(article);
+//   });
+
+//   return allArticlesData;
+// }
+
+export async function getArticlesByCategory() {
+  const articlesCollection = db.collection("articles");
+  const snapshot = await articlesCollection
+    .orderBy("category", "asc")
+    .limit(50)
+    .get();
+
+  const allArticlesData: Article[] = [];
+  const categories: { [key: string]: Article[] } = {};
+
+  snapshot.forEach((doc: DocumentSnapshot) => {
+    const data = doc.data();
+    if (!data) return;
+
+    // Find the header image URL from the images array
+    const images = data ? data.images || [] : [];
+    const headerImageObj = images.find(
+      (image: { name: string; image: string }) => image.name === "head"
+    );
+    const headerImage = headerImageObj ? headerImageObj.image : "";
+
+    const article: Article = {
+      id: doc.id,
+      title: data.title,
+      date: data.date.toDate(), // Firestore Timestamp needs to be converted to JavaScript Date object
+      slug: data.slug,
+      content: data.content,
+      headerImage: headerImage,
+      headerImageAlt: `Header image for the article ${data.title}`,
+      author: data.author,
+      category: data.category,
+      summary: data.summary,
+      audio: data.audio || "",
+    };
+
+    allArticlesData.push(article);
+
+    // Add the article to the appropriate category
+    if (article.category) {
+      if (categories[article.category]) {
+        categories[article.category].push(article);
+      } else {
+        categories[article.category] = [article];
+      }
+    }
+  });
+
+  return categories;
+}
+
+/* ----------------------------------------------------------------------------------------- */
+
 /* Single Article data */
 export async function getArticleData(slug: string) {
   const querySnapshot = await db

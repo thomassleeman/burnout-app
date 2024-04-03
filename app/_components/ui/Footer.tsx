@@ -47,29 +47,28 @@ const navigation = {
     //     </svg>
     //   ),
     // },
-
-    {
-      name: "YouTube",
-      href: "#",
-      icon: (props: IconProps) => (
-        <svg fill="red" viewBox="0 0 24 24" {...props}>
-          <path
-            fillRule="evenodd"
-            d="M19.812 5.418c.861.23 1.538.907 1.768 1.768C21.998 8.746 22 12 22 12s0 3.255-.418 4.814a2.504 2.504 0 0 1-1.768 1.768c-1.56.419-7.814.419-7.814.419s-6.255 0-7.814-.419a2.505 2.505 0 0 1-1.768-1.768C2 15.255 2 12 2 12s0-3.255.417-4.814a2.507 2.507 0 0 1 1.768-1.768C5.744 5 11.998 5 11.998 5s6.255 0 7.814.418ZM15.194 12 10 15V9l5.194 3Z"
-            clipRule="evenodd"
-          />
-        </svg>
-      ),
-      text: "Check out our YouTube Channel.",
-    },
+    // {
+    //   name: "YouTube",
+    //   href: "#",
+    //   icon: (props: IconProps) => (
+    //     <svg fill="red" viewBox="0 0 24 24" {...props}>
+    //       <path
+    //         fillRule="evenodd"
+    //         d="M19.812 5.418c.861.23 1.538.907 1.768 1.768C21.998 8.746 22 12 22 12s0 3.255-.418 4.814a2.504 2.504 0 0 1-1.768 1.768c-1.56.419-7.814.419-7.814.419s-6.255 0-7.814-.419a2.505 2.505 0 0 1-1.768-1.768C2 15.255 2 12 2 12s0-3.255.417-4.814a2.507 2.507 0 0 1 1.768-1.768C5.744 5 11.998 5 11.998 5s6.255 0 7.814.418ZM15.194 12 10 15V9l5.194 3Z"
+    //         clipRule="evenodd"
+    //       />
+    //     </svg>
+    //   ),
+    //   text: "Check out our YouTube Channel.",
+    // },
   ],
 };
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
   return (
-    <footer className="pb-12 pt-32">
-      <div className="mx-auto max-w-7xl overflow-hidden px-6 pb-4 pt-20 sm:pt-24 lg:px-8">
+    <footer className="pb-12 pt-12 lg:pt-32">
+      <div className="mx-auto max-w-7xl overflow-hidden px-6 pb-4 pt-12 lg:px-8">
         <nav
           className="-mb-6 columns-2 sm:flex sm:justify-center sm:space-x-12"
           aria-label="Footer"
@@ -85,7 +84,7 @@ export default function Footer() {
             </div>
           ))}
         </nav>
-        <div className="mt-10 flex justify-center space-x-4">
+        {/* <div className="mt-10 flex justify-center space-x-4">
           {navigation.social.map((item) => (
             <>
               <a
@@ -102,7 +101,7 @@ export default function Footer() {
               </a>
             </>
           ))}
-        </div>
+        </div> */}
         <p className="mt-10 text-center text-xs leading-5 text-gray-500">
           &copy; {currentYear} Burnout Project Ltd. All rights reserved.
         </p>
