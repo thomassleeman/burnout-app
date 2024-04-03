@@ -1,7 +1,9 @@
 "use client";
 import Link from "next/link";
+import Image from "next/image";
 import algoliasearch from "algoliasearch/lite";
 import { InstantSearch, SearchBox, Hits } from "react-instantsearch";
+import algoliaLogo from "./algolia-logo.png";
 
 import HitComponent from "./Hit";
 
@@ -83,6 +85,19 @@ export default function NavSearch() {
                       <Hits hitComponent={HitComponent} />
                     </ul>
                   </div>
+                  <a
+                    href="www.algolia.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-x-1"
+                  >
+                    <span className="text-xs text-gray-500">Powered by </span>
+                    <Image
+                      className="h-10 w-auto"
+                      src={algoliaLogo}
+                      alt="search powered by algolia"
+                    />
+                  </a>
                 </div>
               </InstantSearch>
             </div>
