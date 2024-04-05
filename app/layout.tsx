@@ -36,7 +36,6 @@ export default function RootLayout({
             {children}
             <Analytics />
           </main>
-          {/* <MediaPlayer /> */}
         </body>
       </Providers>
     </html>

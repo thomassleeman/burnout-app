@@ -1,11 +1,5 @@
-import { Martel } from "next/font/google";
-import Footer from "../_components/ui/Footer";
-
-const martel = Martel({
-  subsets: ["latin"],
-  display: "swap",
-  weight: "400",
-});
+import Footer from "../../_components/ui/Footer";
+import ArticleFooter from "../_components/ArticleFooter";
 
 export const metadata = {
   title: "Burnout Project Articles",
@@ -20,9 +14,7 @@ export default function RootLayout({
 }) {
   return (
     <>
-      <section className={`${martel.className} mt-8 lg:mt-16`}>
-        {children}
-      </section>
+      <section className={`mt-8 lg:mt-16`}>{children}</section>
       <Footer />
     </>
   );

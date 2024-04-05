@@ -257,6 +257,52 @@ export async function getArticlesByCategory() {
 
 /* ----------------------------------------------------------------------------------------- */
 
+export async function getRecommendedByBurnoutHubArticles(
+  category: string,
+  currentArticle: string
+) {
+  const articlesCollection = db.collection("articles");
+  const snapshot = await articlesCollection
+    .where("category", "==", category)
+    .where("slug", "!=", currentArticle)
+    .limit(4)
+    .get();
+
+  const allArticlesData: Article[] = [];
+
+  snapshot.forEach((doc: DocumentSnapshot) => {
+    const data = doc.data();
+    if (!data) return;
+
+    // Find the header image URL from the images array
+    const images = data ? data.images || [] : [];
+    const headerImageObj = images.find(
+      (image: { name: string; image: string }) => image.name === "head"
+    );
+    const headerImage = headerImageObj ? headerImageObj.image : "";
+
+    const article: Article = {
+      id: doc.id,
+      title: data.title,
+      date: data.date.toDate(), // Firestore Timestamp needs to be converted to JavaScript Date object
+      slug: data.slug,
+      content: data.content,
+      headerImage: headerImage,
+      headerImageAlt: `Header image for the article ${data.title}`,
+      author: data.author,
+      category: data.category,
+      summary: data.summary,
+      audio: data.audio || "",
+    };
+
+    allArticlesData.push(article);
+  });
+
+  return allArticlesData;
+}
+
+/* ----------------------------------------------------------------------------------------- */
+
 /* Single Article data */
 export async function getArticleData(slug: string) {
   const querySnapshot = await db
@@ -309,6 +355,7 @@ export async function getArticleData(slug: string) {
     date: doc.data().date.toDate(), // Firestore Timestamp needs to be converted to JavaScript Date object
     slug: doc.data().slug,
     content: mdxContent, // Use the fetched MDX content
+    category: doc.data().category,
     audio: doc.data().audio,
     headerImage: headerImage, // Use the found header image URL
     headerImageAlt: doc.data().headerImageAlt,

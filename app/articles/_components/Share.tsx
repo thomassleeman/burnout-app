@@ -2,7 +2,7 @@ export default function Share() {
   return (
     <div className="mt-4 flex items-center gap-6">
       <span className="font-mono text-sm text-slate-500">
-        Share this article on:
+        Share this article:
       </span>
       <a className="group -m-1 p-1" aria-label="Follow on X" href="#">
         <svg
