@@ -151,3 +151,82 @@ export const VideoSkeleton = () => {
     </div>
   );
 };
+
+export const ArticleSkeleton = () => {
+  return (
+    <>
+      <div className=" animate-pulse">
+        <div className="px-6 font-sans">
+          {/* <h1 className="mb-0 mt-4 text-lg md:text-xl lg:text-5xl">{title}</h1> */}
+          <div className="flex flex-col gap-y-1">
+            <div className="mt-0 h-2 w-36 bg-gray-300 dark:bg-gray-700"></div>
+            <div className="mx-3 h-2 w-36 bg-gray-300 dark:bg-gray-700"></div>
+            <div className="mt-0 h-2 w-36 bg-gray-300 dark:bg-gray-700"></div>
+          </div>
+          <div className="flex items-center justify-between">
+            <div className="h-4 w-10"></div>
+            <div className="flex flex-col items-center">
+              <div className="h-4 w-12"></div>
+            </div>
+          </div>
+          {/* <Share /> */}
+        </div>
+
+        {/* Image */}
+        <div
+          role="status"
+          className="max-w-sm animate-pulse rounded border border-gray-200 p-4 shadow dark:border-gray-700 md:p-6"
+        >
+          <div className="mb-4 flex h-96 w-full items-center justify-center rounded bg-gray-300 dark:bg-gray-700">
+            <svg
+              className="h-10 w-10 text-gray-200 dark:text-gray-600"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="currentColor"
+              viewBox="0 0 16 20"
+            >
+              <path d="M14.066 0H7v5a2 2 0 0 1-2 2H0v11a1.97 1.97 0 0 0 1.934 2h12.132A1.97 1.97 0 0 0 16 18V2a1.97 1.97 0 0 0-1.934-2ZM10.5 6a1.5 1.5 0 1 1 0 2.999A1.5 1.5 0 0 1 10.5 6Zm2.221 10.515a1 1 0 0 1-.858.485h-8a1 1 0 0 1-.9-1.43L5.6 10.039a.978.978 0 0 1 .936-.57 1 1 0 0 1 .9.632l1.181 2.981.541-1a.945.945 0 0 1 .883-.522 1 1 0 0 1 .879.529l1.832 3.438a1 1 0 0 1-.031.988Z" />
+              <path d="M5 5V.13a2.96 2.96 0 0 0-1.293.749L.879 3.707A2.98 2.98 0 0 0 .13 5H5Z" />
+            </svg>
+          </div>
+        </div>
+
+        <div className="px-6 first-letter:float-left first-letter:mr-2 first-letter:text-6xl first-letter:font-extrabold first-letter:text-green-900">
+          <div role="status" className="max-w-lg animate-pulse space-y-2.5">
+            <div className="flex w-full items-center">
+              <div className="h-2.5 w-32 rounded-full bg-gray-200 dark:bg-gray-700"></div>
+              <div className="ms-2 h-2.5 w-24 rounded-full bg-gray-300 dark:bg-gray-600"></div>
+              <div className="ms-2 h-2.5 w-full rounded-full bg-gray-300 dark:bg-gray-600"></div>
+            </div>
+            <div className="flex w-full max-w-[480px] items-center">
+              <div className="h-2.5 w-full rounded-full bg-gray-200 dark:bg-gray-700"></div>
+              <div className="ms-2 h-2.5 w-full rounded-full bg-gray-300 dark:bg-gray-600"></div>
+              <div className="ms-2 h-2.5 w-24 rounded-full bg-gray-300 dark:bg-gray-600"></div>
+            </div>
+            <div className="flex w-full max-w-[400px] items-center">
+              <div className="h-2.5 w-full rounded-full bg-gray-300 dark:bg-gray-600"></div>
+              <div className="ms-2 h-2.5 w-80 rounded-full bg-gray-200 dark:bg-gray-700"></div>
+              <div className="ms-2 h-2.5 w-full rounded-full bg-gray-300 dark:bg-gray-600"></div>
+            </div>
+            <div className="flex w-full max-w-[480px] items-center">
+              <div className="ms-2 h-2.5 w-full rounded-full bg-gray-200 dark:bg-gray-700"></div>
+              <div className="ms-2 h-2.5 w-full rounded-full bg-gray-300 dark:bg-gray-600"></div>
+              <div className="ms-2 h-2.5 w-24 rounded-full bg-gray-300 dark:bg-gray-600"></div>
+            </div>
+            <div className="flex w-full max-w-[440px] items-center">
+              <div className="ms-2 h-2.5 w-32 rounded-full bg-gray-300 dark:bg-gray-600"></div>
+              <div className="ms-2 h-2.5 w-24 rounded-full bg-gray-300 dark:bg-gray-600"></div>
+              <div className="ms-2 h-2.5 w-full rounded-full bg-gray-200 dark:bg-gray-700"></div>
+            </div>
+            <div className="flex w-full max-w-[360px] items-center">
+              <div className="ms-2 h-2.5 w-full rounded-full bg-gray-300 dark:bg-gray-600"></div>
+              <div className="ms-2 h-2.5 w-80 rounded-full bg-gray-200 dark:bg-gray-700"></div>
+              <div className="ms-2 h-2.5 w-full rounded-full bg-gray-300 dark:bg-gray-600"></div>
+            </div>
+            <span className="sr-only">Loading...</span>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+};
