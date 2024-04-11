@@ -17,6 +17,7 @@ import { useAtom } from "jotai";
 import { anyErrorAtom } from "@/state/store";
 //components
 import { generateAudioFromText } from "@actions/openaiActions";
+import Audio from "./Audio";
 //icons
 import { PlusIcon, MinusIcon } from "@heroicons/react/20/solid";
 
@@ -55,6 +56,8 @@ export default function Form() {
     date: serverTimestamp(),
   });
 
+  /* IMAGES PRE-SUBMIT */
+
   /* Header image pre-submit */
 
   const [headerImage, setHeaderImage] = useState<File | null>(null);
@@ -70,8 +73,6 @@ export default function Form() {
   const [images, setImages] = useState<{ name: string; image: File | null }[]>(
     []
   );
-
-  console.log("images: ", images);
 
   const addImage = () => {
     setImages([...images, { name: "", image: null }]);
@@ -89,7 +90,17 @@ export default function Form() {
     setImages(updatedImages);
   };
 
-  /* HANDLE SUBMIT */
+  /* AUDIO PRE-SUBMIT */
+  /* Is it a file upload or do we need to generate an ai voice? */
+  const [aiVoice, setAiVoice] = useState(false);
+  const voiceFileOrAi = (audioComponentStatus: boolean) => {
+    setAiVoice(audioComponentStatus);
+  };
+
+  //receive audio file from Audio component
+  const [audioFile, setAudioFile] = useState<File | null>(null);
+
+  /* ---------------------- HANDLE SUBMIT ------------------------------------------------------*/
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -253,8 +264,8 @@ export default function Form() {
 
     /* AUDIO */
 
+    // This regular expression matches placeholders in the format <<name-of-image>>. Used in the case of generating audio from text.
     function replacePlaceholders(content: string) {
-      // This regular expression matches placeholders in the format <<name-of-image>>
       const regex = /<<([^>]+)>>/g;
 
       // Replace each placeholder with the specified text
@@ -267,21 +278,43 @@ export default function Form() {
       return newContent;
     }
 
-    const contentWithoutPlaceholders = replacePlaceholders(fieldValues.content);
+    let audioBlob: Uint8Array | File | null = null;
 
-    /* A uint8Array cannot be sent from the server component to the client component. Hence it is necessary to convert to a base64String, send that and then convert back to uint8Array on the client side.  */
-    const base64String = await generateAudioFromText(
-      contentWithoutPlaceholders
-    );
-    if (!base64String) {
-      alert("There was an error generating the audio. Please try again later.");
-      setLoading(false);
-      return;
+    if (aiVoice) {
+      const contentWithoutPlaceholders = replacePlaceholders(
+        fieldValues.content
+      );
+
+      const base64String = await generateAudioFromText(
+        contentWithoutPlaceholders
+      );
+
+      if (!base64String) {
+        alert(
+          "There was an error generating the ai audio. Please try again later."
+        );
+        setLoading(false);
+        return;
+      }
+
+      audioBlob = Uint8Array.from(atob(base64String), (c) => c.charCodeAt(0));
+
+      if (!audioBlob) {
+        alert(
+          "There was an error generating the ai audio. Please try again later."
+        );
+        setLoading(false);
+        return;
+      }
+    } else {
+      audioBlob = audioFile;
     }
 
-    let audioBlob = Uint8Array.from(atob(base64String), (c) => c.charCodeAt(0));
-    if (!audioBlob) {
-      alert("There was an error generating the audio. Please try again later.");
+    if (audioBlob === null) {
+      // Handle the case when audioBlob is null
+      alert(
+        "There is no audio file. If you were uploading a file the upload did not work. If you are creating an AI voice a voice file has not been successfully generated. Please try again."
+      );
       setLoading(false);
       return;
     }
@@ -299,7 +332,7 @@ export default function Form() {
     );
 
     if (!audioUploadTask) {
-      alert("There was an error generating the audio. Please try again later.");
+      alert("There was an error uploading the audio to the database.");
       setLoading(false);
       return;
     }
@@ -381,7 +414,8 @@ export default function Form() {
           );
         })}
       </div>
-      <div className="flex flex-col space-y-6">
+      <Audio voiceFileOrAi={voiceFileOrAi} updateAudioFile={setAudioFile} />
+      <div className="flex flex-col space-y-6 font-sans">
         {/* Mandatory header image */}
         <div>
           <label
@@ -443,7 +477,7 @@ export default function Form() {
           </button>
         </div>
       </div>
-      <div className="flex items-center">
+      <div className="flex items-center font-sans">
         <button
           type="submit"
           disabled={loading}
