@@ -9,6 +9,10 @@ const nextConfig = {
         port: "",
         pathname: "/v0/b/burnout-project.appspot.com/o/**",
       },
+      {
+        protocol: "https",
+        hostname: "cdn.sanity.io",
+      },
     ],
   },
 };

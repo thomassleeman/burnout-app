@@ -4,8 +4,11 @@ import Image from "next/image";
 import Link from "next/link";
 import getFormattedDate from "../getFormattedDate";
 
+//sanity
+import { urlForImage } from "@/sanity/lib/image";
+
 interface RelatedArticlesProps {
-  articles: Article[]; // replace with actual type if not Article[]
+  articles: Article[];
 }
 
 export default function RelatedArticles({ articles }: RelatedArticlesProps) {
@@ -15,23 +18,16 @@ export default function RelatedArticles({ articles }: RelatedArticlesProps) {
   }
   if (articles.length !== 0) {
     content = (
-      <div className="mx-auto max-w-3xl text-slate-800">
-        <h2 className="mb-16 px-6 text-xl lg:px-0">
-          Recommended from The Burnout Hub
+      <div className="mx-auto max-w-4xl text-slate-900">
+        <h2 className="mb-16 px-6 text-2xl lg:px-0">
+          Related articles from The Burnout Hub
         </h2>
 
-        <div className="grid grid-cols-1 gap-10 lg:grid-cols-2">
-          <h3 className="sr-only">Recommended Articles</h3>
+        <h3 className="sr-only">Recommended Articles</h3>
+        <div className="grid grid-cols-1 justify-center gap-14 lg:grid-cols-2 lg:gap-20">
           {articles.map((article: Article) => {
-            const {
-              title,
-              author,
-              category,
-              date,
-              summary,
-              slug,
-              headerImage,
-            } = article;
+            const { title, author, category, date, slug, headerImage } =
+              article;
 
             let formattedDate;
             if (date) {
@@ -40,43 +36,45 @@ export default function RelatedArticles({ articles }: RelatedArticlesProps) {
               formattedDate = "";
             }
 
+            const headerImageUrl = headerImage
+              ? urlForImage(headerImage)
+              : null;
+
             return (
-              <article
+              <Link
                 key={slug}
-                className=" isolate flex max-w-2xl flex-col gap-x-8 gap-y-6 px-6 sm:flex-row sm:items-start lg:flex-col lg:items-stretch lg:px-0"
+                href={`/articles/${slug}`}
+                className="group isolate flex max-w-2xl flex-col items-center gap-x-8 gap-y-3 rounded-xl px-6 lg:px-0"
               >
-                <img
-                  className="aspect-[2/1] w-full rounded-lg bg-gray-100 object-cover sm:aspect-[16/9] sm:h-32 lg:h-auto"
-                  src={headerImage}
-                  alt=""
-                />
-                {/* <div className="absolute inset-0 rounded-lg ring-1 ring-inset ring-gray-900/10" /> */}
-                <div className="flex flex-col gap-y-3">
-                  <div className="flex items-center gap-x-4">
-                    <span className="text-sm leading-6 text-emerald-800">
-                      {author}
-                    </span>
-                    <span className="z-10 rounded-full bg-blue-100 px-2 py-1 text-xs text-slate-800">
-                      {category}
-                    </span>
-                  </div>
-                  <h4 className=" text-sm font-semibold leading-6 text-gray-900">
-                    <Link
-                      href={`/articles/${slug}`}
-                      className="text-xl font-semibold text-slate-800 lg:text-base"
-                    >
+                <div>
+                  <Image
+                    className="mb-3 aspect-[2/1] h-auto rounded-lg bg-gray-100 object-cover sm:aspect-[16/9]"
+                    src={headerImageUrl}
+                    alt={`header image for the article ${title}`}
+                    height={200}
+                    width={400}
+                  />
+                  <div className="flex flex-col gap-y-1">
+                    <div className="flex items-center gap-x-4">
+                      <span className="text-sm leading-6 text-emerald-800">
+                        {author}
+                      </span>
+                      <span className="z-10 rounded-full bg-blue-100 px-2 py-1 text-xs text-slate-800">
+                        {category}
+                      </span>
+                    </div>
+                    <h4 className="text-lg font-semibold leading-6 text-slate-800 group-hover:text-emerald-600">
                       {title}
-                    </Link>
-                  </h4>
-                  <p className=" text-sm leading-6 text-gray-600">{summary}</p>
-                  <time
-                    dateTime={date ? new Date(date).toISOString() : ""}
-                    className="text-sm leading-6 text-gray-600"
-                  >
-                    {formattedDate}
-                  </time>
+                    </h4>
+                    <time
+                      dateTime={date ? new Date(date).toISOString() : ""}
+                      className="text-sm leading-6 text-gray-600"
+                    >
+                      {formattedDate}
+                    </time>
+                  </div>
                 </div>
-              </article>
+              </Link>
             );
           })}
         </div>

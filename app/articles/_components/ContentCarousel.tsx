@@ -18,6 +18,10 @@ import { ArrowRightIcon } from "@heroicons/react/24/outline";
 import { XMarkIcon, InformationCircleIcon } from "@heroicons/react/24/outline";
 import { Play } from "next/font/google";
 
+//sanity
+import { urlForImage } from "@/sanity/lib/image";
+import accessAssetUrl from "@/sanity/lib/accessAssetUrl";
+
 interface ArticleSummaryProps {
   summary: string;
   title: string;
@@ -26,6 +30,7 @@ interface ArticleSummaryProps {
 const ArticleSummary = ({ summary, title }: ArticleSummaryProps) => {
   const [open, setOpen] = useState(false);
   let content;
+  if (!summary || typeof summary !== "string") return null;
 
   if (!open) {
     content = (
@@ -82,33 +87,6 @@ export default function ContentCarousel({
             <h2 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-slate-50">
               {carouselTitle}
             </h2>
-
-            {/* {carouselTagline && (
-              <div className="text leading-8 text-gray-600">
-                <span className="mr-4">{carouselTagline}</span>
-                <br className="inline md:hidden" />
-                <span className="text-right text-sm text-green-900">
-                  {`${articles.length} ${
-                    articles.length === 1 ? "article" : "articles"
-                  }`}
-                  {articles.length === 1 ? null : (
-                    <ArrowRightIcon className="ml-2 inline-block h-4 w-4 lg:hidden" />
-                  )}
-                </span>
-              </div>
-            )}
-            {!carouselTagline && (
-              <div className="text leading-8 text-gray-600">
-                <span className="text-right text-sm text-green-900">
-                  {`${articles.length} ${
-                    articles.length === 1 ? "article" : "articles"
-                  }`}
-                  {articles.length === 1 ? null : (
-                    <ArrowRightIcon className="ml-2 inline-block h-4 w-4 lg:hidden" />
-                  )}
-                </span>
-              </div>
-            )} */}
             <div className="text leading-8 text-gray-600">
               <span className="text-right text-sm text-green-900">
                 {`${articles.length} ${
@@ -126,7 +104,6 @@ export default function ContentCarousel({
                 title,
                 date,
                 headerImage,
-                headerImageAlt,
                 slug,
                 id,
                 category,
@@ -135,21 +112,24 @@ export default function ContentCarousel({
                 audio,
               } = article;
 
+              const headerImageUrl = headerImage
+                ? urlForImage(headerImage)
+                : null;
+
               let formattedDate;
               if (date) {
                 formattedDate = getFormattedDate(date);
               } else {
                 formattedDate = "";
               }
-
               return (
                 <article
                   key={id}
                   className="relative isolate flex h-72 flex-none basis-64 snap-center snap-always flex-col justify-end overflow-hidden rounded-xl px-4 pb-4 md:snap-none"
                 >
                   <Image
-                    src={headerImage || defaultImage}
-                    alt={headerImageAlt || "Article image"}
+                    src={headerImageUrl || defaultImage}
+                    alt={`Header image for the article, ${title}`}
                     height={500}
                     width={500}
                     className="absolute inset-0 -z-10 h-80 w-full object-cover"
@@ -160,15 +140,17 @@ export default function ContentCarousel({
                     {author}
                   </span>
 
-                  <PlayArticle
-                    audio={audio || ""}
-                    anotherArticleIsPlaying={
-                      playingAudioId !== null && id !== playingAudioId
-                    }
-                    isPlaying={id === playingAudioId}
-                    onPlay={() => setPlayingAudioId(id)}
-                    onPauseOrStop={() => setPlayingAudioId(null)}
-                  />
+                  {audio && (
+                    <PlayArticle
+                      audio={accessAssetUrl(audio)}
+                      anotherArticleIsPlaying={
+                        playingAudioId !== null && id !== playingAudioId
+                      }
+                      isPlaying={id === playingAudioId}
+                      onPlay={() => setPlayingAudioId(id)}
+                      onPauseOrStop={() => setPlayingAudioId(null)}
+                    />
+                  )}
 
                   {summary ? (
                     <ArticleSummary summary={summary} title={title} />
@@ -180,7 +162,6 @@ export default function ContentCarousel({
                         {formattedDate}
                       </time>
                       <div className="flex items-center gap-x-2.5 text-sm"></div>
-                      {/* <span className="text-xs text-white">{author}</span> */}
                     </div>
                   </div>
                   <h3 className="mt-3 cursor-pointer font-serif text-xl leading-6 text-white hover:underline">
@@ -188,7 +169,6 @@ export default function ContentCarousel({
                       href={`/articles/${slug}`}
                       onClick={() => setShowSearchResults(false)}
                     >
-                      {/* <span className="absolute inset-0" /> */}
                       {title}
                     </Link>
                   </h3>

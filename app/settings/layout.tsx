@@ -1,6 +1,4 @@
-import Footer from "../_components/ui/Footer";
-
-export default function DashboardLayout({
+export default function SettingsLayout({
   children,
 }: {
   children: React.ReactNode;
@@ -10,7 +8,6 @@ export default function DashboardLayout({
       <div className="mt-8 flex flex-col gap-y-12 lg:mt-16 lg:gap-y-28">
         {children}
       </div>
-      <Footer />
     </div>
   );
 }

@@ -24,17 +24,17 @@ export default function HitComponent({
         <time dateTime={hit.date} className=" text-xs text-gray-600">
           {formattedDate}
         </time>
-        <Highlight
+        {/* <Highlight
           hit={hit}
           attribute="title"
           className="block truncate text-sm font-semibold leading-6 text-gray-900"
-        />
+        /> */}
         <span className="absolute inset-0" />
-        <Highlight
+        {/* <Highlight
           hit={hit}
           attribute="author"
           className="text-xs text-sky-800"
-        />
+        /> */}
       </div>
     </Popover.Button>
   );

@@ -1,6 +1,6 @@
 import Footer from "../_components/ui/Footer";
 
-export default function DashboardLayout({
+export default function ArticlesLayout({
   children,
 }: {
   children: React.ReactNode;

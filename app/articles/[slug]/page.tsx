@@ -6,10 +6,17 @@ import Image from "next/image";
 import defaultImage from "../defaultImage.jpeg";
 import Modal from "@/components/ui/modal/Modal";
 import ArticleFooter from "../_components/ArticleFooter";
+import AudioPlayer from "../_components/AudioPlayer";
 
 import MarkDown from "markdown-to-jsx";
 import Share from "../_components/Share";
 import { Martel } from "next/font/google";
+
+//Sanity
+
+import { PortableText } from "@portabletext/react";
+import { urlForImage } from "@/sanity/lib/image";
+import portableTextComponents from "@/sanity/schemas/portableText/portableTextComponents";
 
 const martel = Martel({
   subsets: ["latin"],
@@ -25,6 +32,7 @@ export default async function Article({
   searchParams: Record<string, string> | null | undefined;
 }) {
   const { slug } = params;
+  const articleData = await getArticleData(slug);
 
   //Show Modal if searchParams has modal=true
   const showModal = searchParams?.modal;
@@ -36,7 +44,7 @@ export default async function Article({
       : process.env.NEXT_PUBLIC_DEV_ORIGIN
   }/articles/${slug}`;
 
-  const articleData = await getArticleData(slug);
+  // const articleData = await getArticleData(slug);
   if (!articleData) notFound();
 
   const {
@@ -45,18 +53,12 @@ export default async function Article({
     content,
     audio,
     headerImage,
-    headerImageAlt,
     author,
     readingTime,
     category,
   } = articleData;
 
-  let pubDate;
-  if (date) {
-    pubDate = getFormattedDate(date);
-  } else {
-    pubDate = "";
-  }
+  const headerImageUrl = headerImage ? urlForImage(headerImage) : null;
 
   return (
     <>
@@ -64,22 +66,20 @@ export default async function Article({
         className={`${martel.className} prose prose-slate mx-auto dark:prose-invert md:prose-lg`}
       >
         <div className="px-6 font-sans">
-          {/* <h1 className="mb-0 mt-4 text-lg md:text-xl lg:text-5xl">{title}</h1> */}
           <h1 className="mt-4 text-slate-800">{title}</h1>
           <div className="not-prose flex">
-            <p className="mt-0">{pubDate}</p>
+            <p className="mt-0">{getFormattedDate(date)}</p>
             <p className="mx-3">&ndash;</p>
-            <p className="mt-0">{author || "Burnout Project Team"}</p>
+            <p className="mt-0">{author?.name || "Burnout Project Team"}</p>
           </div>
+          <span className=" rounded-lg bg-emerald-500/50 px-2 py-1 text-sm font-extralight text-slate-900">
+            {category?.name}
+          </span>
           <div className="flex items-center justify-between">
             <p className="not-prose text-green-800">
               {readingTime ? `${Math.round(readingTime)} min read` : null}
             </p>
-            <div className="flex flex-col items-center">
-              <audio controls>
-                <source src={audio} type="audio/mpeg" />
-              </audio>
-            </div>
+            {audio && <AudioPlayer audio={audio} />}
           </div>
           <Share />
         </div>
@@ -87,16 +87,13 @@ export default async function Article({
         <Image
           width={1200}
           height={630}
-          src={headerImage || defaultImage}
-          alt={headerImageAlt || title}
+          src={headerImageUrl || defaultImage}
+          alt={`header image for the article ${title}`}
           priority={true}
         ></Image>
 
         <div className="px-6 first-letter:float-left first-letter:mr-2 first-letter:text-6xl first-letter:font-extrabold first-letter:text-green-900">
-          <MarkDown>{content}</MarkDown>
-          <small className="mt-2 pl-1 text-xs text-slate-600 lg:pl-0">
-            <sup>&#42;</sup> Audio for this article is provided by an ai voice.
-          </small>
+          <PortableText value={content} components={portableTextComponents} />
         </div>
         <div className="not-prose mt-6 pl-1 font-sans lg:pl-0">
           <Link href="/articles">← Back to library</Link>

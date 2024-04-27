@@ -3,37 +3,32 @@ import getFormattedDate from "../getFormattedDate";
 import defaultImage from "../defaultImage.jpeg";
 import { XMarkIcon, InformationCircleIcon } from "@heroicons/react/24/outline";
 
+import { urlForImage } from "@/sanity/lib/image";
+
 import Image from "next/image";
 type Props = {
   article: Article;
 };
 
 export default function ArticleCard({ article }: Props) {
-  const {
-    title,
-    date,
-    headerImage,
-    headerImageAlt,
-    slug,
-    id,
-    category,
-    summary,
-    author,
-  } = article;
+  const { title, date, headerImage, slug, id, author } = article;
   let formattedDate;
   if (date) {
     formattedDate = getFormattedDate(date);
   } else {
     formattedDate = "";
   }
+
+  const headerImageUrl = headerImage ? urlForImage(headerImage) : null;
+
   return (
     <article
       key={id}
       className="relative isolate flex h-72 flex-none basis-64 snap-center snap-always flex-col justify-end overflow-hidden rounded-xl px-4 pb-4 md:snap-none"
     >
       <Image
-        src={headerImage || defaultImage}
-        alt={headerImageAlt || "Article image"}
+        src={headerImageUrl || defaultImage}
+        alt={`header image for the article ${title}`}
         height={500}
         width={500}
         className="absolute inset-0 -z-10 h-80 w-full object-cover"

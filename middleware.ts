@@ -45,7 +45,7 @@ export async function middleware(request: NextRequest, response: NextResponse) {
   }
 
   //Check if the user is an admin
-  if (pathname.startsWith("/admin")) {
+  if (pathname.startsWith("/admin") || pathname.startsWith("/studio")) {
     if (!signedInUserAdmin) {
       return NextResponse.redirect(new URL("/401", request.url));
     }
@@ -65,5 +65,12 @@ export async function middleware(request: NextRequest, response: NextResponse) {
 
 //Add your protected routes
 export const config = {
-  matcher: ["/dashboard", "/profile/:path*", "/admin/:path*", "/settings"],
+  matcher: [
+    "/dashboard",
+    "/profile/:path*",
+    "/admin/:path*",
+    "/settings",
+    "/studio/:path*",
+    "/superuser/:path*",
+  ],
 };

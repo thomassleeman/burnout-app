@@ -28,7 +28,6 @@ export default async function Dashboard() {
         />
         <ArticlesByCategory />
       </div>
-      <Footer />
     </>
   );
 }

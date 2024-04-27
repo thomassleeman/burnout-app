@@ -117,7 +117,7 @@ export default function Nav() {
 
                 {/* Search, notifications, options and user indicator */}
                 <div className="hidden lg:ml-4 lg:flex lg:items-center">
-                  <NavSearch />
+                  {/* <NavSearch /> */}
                   <button
                     type="button"
                     className="flex-shrink-0 rounded-full p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2"
@@ -171,9 +171,7 @@ export default function Nav() {
                 </div>
                 <div className="flex lg:hidden">
                   {/* ------------------------ Mobile Nav Search -------------------------- */}
-                  <div className="flex items-center">
-                    <NavSearch />
-                  </div>
+                  <div className="flex items-center">{/* <NavSearch /> */}</div>
                   {/* -------------------------------------------------------------------- */}
                   {/*------------------------- Mobile hamburger / x icon -------------------------*/}
                   <div className="ml-3 flex items-center">

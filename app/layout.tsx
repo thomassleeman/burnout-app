@@ -32,7 +32,8 @@ export default function RootLayout({
       <Providers>
         <body className="flex flex-col bg-amber-50/75 dark:bg-gradient-to-tr dark:from-slate-950 dark:via-slate-800 dark:to-zinc-900 dark:text-white">
           <Nav />
-          <main className="container mx-auto mb-auto sm:px-6 lg:px-8">
+          {/* <main className="container mx-auto mb-auto sm:px-6 lg:px-8"> */}
+          <main className="">
             {children}
             <Analytics />
           </main>
