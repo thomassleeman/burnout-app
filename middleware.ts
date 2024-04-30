@@ -52,9 +52,13 @@ export async function middleware(request: NextRequest, response: NextResponse) {
     console.log("signedInUserAdmin: ", signedInUserAdmin);
   }
 
+  if (pathname.includes("superadmin")) {
+    console.log(signedInUserUid, process.env.SUPER_USER_UID);
+  }
+
   //My account is the only super user
   if (
-    pathname.includes("superuser") &&
+    pathname.includes("superadmin") &&
     signedInUserUid !== process.env.SUPER_USER_UID
   ) {
     return NextResponse.redirect(new URL("/401", request.url));
@@ -71,6 +75,6 @@ export const config = {
     "/admin/:path*",
     "/settings",
     "/studio/:path*",
-    "/superuser/:path*",
+    "/superadmin/:path*",
   ],
 };

@@ -5,8 +5,7 @@ type Article = {
   content: string;
   slug: string;
   date?: string;
-  headerImage?: string;
-  headerImageAlt?: string;
+  headerImage?: SanityImage;
   author?: string;
   readingTime?: number;
   category?: string;

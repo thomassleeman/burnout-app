@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import getFormattedDate from "../getFormattedDate";
+import defaultImage from "@articles/defaultImage.jpeg";
 
 //sanity
 import { urlForImage } from "@/sanity/lib/image";
@@ -38,7 +39,7 @@ export default function RelatedArticles({ articles }: RelatedArticlesProps) {
 
             const headerImageUrl = headerImage
               ? urlForImage(headerImage)
-              : null;
+              : defaultImage;
 
             return (
               <Link

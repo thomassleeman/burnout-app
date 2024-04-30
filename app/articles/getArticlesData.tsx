@@ -86,7 +86,7 @@ export async function getRecommendedArticlesData() {
 
   //When putting an array directly into a template string JS converts the array to a string by concatenating all elements with commas. As a result we need to restore quotes and put the list back inside square brackets.
   const recommendedArticlesQuery = recommendedArticles
-    .map((slug) => `"${slug}"`)
+    .map((slug: string) => `"${slug}"`)
     .join(", ");
   // b) Get the recommended articles from sanity
   const query = `*[_type == "article" && slug.current in [${recommendedArticlesQuery}]]{${contentCarouselProjection}}`;
@@ -103,7 +103,7 @@ export async function getArticlesByCategory() {
 
   const articles = await client.fetch(query);
 
-  function groupByCategory(items, groupName) {
+  function groupByCategory(items: any[], groupName: string) {
     const grouped = items.reduce((result, item) => {
       const groupKey = item[groupName];
       if (!result[groupKey]) {
@@ -154,8 +154,12 @@ export async function getArticleData(slug: string) {
 
 /* ----------------------------------------------------------------------------------------- */
 
+interface Category {
+  name: string;
+}
+
 export async function getRelatedArticles(
-  category: string,
+  category: Category,
   currentArticle: string
 ) {
   const query = `*[_type == "article" && category->name == "${category.name}" && slug.current != "${currentArticle}"]| order(date desc)[0..3]{

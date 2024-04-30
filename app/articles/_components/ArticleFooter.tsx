@@ -2,8 +2,10 @@ import RelatedArticles from "./RelatedArticles";
 import { getRelatedArticles } from "../getArticlesData";
 
 interface ArticleFooterProps {
-  category: string; // replace with actual type if not string
-  currentArticle: string; // replace with actual type if not string
+  category: {
+    name: string;
+  };
+  currentArticle: string;
 }
 
 export default async function ArticleFooter({

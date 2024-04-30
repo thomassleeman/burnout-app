@@ -22,6 +22,9 @@ import { Play } from "next/font/google";
 import { urlForImage } from "@/sanity/lib/image";
 import accessAssetUrl from "@/sanity/lib/accessAssetUrl";
 
+//types
+import { Article } from "@/types/sanity";
+
 interface ArticleSummaryProps {
   summary: string;
   title: string;
@@ -99,7 +102,7 @@ export default function ContentCarousel({
             </div>
           </div>
           <div className="mt-6 flex h-80 snap-x snap-mandatory gap-x-4 overflow-x-scroll overscroll-x-none md:snap-none md:gap-x-6 lg:gap-x-10">
-            {articles.map((article) => {
+            {articles.map((article: Article) => {
               const {
                 title,
                 date,
