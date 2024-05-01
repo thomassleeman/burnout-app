@@ -14,10 +14,12 @@ export default async function ArticlesByCategory() {
       {/* {Object.keys(ArticlesByCategory).map((category) => { */}
       {articlesByCategory.map((category) => {
         const categoryName = category[0].category;
+        const categoryImage = category[0].image;
         return (
           <ContentCarousel
             key={categoryName}
             carouselTitle={capitaliseFirstLetter(categoryName)}
+            image={categoryImage}
             carouselTagline=""
             articles={category}
           />

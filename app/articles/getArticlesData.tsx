@@ -138,9 +138,7 @@ export async function getArticleData(slug: string) {
     }
       },
        audio,
-      author->{
-          name
-      },
+      author->,
       date,
       readingTime,
       category->{

@@ -10,6 +10,7 @@ import {
 
 export default async function Dashboard() {
   const latestArticles = await getSortedLimitedArticlesData("date", "desc", 10);
+  // const newestArticles = await getNewestArticlesData("date", "desc", 10);
   const recommendedArticles = await getRecommendedArticlesData();
 
   return (

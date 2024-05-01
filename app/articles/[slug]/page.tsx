@@ -11,6 +11,7 @@ import AudioPlayer from "../_components/AudioPlayer";
 import MarkDown from "markdown-to-jsx";
 import Share from "../_components/Share";
 import { Martel } from "next/font/google";
+import brainLogo from "@/components/design/brainLogo.png";
 
 //Sanity
 
@@ -59,6 +60,7 @@ export default async function Article({
   } = articleData;
 
   const headerImageUrl = headerImage ? urlForImage(headerImage) : null;
+  const authorImageUrl = author?.image ? urlForImage(author.image) : null;
 
   return (
     <>
@@ -67,12 +69,23 @@ export default async function Article({
       >
         <div className="px-6 font-sans">
           <h1 className="mt-4 text-slate-800">{title}</h1>
-          <div className="not-prose flex">
-            <p className="mt-0">{getFormattedDate(date)}</p>
+          <div className="not-prose flex items-center">
+            <div className="flex items-center gap-x-2">
+              <Image
+                src={authorImageUrl || brainLogo}
+                alt={`author image for ${
+                  author?.name || "the author of this article"
+                }`}
+                width={60}
+                height={60}
+                className="h-12 w-12 rounded-full"
+              />
+              <p className="mt-0">{author?.name || "Burnout Project Team"}</p>
+            </div>
             <p className="mx-3">&ndash;</p>
-            <p className="mt-0">{author?.name || "Burnout Project Team"}</p>
+            <p className="mt-0">{getFormattedDate(date)}</p>
           </div>
-          <span className=" rounded-lg bg-emerald-500/50 px-2 py-1 text-sm font-extralight text-slate-900">
+          <span className="rounded-lg bg-emerald-500/50 px-2 py-1 text-sm font-extralight text-slate-900">
             {category?.name}
           </span>
           <div className="flex items-center justify-between">

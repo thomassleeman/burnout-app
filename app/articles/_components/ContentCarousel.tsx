@@ -46,18 +46,20 @@ const ArticleSummary = ({ summary, title }: ArticleSummaryProps) => {
     );
   } else {
     content = (
-      <div className="absolute bottom-0 right-0 h-full w-full cursor-default overflow-y-scroll bg-slate-800 p-5 opacity-95">
-        <h2 className="mb-3 font-serif text-lg font-semibold text-slate-200 dark:text-slate-50">
-          {title}
-        </h2>
-        <p className=" font-serif text-sm text-gray-100">{summary}</p>
+      <>
+        <div className="absolute bottom-0 right-0 h-full w-full cursor-default overflow-y-scroll bg-slate-800 p-5 opacity-95">
+          <h2 className="mb-3 font-serif text-lg font-semibold text-slate-200 dark:text-slate-50">
+            {title}
+          </h2>
+          <p className=" font-serif text-sm text-gray-100">{summary}</p>
+        </div>
         <span
           onClick={() => setOpen(false)}
           className="absolute bottom-0 right-0 h-9 w-9 rounded-tl-lg bg-white px-3 py-1.5 text-sm text-gray-700 opacity-70 hover:cursor-pointer hover:bg-gray-200 hover:text-gray-900"
         >
           <XMarkIcon className="absolute bottom-2 right-2 h-5 w-5" />
         </span>
-      </div>
+      </>
     );
   }
   return content;
@@ -66,12 +68,14 @@ const ArticleSummary = ({ summary, title }: ArticleSummaryProps) => {
 interface ContentCarouselProps {
   carouselTitle?: string;
   carouselTagline?: string;
+  image?: string;
   articles?: Article[];
 }
 
 export default function ContentCarousel({
   carouselTitle = "",
   carouselTagline = "",
+  image = "",
   articles = [],
 }: ContentCarouselProps) {
   const [playingAudioId, setPlayingAudioId] = useState<string | null>(null);
@@ -90,6 +94,15 @@ export default function ContentCarousel({
             <h2 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-slate-50">
               {carouselTitle}
             </h2>
+            {image ? (
+              <Image
+                src={image}
+                alt={`image for the article category, ${carouselTitle}`}
+                height={60}
+                width={60}
+                className="h-12 w-12 rounded-full"
+              />
+            ) : null}
             <div className="text leading-8 text-gray-600">
               <span className="text-right text-sm text-green-900">
                 {`${articles.length} ${

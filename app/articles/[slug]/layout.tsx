@@ -14,7 +14,7 @@ export default function RootLayout({
 }) {
   return (
     <>
-      <section className={`mt-8 lg:mt-16`}>{children}</section>
+      <section className={`lg:mt-8`}>{children}</section>
     </>
   );
 }
