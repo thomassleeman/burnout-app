@@ -1,3 +1,4 @@
+"use server";
 //Firestore
 import { getFirestore, DocumentSnapshot } from "firebase-admin/firestore";
 //Firebase config

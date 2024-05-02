@@ -8,9 +8,10 @@ import {
   getRecommendedArticlesData,
 } from "@articles/getArticlesData";
 
+export const revalidate = 3600; // revalidate the data cache at most every hour
+
 export default async function Dashboard() {
   const latestArticles = await getSortedLimitedArticlesData("date", "desc", 10);
-  // const newestArticles = await getNewestArticlesData("date", "desc", 10);
   const recommendedArticles = await getRecommendedArticlesData();
 
   return (
