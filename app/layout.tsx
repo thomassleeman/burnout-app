@@ -3,7 +3,6 @@ import type { Metadata, Viewport } from "next";
 import Providers from "@/state/providers";
 
 import Nav from "./_components/ui/nav/Nav";
-// import MediaPlayer from "@/app/_components/ui/audioPlayer/AudioPlayer";
 
 // import GlossaryModal from "./_components/ui/modal/Modal";
 
@@ -36,7 +35,6 @@ export default function RootLayout({
             The Burnout Hub is currently under development but please feel free
             to take a look around 😎
           </h1>
-          {/* <main className="container mx-auto mb-auto sm:px-6 lg:px-8"> */}
           <main className="">
             {children}
             <Analytics />

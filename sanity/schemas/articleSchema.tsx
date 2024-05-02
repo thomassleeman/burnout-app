@@ -48,40 +48,13 @@ export const articleType = defineType({
           },
 
           marks: {
-            decorators: [],
+            decorators: [
+              { title: "Strong", value: "strong" },
+              { title: "Emphasis", value: "em" },
+              { title: "Underline", value: "underline" },
+              { title: "Strike", value: "strike-through" },
+            ],
             annotations: [
-              // {
-              //   name: "blockquote",
-              //   title: "Blockquote",
-              //   icon: () => "📚",
-              //   type: "object",
-              //   fields: [
-              //     {
-              //       name: "quote",
-              //       type: "string",
-              //       title: "Quote",
-              //     },
-              //     {
-              //       name: "footer",
-              //       type: "object",
-              //       title: "Footer",
-              //       fields: [
-              //         {
-              //           name: "author",
-              //           type: "string",
-              //           title: "Quote author",
-              //         },
-              //         {
-              //           name: "citation",
-              //           type: "string",
-              //           title: "Citation",
-              //           description:
-              //             "The name of the original publication that the quote came from.",
-              //         },
-              //       ],
-              //     },
-              //   ],
-              // },
               {
                 name: "internalLink",
                 type: "object",
