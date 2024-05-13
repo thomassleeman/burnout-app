@@ -72,27 +72,69 @@ import {
 } from "@heroicons/react/24/outline";
 
 export default function ResourcesNav() {
-  const [courses, setCourses] = useState([]);
+  const [courses, setCourses] = useState<Course[]>([]);
+
+  // useEffect(() => {
+  //   const fetchCourses = async () => {
+  //     const cachedCourses = localStorage.getItem("courses");
+  //     const cachedTime = localStorage.getItem("coursesTime");
+
+  //     if (
+  //       cachedCourses &&
+  //       cachedTime &&
+  //       new Date().getTime() - Number(cachedTime) < 1000 * 60 * 60 * 3
+  //     ) {
+  //       setCourses(JSON.parse(cachedCourses));
+  //     } else {
+  //       const data = await getCoursesData();
+  //       setCourses(data);
+
+  //       localStorage.setItem("courses", JSON.stringify(data));
+  //       localStorage.setItem("coursesTime", new Date().getTime().toString());
+  //     }
+  //   };
+
+  //   fetchCourses();
+  // }, []);
 
   useEffect(() => {
     const fetchCourses = async () => {
-      const cachedCourses = localStorage.getItem("courses");
-      const cachedTime = localStorage.getItem("coursesTime");
+      try {
+        const cachedCourses = localStorage.getItem("courses");
+        const cachedTime = localStorage.getItem("coursesTime");
 
-      // Check if data is cached and less than a few hours old
-      if (
-        cachedCourses &&
-        cachedTime &&
-        new Date().getTime() - Number(cachedTime) < 1000 * 60 * 60 * 3
-      ) {
-        setCourses(JSON.parse(cachedCourses));
-      } else {
-        const data = await getCoursesData();
-        setCourses(data);
+        // Check if data is cached and less than a few hours old
+        if (
+          cachedCourses &&
+          cachedTime &&
+          new Date().getTime() - Number(cachedTime) < 1000 * 60 * 60 * 3
+        ) {
+          console.log("Using cached courses data");
+          const parsedCourses = JSON.parse(cachedCourses);
 
-        // Cache the data
-        localStorage.setItem("courses", JSON.stringify(data));
-        localStorage.setItem("coursesTime", new Date().getTime().toString());
+          if (!Array.isArray(parsedCourses)) {
+            throw new Error("Cached courses data is not an array");
+          }
+
+          setCourses(parsedCourses);
+        } else {
+          console.log("Fetching new courses data");
+          const data = await getCoursesData();
+
+          if (!Array.isArray(data)) {
+            throw new Error("Fetched courses data is not an array");
+          }
+
+          setCourses(data);
+
+          // Cache the data
+          localStorage.setItem("courses", JSON.stringify(data));
+          localStorage.setItem("coursesTime", new Date().getTime().toString());
+        }
+      } catch (error) {
+        console.error("Error fetching or parsing courses data:", error);
+        // Optionally set courses to an empty array on error
+        setCourses([]);
       }
     };
 
