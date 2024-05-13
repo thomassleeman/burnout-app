@@ -235,9 +235,9 @@ const CourseCard = ({ course }: { course: Course }) => {
             {title}
           </a>
         </h4>
-        <p className="mt-2 text-sm leading-6 text-gray-600">
+        <div className="mt-2 text-sm leading-6 text-gray-600">
           <PortableText value={summary} components={portableTextComponents} />
-        </p>
+        </div>
       </div>
     </article>
   );

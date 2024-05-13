@@ -34,7 +34,6 @@ export default async function Course({
   if (!courseData) notFound();
 
   const { title, content, headerImage, articles, slug } = courseData;
-  console.log("articles: ", articles);
 
   const headerImageUrl = headerImage ? urlForImage(headerImage) : null;
 
