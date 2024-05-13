@@ -11,7 +11,7 @@ export default function Home() {
   const [user] = useAuthState(auth);
   useEffect(() => {
     if (user) {
-      window.location.assign("/dashboard");
+      window.location.assign("/home");
     } else {
       window.location.assign("/signin");
     }

@@ -29,11 +29,16 @@ export type Audio = {
   };
 };
 
+export type PortableTextBlock = {
+  _type: string;
+  children: { _type: string; text: string }[];
+};
+
 export type Article = {
   id: string;
   title: string;
   audio?: Audio;
-  content: string;
+  content: PortableTextBlock[];
   slug: string;
   date: string;
   headerImage?: SanityImage;
@@ -41,4 +46,13 @@ export type Article = {
   readingTime?: number;
   category: string;
   summary?: string;
+};
+
+export type Course = {
+  title: string;
+  content: PortableTextBlock[];
+  slug: string;
+  headerImage?: SanityImage;
+  summary: PortableTextBlock[];
+  articles: Article[];
 };

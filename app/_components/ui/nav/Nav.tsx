@@ -7,8 +7,8 @@ import { usePathname } from "next/navigation";
 import Image from "next/image";
 
 //components
-import NavSearch from "./search/NavSearch";
 import UserIndicator from "./_components/UserIndicator";
+import ResourcesNav from "./_components/ResourcesNav";
 //functions
 //headlessui
 import { Disclosure, Menu, Transition } from "@headlessui/react";
@@ -21,6 +21,7 @@ import {
   BellIcon,
   XMarkIcon,
   AdjustmentsHorizontalIcon,
+  HomeIcon,
 } from "@heroicons/react/24/outline";
 
 /* -------------- NAVIGATION ARRAY -------------------- */
@@ -28,18 +29,18 @@ import {
 const navigation = {
   registeredUser: {
     mainNav: [
-      { name: "Dashboard", href: "/dashboard" },
-      { name: "Library", href: "/articles" },
+      { id: "home", name: <HomeIcon className="h-6 w-6" />, href: "/home" },
+      { id: "library", name: "Library", href: "/articles" },
     ],
     settingsNav: [
-      { name: "Settings", href: "/settings" },
-      { name: "Sign Out", href: "/signout" },
+      { id: "settings", name: "Settings", href: "/settings" },
+      { id: "signout", name: "Sign Out", href: "/signout" },
     ],
   },
 
   guest: [
-    { name: "What is burnout?", href: "#" },
-    { name: "Articles", href: "/articles" },
+    { id: "whatisburnout", name: "What is burnout?", href: "#" },
+    { id: "articles", name: "Articles", href: "/articles" },
   ],
 };
 /* -------------------------------------------------------------- */
@@ -49,7 +50,7 @@ const navigation = {
 const pageIndicator = {
   lg: {
     current:
-      "border-green-700 text-gray-900 dark:text-slate-50 dark:border-emerald-300 ",
+      "border-green-700 text-gray-900 dark:text-slate-50 dark:border-emerald-300 drop-shadow-lg",
     default:
       "border-transparent text-gray-600 hover:border-gray-300 hover:text-gray-700 dark:text-slate-50 ",
   },
@@ -87,9 +88,9 @@ export default function Nav() {
                 {/* Logo and page links */}
                 <div className="flex lg:px-0">
                   <div className="flex flex-shrink-0 items-center">
-                    <Link href="/dashboard" className="m-2 h-12 lg:h-14">
+                    <Link href="/home" className="m-2 h-12 lg:h-14">
                       <Image
-                        className="h-full w-auto pr-4 md:pr-12"
+                        className="h-full w-auto pr-4 drop-shadow-lg md:pr-12"
                         src={brainLogo}
                         alt="MindHub Logo"
                       />{" "}
@@ -99,7 +100,7 @@ export default function Nav() {
                     {navigation.registeredUser.mainNav.map((page) => {
                       return (
                         <Link
-                          key={page.name}
+                          key={page.id}
                           href={page.href}
                           className={`inline-flex items-center border-b-2 px-1 pt-1 text-sm font-medium ${
                             pathname === page.href
@@ -117,8 +118,9 @@ export default function Nav() {
 
                 {/* Search, notifications, options and user indicator */}
                 <div className="hidden lg:ml-4 lg:flex lg:items-center">
+                  <ResourcesNav />
                   {/* <NavSearch /> */}
-                  <button
+                  {/* <button
                     type="button"
                     className="flex-shrink-0 rounded-full p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2"
                   >
@@ -127,8 +129,7 @@ export default function Nav() {
                       className="h-6 w-6 bg-inherit"
                       aria-hidden="true"
                     />
-                  </button>
-
+                  </button> */}
                   {/* Dropdown Options */}
                   <Menu as="div" className="relative ml-4 flex-shrink-0">
                     <div>
@@ -171,7 +172,10 @@ export default function Nav() {
                 </div>
                 <div className="flex lg:hidden">
                   {/* ------------------------ Mobile Nav Search -------------------------- */}
-                  <div className="flex items-center">{/* <NavSearch /> */}</div>
+                  <div className="flex items-center">
+                    <ResourcesNav />
+                    {/* <NavSearch /> */}
+                  </div>
                   {/* -------------------------------------------------------------------- */}
                   {/*------------------------- Mobile hamburger / x icon -------------------------*/}
                   <div className="ml-3 flex items-center">
@@ -200,7 +204,7 @@ export default function Nav() {
                 {navigation.registeredUser.mainNav.map((page) => {
                   return (
                     <Disclosure.Button
-                      key={page.name}
+                      key={page.id}
                       as="a"
                       href={page.href}
                       className={`block border-l-4 py-2 pl-3 pr-4 text-base font-medium ${
@@ -248,7 +252,7 @@ export default function Nav() {
                 <div className="flex px-2 lg:px-0">
                   <div className="flex flex-shrink-0 items-center">
                     <Image
-                      className="h-5/6 w-auto pr-12"
+                      className="h-5/6 w-auto pr-12 drop-shadow-lg"
                       src={brainLogo}
                       alt="MindHub Logo"
                     />{" "}

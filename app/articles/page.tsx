@@ -1,6 +1,8 @@
 import { getSortedArticlesData } from "./getArticlesData";
 import ArticleCard from "./_components/ArticleCard";
 
+export const revalidate = 3600; // revalidate the data cache at most every hour
+
 export default async function Page() {
   const articles = await getSortedArticlesData("date", "desc");
 

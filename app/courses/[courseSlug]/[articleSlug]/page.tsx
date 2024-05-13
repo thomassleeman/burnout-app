@@ -1,15 +1,14 @@
-import getFormattedDate from "../getFormattedDate";
-import { getArticleData } from "../getArticlesData";
+import getFormattedDate from "@articles/getFormattedDate";
+import { getArticleData } from "@articles/getArticlesData";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
-import defaultImage from "../defaultImage.jpeg";
+import defaultImage from "@articles/defaultImage.jpeg";
 import Modal from "@/components/ui/modal/Modal";
-import ArticleFooter from "../_components/ArticleFooter";
-import AudioPlayer from "../_components/AudioPlayer";
+import { CourseHeadNav, CourseFootNav } from "../courseNavs";
+import AudioPlayer from "@articles/_components/AudioPlayer";
 
-import MarkDown from "markdown-to-jsx";
-import Share from "../_components/Share";
+import Share from "@articles/_components/Share";
 import { Martel } from "next/font/google";
 import brainLogo from "@/components/design/brainLogo.png";
 
@@ -31,11 +30,11 @@ export default async function Article({
   params,
   searchParams,
 }: {
-  params: { slug: string };
+  params: { articleSlug: string };
   searchParams: Record<string, string> | null | undefined;
 }) {
-  const { slug } = params;
-  const articleData = await getArticleData(slug);
+  const { articleSlug } = params;
+  const articleData = await getArticleData(articleSlug);
 
   //Show Modal if searchParams has modal=true
   const showModal = searchParams?.modal;
@@ -45,7 +44,7 @@ export default async function Article({
     process.env.NODE_ENV === "production"
       ? process.env.NEXT_PUBLIC_PROD_ORIGIN
       : process.env.NEXT_PUBLIC_DEV_ORIGIN
-  }/articles/${slug}`;
+  }/articles/${articleSlug}`;
 
   // const articleData = await getArticleData(slug);
   if (!articleData) notFound();
@@ -117,9 +116,6 @@ export default async function Article({
           <Modal currentUrl={currentUrl} studyId={study} />
         )}
       </article>
-      {slug && category ? (
-        <ArticleFooter category={category} currentArticle={slug} />
-      ) : null}{" "}
     </>
   );
 }

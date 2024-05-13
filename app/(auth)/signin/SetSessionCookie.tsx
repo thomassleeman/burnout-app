@@ -82,7 +82,7 @@ export default function SetSessionCookie() {
 
   useEffect(() => {
     if (session) {
-      window.location.assign("/dashboard");
+      window.location.assign("/home");
     }
   }, [session, router]);
 
@@ -97,11 +97,8 @@ export default function SetSessionCookie() {
           <CheckIcon className="h-5 w-5 text-green-400" aria-hidden="true" />
         </div>
         {/* Using a instead of link here as Link is not working is some scenarios. */}
-        <a
-          href="/dashboard"
-          className="text-emerald-700 hover:text-emerald-600"
-        >
-          Go to dashboard
+        <a href="/home" className="text-emerald-700 hover:text-emerald-600">
+          Go to home
         </a>
 
         {/* ) : null} */}

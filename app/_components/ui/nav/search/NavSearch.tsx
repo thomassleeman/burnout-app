@@ -31,27 +31,32 @@ import {
 export default function NavSearch() {
   return (
     <Popover className="relative">
-      <Popover.Button className="inline-flex items-center gap-x-1 p-2 text-sm font-semibold leading-6 text-sky-600 lg:mr-3">
-        <MagnifyingGlassIcon className="h-5 w-5" />
-        <ChevronDownIcon className=" h-5 w-5 text-sky-600" aria-hidden="true" />
-      </Popover.Button>
+      {({ open }) => (
+        <>
+          <Popover.Button className="inline-flex items-center gap-x-1 p-2 text-sm font-semibold leading-6 text-amber-600 outline-none lg:mr-3">
+            <MagnifyingGlassIcon className="h-5 w-5" />
+            <ChevronDownIcon
+              className={`h-6 w-6 ${open ? "rotate-180" : ""}`}
+              aria-hidden="true"
+            />
+          </Popover.Button>
 
-      <Transition
-        as={Fragment}
-        enter="transition ease-out duration-200"
-        enterFrom="opacity-0 translate-y-1"
-        enterTo="opacity-100 translate-y-0"
-        leave="transition ease-in duration-150"
-        leaveFrom="opacity-100 translate-y-0"
-        leaveTo="opacity-0 translate-y-1"
-      >
-        <Popover.Panel className="fixed right-0 z-10 mt-5 flex w-screen max-w-max lg:px-4">
-          <div className="w-screen max-w-md flex-auto overflow-hidden overflow-y-scroll rounded-3xl bg-white text-sm leading-6 shadow-lg ring-1 ring-gray-900/5">
-            <div className="p-4">
-              {/* <InstantSearch searchClient={searchClient} indexName="articles"> */}
-              <div>
-                <input></input>
-                {/* <SearchBox
+          <Transition
+            as={Fragment}
+            enter="transition ease-out duration-200"
+            enterFrom="opacity-0 translate-y-1"
+            enterTo="opacity-100 translate-y-0"
+            leave="transition ease-in duration-150"
+            leaveFrom="opacity-100 translate-y-0"
+            leaveTo="opacity-0 translate-y-1"
+          >
+            <Popover.Panel className="fixed right-0 z-10 mt-5 flex w-screen max-w-max lg:px-4">
+              <div className="w-screen max-w-md flex-auto overflow-hidden overflow-y-scroll rounded-3xl bg-white text-sm leading-6 shadow-lg ring-1 ring-gray-900/5">
+                <div className="p-4">
+                  {/* <InstantSearch searchClient={searchClient} indexName="articles"> */}
+                  <div>
+                    <input></input>
+                    {/* <SearchBox
                     autoFocus={true}
                     placeholder="Search articles..."
                     classNames={{
@@ -64,26 +69,26 @@ export default function NavSearch() {
                       loadingIndicator: "",
                     }}
                   /> */}
-                <div
-                  style={{ height: "34rem" }}
-                  className="overflow-y-scroll rounded-xl bg-slate-50 p-6"
-                >
-                  <div className="flex justify-between">
-                    <h3 className="text-sm font-semibold leading-6 text-gray-500">
-                      Search results
-                    </h3>
-                    <Link
-                      href="/articles"
-                      className="text-sm font-semibold leading-6 text-sky-600"
+                    <div
+                      style={{ height: "34rem" }}
+                      className="overflow-y-scroll rounded-xl bg-slate-50 p-6"
                     >
-                      See all <span aria-hidden="true">&rarr;</span>
-                    </Link>
-                  </div>
-                  {/* <ul className="mt-6 space-y-6">
+                      <div className="flex justify-between">
+                        <h3 className="text-sm font-semibold leading-6 text-gray-500">
+                          Search results
+                        </h3>
+                        <Link
+                          href="/articles"
+                          className="text-sm font-semibold leading-6 text-sky-600"
+                        >
+                          See all <span aria-hidden="true">&rarr;</span>
+                        </Link>
+                      </div>
+                      {/* <ul className="mt-6 space-y-6">
                     <Hits hitComponent={HitComponent} />
                   </ul> */}
-                </div>
-                {/* <a
+                    </div>
+                    {/* <a
                   href="www.algolia.com"
                   target="_blank"
                   rel="noopener noreferrer"
@@ -96,12 +101,14 @@ export default function NavSearch() {
                     alt="search powered by algolia"
                   />
                 </a> */}
+                  </div>
+                  {/* </InstantSearch> */}
+                </div>
               </div>
-              {/* </InstantSearch> */}
-            </div>
-          </div>
-        </Popover.Panel>
-      </Transition>
+            </Popover.Panel>
+          </Transition>
+        </>
+      )}
     </Popover>
   );
 }

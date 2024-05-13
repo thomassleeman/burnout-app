@@ -4,6 +4,8 @@ import Providers from "@/state/providers";
 
 import Nav from "./_components/ui/nav/Nav";
 
+// import AudioPlayer from "@/components/ui/audioPlayer/AudioPlayer";
+
 // import GlossaryModal from "./_components/ui/modal/Modal";
 
 import { Analytics } from "@vercel/analytics/react";
@@ -35,10 +37,11 @@ export default function RootLayout({
             The Burnout Hub is currently under development but please feel free
             to take a look around 😎
           </h1>
-          <main className="">
+          <main className="selection:bg-fuchsia-300/50 selection:text-fuchsia-900">
             {children}
             <Analytics />
           </main>
+          {/* <AudioPlayer /> */}
         </body>
       </Providers>
     </html>

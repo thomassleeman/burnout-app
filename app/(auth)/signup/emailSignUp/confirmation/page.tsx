@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 export default function SignUpConfirmation() {
-  redirect("/dashboard");
+  redirect("/home");
   return (
     <>
       <main className="min-h-screen">

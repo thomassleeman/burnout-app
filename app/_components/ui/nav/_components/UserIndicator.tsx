@@ -12,7 +12,7 @@ import { useAtom } from "jotai";
 import { usernameAtom, userIDAtom } from "@/state/store";
 
 //heroicons
-import { UserIcon } from "@heroicons/react/20/solid";
+import { UserIcon } from "@heroicons/react/24/outline";
 
 /* -------------- USER INDICATOR -------------------- */
 export default function UserIndicator() {
@@ -33,18 +33,19 @@ export default function UserIndicator() {
     const initials = usernameArray[0][0] + usernameArray[1][0];
 
     return (
-      <div className="ml-6 flex h-3/4 w-auto items-center justify-center self-center  justify-self-end rounded-full bg-green-900 p-3">
+      <div className="ml-6 flex h-12 w-12 items-center justify-center self-center justify-self-end rounded-full bg-gradient-to-r from-purple-500/75 to-pink-500/75 p-3 drop-shadow-lg">
         <div className="text-xl font-thin uppercase text-white">{initials}</div>
       </div>
     );
-  }
-  if (userID && !username) {
+  } else {
     return (
-      <div className="ml-6 flex h-3/4 w-auto items-center justify-center self-center  justify-self-end rounded-full bg-green-900 p-3">
-        <div className="text-xl font-thin uppercase text-black">
-          <UserIcon />
+      <div className="ml-6 flex h-12 w-12 items-center justify-center self-center justify-self-end rounded-full bg-gradient-to-r from-purple-500/75 to-pink-500/75 p-3 drop-shadow-lg">
+        <div className="">
+          <UserIcon className="h-8 w-8 text-white" />
         </div>
       </div>
     );
-  } else return null;
+  }
 }
+
+// h-3/4 w-auto

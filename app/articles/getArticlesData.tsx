@@ -1,4 +1,3 @@
-"use server";
 //Firestore
 import { getFirestore, DocumentSnapshot } from "firebase-admin/firestore";
 //Firebase config
@@ -98,9 +97,10 @@ export async function getRecommendedArticlesData() {
 }
 
 /* ----------------------------------------------------------------------------------------- */
-
+//this excludes course documents.
 export async function getArticlesByCategory() {
-  const query = `*[_type == "article"] | order(category->name asc){${contentCarouselProjection}}`;
+  // const query = `*[_type == "article"] | order(category->name asc){${contentCarouselProjection}}`;
+  const query = `*[_type == "article" && category._ref in *[_type == "category" && _type != "course"]._id]{${contentCarouselProjection}}`;
 
   const articles = await client.fetch(query);
 

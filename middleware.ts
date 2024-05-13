@@ -29,9 +29,9 @@ export async function middleware(request: NextRequest, response: NextResponse) {
   const signedInUser = await responseAPI.json();
   const signedInUserUid = signedInUser.decodedClaims.uid;
 
-  //If the user is already logged in and they navigate to the signup or signin page, redirect them to the dashboard
+  //If the user is already logged in and they navigate to the signup or signin page, redirect them to home
   if ((pathname === "/signup" || pathname === "/signin") && session) {
-    return NextResponse.redirect(new URL("/dashboard", request.url));
+    return NextResponse.redirect(new URL("/home", request.url));
   }
 
   // does admin exist on non-admin users as admin:false or is it not present?
@@ -70,7 +70,7 @@ export async function middleware(request: NextRequest, response: NextResponse) {
 //Add your protected routes
 export const config = {
   matcher: [
-    "/dashboard",
+    "/home",
     "/profile/:path*",
     "/admin/:path*",
     "/settings",

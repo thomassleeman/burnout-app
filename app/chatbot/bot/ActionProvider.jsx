@@ -253,7 +253,7 @@ const ActionProvider = ({
       {
         delay: 0,
         widget: "LinkButton",
-        payload: { content: "Go to Dashboard", href: "/dashboard" },
+        payload: { content: "Go to Home", href: "/home" },
       }
     );
 

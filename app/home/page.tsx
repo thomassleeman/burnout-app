@@ -1,7 +1,8 @@
 import ContentCarousel from "@/app/articles/_components/ContentCarousel";
-import HeroContainer from "./_components/HeroContainer";
+import HeroContainer from "./_components/callToActionSection/HeroContainer";
 import Footer from "../_components/ui/Footer";
 import ArticlesByCategory from "./_components/ArticlesByCategory";
+import CheckInPrompt from "./_components/callToActionSection/CheckInPrompt";
 
 import {
   getSortedLimitedArticlesData,
@@ -17,6 +18,7 @@ export default async function Dashboard() {
   return (
     <>
       <HeroContainer />
+      {/* <CheckInPrompt /> */}
       <div className=" flex flex-col space-y-10 px-2">
         <ContentCarousel
           carouselTitle="Recommended for You"

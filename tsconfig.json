@@ -29,6 +29,7 @@
       "@chatbot/*": ["app/chatbot/*"],
       "@types/*": ["./types/*"],
       "@articles/*": ["app/articles/*"],
+      "@courses/*": ["app/courses/*"],
       "@actions/*": ["app/actions/*"],
       "@sanity/*": ["app/sanity/*"]
     }

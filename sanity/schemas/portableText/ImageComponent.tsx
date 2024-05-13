@@ -3,7 +3,7 @@ import Image from "next/image";
 
 //sanity
 import { urlForImage } from "@/sanity/lib/image";
-import { getImageDimensions } from "@sanity/asset-utils";
+import { getImageDimensions, getImageAsset } from "@sanity/asset-utils";
 
 //types
 import { SanityImage } from "@/types/sanity";

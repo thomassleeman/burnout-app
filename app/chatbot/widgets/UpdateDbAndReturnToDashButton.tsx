@@ -29,8 +29,8 @@ export default function UpdateDbAndReturnToDashButton({
         {loading ? (
           <Spinner stroke="blue" />
         ) : (
-          <Link className="flex items-center space-x-3" href="/dashboard">
-            Save session and return to dashboard
+          <Link className="flex items-center space-x-3" href="/home">
+            Save session and return to Home
           </Link>
         )}
       </button>
