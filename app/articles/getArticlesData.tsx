@@ -13,7 +13,7 @@ const db = getFirestore();
 
 const contentCarouselProjection = `title,
 "id":_id,
-  "category": category->name,
+  "classification": classification->name,
   date,
   headerImage,
   "slug": slug.current,
@@ -118,6 +118,7 @@ export async function getArticlesByCategory() {
   }
 
   const groupedArticles = groupByCategory(articles, "category");
+  console.log("groupedArticles: ", groupedArticles);
   return groupedArticles;
 }
 
