@@ -18,7 +18,7 @@ import { PortableText } from "@portabletext/react";
 import { urlForImage } from "@/sanity/lib/image";
 import portableTextComponents from "@/sanity/schemas/portableText/portableTextComponents";
 
-export const revalidate = 3600; // revalidate the data cache at most every hour
+export const revalidate = 1; // revalidate the data cache at most every hour
 
 const martel = Martel({
   subsets: ["latin"],

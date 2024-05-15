@@ -100,7 +100,7 @@ export async function getRecommendedArticlesData() {
 //this excludes course documents.
 export async function getArticlesByCategory() {
   // const query = `*[_type == "article"] | order(category->name asc){${contentCarouselProjection}}`;
-  const query = `*[_type == "article" && category._ref in *[_type == "category" && _type != "course"]._id]{${contentCarouselProjection}}`;
+  const query = `*[_type == "article" && classification._ref in *[_type == "category"]._id]{${contentCarouselProjection}}`;
 
   const articles = await client.fetch(query);
 

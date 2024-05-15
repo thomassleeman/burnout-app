@@ -125,15 +125,17 @@ export const articleType = defineType({
       group: "content",
     }),
     defineField({
-      name: "category",
-      title: "Category",
+      name: "classification",
+      title: "Classification",
       type: "reference",
       to: [{ type: "category" }, { type: "course" }],
       group: "metaData",
       validation: (rule) =>
         rule
           .required()
-          .error(`Please include a category or course for the article.`),
+          .error(
+            `Please include a classification (either a category or a course) for the article.`
+          ),
     }),
     defineField({
       name: "author",
