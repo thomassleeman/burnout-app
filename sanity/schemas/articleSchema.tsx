@@ -194,7 +194,7 @@ export const articleType = defineType({
   preview: {
     select: {
       title: "title",
-      subtitle: "category.name",
+      subtitle: "classification.name",
       media: "headerImage",
       author: "author.name",
       date: "date",
