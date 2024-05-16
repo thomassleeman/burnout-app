@@ -15,3 +15,10 @@ type Article = {
 type NoArticles = { title: string };
 
 type ArticleOrNoArticle = Article[] | NoArticles[];
+
+type PlayThisType = {
+  audio: string;
+  image: StaticImageData | string;
+  title: string;
+  author: string;
+};

@@ -24,10 +24,12 @@ module.exports = {
         },
         marquee: {
           "0%": { transform: "translateX(0%)" },
+          "10%": { transform: "translateX(0%)" },
           "100%": { transform: "translateX(-100%)" },
         },
         marquee2: {
           "0%": { transform: "translateX(100%)" },
+          "10%": { transform: "translateX(100%)" },
           "100%": { transform: "translateX(0%)" },
         },
         text: {

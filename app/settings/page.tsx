@@ -11,8 +11,6 @@ export default function SettingsPage() {
   const provider = providerUser?.providerId;
   const passwordUser = provider === "password";
 
-  console.log("user", user);
-
   const daysSince = (dateString: string) => {
     // Parse the date string into a Date object
     const date = new Date(dateString);

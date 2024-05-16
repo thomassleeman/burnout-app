@@ -83,6 +83,7 @@ export default function ContentCarousel({
   const [showSearchResults, setShowSearchResults] = useAtom(
     showSearchResultsAtom
   );
+
   let content;
   if (articles.length === 0) {
     content = null;
@@ -159,12 +160,9 @@ export default function ContentCarousel({
                   {audio && (
                     <PlayArticle
                       audio={accessAssetUrl(audio)}
-                      anotherArticleIsPlaying={
-                        playingAudioId !== null && id !== playingAudioId
-                      }
-                      isPlaying={id === playingAudioId}
-                      onPlay={() => setPlayingAudioId(id)}
-                      onPauseOrStop={() => setPlayingAudioId(null)}
+                      image={headerImageUrl || defaultImage || ""}
+                      title={title}
+                      author={author}
                     />
                   )}
 

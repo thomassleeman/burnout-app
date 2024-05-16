@@ -4,7 +4,7 @@ import Providers from "@/state/providers";
 
 import Nav from "./_components/ui/nav/Nav";
 
-// import AudioPlayer from "@/components/ui/audioPlayer/AudioPlayer";
+import AudioPlayer from "@/components/ui/audioPlayer/AudioPlayer";
 
 // import GlossaryModal from "./_components/ui/modal/Modal";
 
@@ -41,7 +41,7 @@ export default function RootLayout({
             {children}
             <Analytics />
           </main>
-          {/* <AudioPlayer /> */}
+          <AudioPlayer />
         </body>
       </Providers>
     </html>

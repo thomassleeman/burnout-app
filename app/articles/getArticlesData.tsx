@@ -118,7 +118,6 @@ export async function getArticlesByCategory() {
   }
 
   const groupedArticles = groupByCategory(articles, "category");
-  console.log("groupedArticles: ", groupedArticles);
   return groupedArticles;
 }
 

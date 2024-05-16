@@ -9,4 +9,9 @@ export const anyErrorAtom = atom({ message: "" });
 export const usernameAtom = atom("");
 export const userIDAtom = atom("");
 
-export const hasTheMicAtom = atom("");
+export const playThisAtom = atom<PlayThisType>({
+  audio: "",
+  image: "",
+  title: "",
+  author: "",
+});

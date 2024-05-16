@@ -109,7 +109,7 @@ export default function ResourcesNav() {
           cachedTime &&
           new Date().getTime() - Number(cachedTime) < 1000 * 60 * 60 * 3
         ) {
-          console.log("Using cached courses data");
+          //Using cached courses data
           const parsedCourses = JSON.parse(cachedCourses);
 
           if (!Array.isArray(parsedCourses)) {
@@ -118,7 +118,7 @@ export default function ResourcesNav() {
 
           setCourses(parsedCourses);
         } else {
-          console.log("Fetching new courses data");
+          //Fetching new courses data
           const data = await getCoursesData();
 
           if (!Array.isArray(data)) {
