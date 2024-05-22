@@ -99,7 +99,6 @@ export async function getRecommendedArticlesData() {
 /* ----------------------------------------------------------------------------------------- */
 //this excludes course documents.
 export async function getArticlesByCategory() {
-  // const query = `*[_type == "article"] | order(category->name asc){${contentCarouselProjection}}`;
   const query = `*[_type == "article" && classification._ref in *[_type == "category"]._id]{${contentCarouselProjection}}`;
 
   const articles = await client.fetch(query);
@@ -117,7 +116,7 @@ export async function getArticlesByCategory() {
     return Object.keys(grouped).map((key) => grouped[key]);
   }
 
-  const groupedArticles = groupByCategory(articles, "category");
+  const groupedArticles = groupByCategory(articles, "classification");
   return groupedArticles;
 }
 
