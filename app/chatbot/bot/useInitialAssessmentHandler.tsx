@@ -5,8 +5,8 @@ import { Actions, BurnoutProfiles } from "@/types/chatbot";
 type InitialAssessmentScoreKeys =
   | "exhaustion"
   | "detachment"
-  | "emotionalImparement"
-  | "cognitiveImparement";
+  | "emotionalImpairment"
+  | "cognitiveImpairment";
 
 // for each key 'key' in InitialAssessmentScoreKeys, create a property of that key with type number
 type InitialAssessmentScores = {
@@ -56,13 +56,13 @@ export default function useInitialAssessmentHandler({
         "detached",
       ],
       emotionallyImpaired: [
-        averageInitialAssessmentScores.emotionalImparement >= 1.5,
-        averageInitialAssessmentScores.emotionalImparement,
+        averageInitialAssessmentScores.emotionalImpairment >= 1.5,
+        averageInitialAssessmentScores.emotionalImpairment,
         "emotional",
       ],
       cognitivelyImpaired: [
-        averageInitialAssessmentScores.cognitiveImparement >= 1.5,
-        averageInitialAssessmentScores.cognitiveImparement,
+        averageInitialAssessmentScores.cognitiveImpairment >= 1.5,
+        averageInitialAssessmentScores.cognitiveImpairment,
         "distracted",
       ],
       burntOut:

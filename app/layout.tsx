@@ -6,9 +6,8 @@ import Nav from "./_components/ui/nav/Nav";
 
 import AudioPlayer from "@/components/ui/audioPlayer/AudioPlayer";
 
-// import GlossaryModal from "./_components/ui/modal/Modal";
-
 import { Analytics } from "@vercel/analytics/react";
+import NextTopLoader from "nextjs-toploader";
 
 //TODO: Header stuff, SEO, etc.
 
@@ -33,6 +32,7 @@ export default function RootLayout({
       <Providers>
         <body className="flex flex-col bg-amber-50/75 dark:bg-gradient-to-tr dark:from-slate-950 dark:via-slate-800 dark:to-zinc-900 dark:text-white">
           <Nav />
+          <NextTopLoader showSpinner={false} shadow={false} />
           <h1 className=" w-full bg-amber-100 py-1 pl-3 text-sm font-extralight text-slate-600 lg:pl-8">
             The Burnout Hub is currently under development but please feel free
             to take a look around 😎

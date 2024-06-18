@@ -6,7 +6,7 @@ interface IconProps {
 const navigation = {
   main: [
     { name: "About", href: "#" },
-    { name: "Library", href: "#" },
+    { name: "FAQs", href: "/faqs" },
     // { name: "Press", href: "#" },
     { name: "Site Map", href: "#" },
     { name: "Contact", href: "#" },

@@ -88,8 +88,8 @@ export type LinkButtonPayload = {
 export type InitialAssessmentScores = {
   exhaustion: number;
   detachment: number;
-  emotionalImparement: number;
-  cognitiveImparement: number;
+  emotionalImpairment: number;
+  cognitiveImpairment: number;
 };
 
 export type UserResponseToLastQuestion = string;
@@ -99,6 +99,6 @@ export type ProfileStringArray = String[];
 export type AssessmentScores = {
   exhaustion: number;
   detachment: number;
-  emotionalImparement: number;
-  cognitiveImparement: number;
+  emotionalImpairment: number;
+  cognitiveImpairment: number;
 };

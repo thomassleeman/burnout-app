@@ -9,6 +9,7 @@ import Image from "next/image";
 //components
 import UserIndicator from "./_components/UserIndicator";
 import ResourcesNav from "./_components/ResourcesNav";
+// import NavSearch from "./search/NavSearch";
 //functions
 //headlessui
 import { Disclosure, Menu, Transition } from "@headlessui/react";
@@ -33,7 +34,7 @@ const navigation = {
       { id: "library", name: "Library", href: "/articles" },
     ],
     settingsNav: [
-      { id: "settings", name: "Settings", href: "/settings" },
+      // { id: "settings", name: "Settings", href: "/settings" },
       { id: "signout", name: "Sign Out", href: "/signout" },
     ],
   },

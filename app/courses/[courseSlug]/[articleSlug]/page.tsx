@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import defaultImage from "@articles/defaultImage.jpeg";
-import Modal from "@/components/ui/modal/Modal";
+import StudyModal from "@/components/ui/modal/StudyModal";
 import { CourseHeadNav, CourseFootNav } from "../courseNavs";
 import AudioPlayer from "@articles/_components/AudioPlayer";
 
@@ -113,7 +113,7 @@ export default async function Article({
           <Link href="/articles">← Back to library</Link>
         </div>
         {showModal && study && (
-          <Modal currentUrl={currentUrl} studyId={study} />
+          <StudyModal currentUrl={currentUrl} studyId={study} />
         )}
       </article>
     </>

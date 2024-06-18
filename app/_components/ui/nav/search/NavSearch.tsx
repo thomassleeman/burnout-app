@@ -86,7 +86,46 @@ export default function NavSearch() {
                       </div>
                       {/* <ul className="mt-6 space-y-6">
                     <Hits hitComponent={HitComponent} />
+                    
                   </ul> */}
+                      <p>
+                        Lorem ipsum dolor sit, amet consectetur adipisicing
+                        elit. Architecto eaque fugiat alias id vel tempore
+                        impedit in beatae ullam laboriosam atque aut officiis
+                        culpa veniam molestiae accusamus facere, a officia?
+                        Lorem ipsum dolor sit, amet consectetur adipisicing
+                        elit. Architecto eaque fugiat alias id vel tempore
+                        impedit in beatae ullam laboriosam atque aut officiis
+                        culpa veniam molestiae accusamus facere, a officia?
+                        Lorem ipsum dolor sit, amet consectetur adipisicing
+                        elit. Architecto eaque fugiat alias id vel tempore
+                        impedit in beatae ullam laboriosam atque aut officiis
+                        culpa veniam molestiae accusamus facere, a officia?
+                        Lorem ipsum dolor sit, amet consectetur adipisicing
+                        elit. Architecto eaque fugiat alias id vel tempore
+                        impedit in beatae ullam laboriosam atque aut officiis
+                        culpa veniam molestiae accusamus facere, a officia?
+                        Lorem ipsum dolor sit, amet consectetur adipisicing
+                        elit. Architecto eaque fugiat alias id vel tempore
+                        impedit in beatae ullam laboriosam atque aut officiis
+                        culpa veniam molestiae accusamus facere, a officia?
+                        Lorem ipsum dolor sit, amet consectetur adipisicing
+                        elit. Architecto eaque fugiat alias id vel tempore
+                        impedit in beatae ullam laboriosam atque aut officiis
+                        culpa veniam molestiae accusamus facere, a officia?
+                        Lorem ipsum dolor sit, amet consectetur adipisicing
+                        elit. Architecto eaque fugiat alias id vel tempore
+                        impedit in beatae ullam laboriosam atque aut officiis
+                        culpa veniam molestiae accusamus facere, a officia?
+                        Lorem ipsum dolor sit, amet consectetur adipisicing
+                        elit. Architecto eaque fugiat alias id vel tempore
+                        impedit in beatae ullam laboriosam atque aut officiis
+                        culpa veniam molestiae accusamus facere, a officia?
+                        Lorem ipsum dolor sit, amet consectetur adipisicing
+                        elit. Architecto eaque fugiat alias id vel tempore
+                        impedit in beatae ullam laboriosam atque aut officiis
+                        culpa veniam molestiae accusamus facere, a officia?
+                      </p>
                     </div>
                     {/* <a
                   href="www.algolia.com"

@@ -1,8 +1,9 @@
 "use client";
+//react
+import { useEffect } from "react";
 //next
 import Link from "next/link";
 import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
-
 //firebase
 import { auth } from "@/firebase/auth/appConfig";
 //other dependencies
@@ -11,12 +12,9 @@ import * as Yup from "yup";
 //components
 import ErrorAlert from "@/components/ui/ErrorAlert";
 import Spinner from "@/components/design/Spinner";
-import { PrimaryLinkButton } from "@/app/_components/ui/_components/Buttons";
-
 //jotai
 import { useAtom } from "jotai";
 import { anyErrorAtom } from "@/state/store";
-
 // Yup config
 const loginSchema = Yup.object().shape({
   email: Yup.string().email("Invalid email").required("Required"),
@@ -27,7 +25,7 @@ export default function EmailSignInUI() {
   const [signInWithEmailAndPassword, signInUser, loading, error] =
     useSignInWithEmailAndPassword(auth);
 
-  const [, setAnyError] = useAtom(anyErrorAtom);
+  const [anyError, setAnyError] = useAtom(anyErrorAtom);
 
   //handle email sign in
   const handleEmailSignIn = async (values: {
@@ -35,12 +33,29 @@ export default function EmailSignInUI() {
     password: string;
   }) => {
     const { email, password } = values;
-    await signInWithEmailAndPassword(email, password);
+    try {
+      await signInWithEmailAndPassword(email, password);
+    } catch (signInError) {
+      // Check if signInError is an object with a message property of type string
+      if (
+        typeof signInError === "object" &&
+        signInError !== null &&
+        "message" in signInError &&
+        typeof signInError.message === "string"
+      ) {
+        setAnyError({ message: signInError.message });
+      } else {
+        // If signInError does not match the expected structure, set a default error message
+        setAnyError({ message: "An unexpected error occurred." });
+      }
+    }
   };
 
-  if (error) {
-    setAnyError(error);
-  }
+  useEffect(() => {
+    if (error) {
+      setAnyError(error);
+    }
+  }, [error, setAnyError]);
 
   let content;
 
@@ -52,10 +67,10 @@ export default function EmailSignInUI() {
         <Formik
           initialValues={{ email: "", password: "" }}
           validationSchema={loginSchema}
-          onSubmit={(values, { setSubmitting }) => {
+          onSubmit={async (values, { setSubmitting }) => {
             setSubmitting(true);
             setAnyError({ message: "" });
-            handleEmailSignIn(values);
+            await handleEmailSignIn(values);
             setSubmitting(false);
           }}
         >
@@ -130,8 +145,12 @@ export default function EmailSignInUI() {
               <div>
                 <button
                   type="submit"
-                  disabled={isSubmitting || loading}
-                  className="flex w-full justify-center rounded-md bg-emerald-800 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-emerald-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600"
+                  disabled={
+                    isSubmitting ||
+                    loading ||
+                    (anyError && anyError.message !== "")
+                  }
+                  className="flex w-full justify-center rounded-md bg-emerald-800 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:cursor-pointer hover:bg-emerald-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600 disabled:cursor-not-allowed disabled:bg-slate-400 disabled:opacity-50"
                 >
                   {!(isSubmitting || loading) ? "Sign in" : <Spinner />}
                 </button>

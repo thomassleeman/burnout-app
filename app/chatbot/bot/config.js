@@ -16,14 +16,14 @@ const config = {
     initialAssessmentScores: {
       exhaustion: 0,
       detachment: 0,
-      emotionalImparement: 0,
-      cognitiveImparement: 0,
+      emotionalImpairment: 0,
+      cognitiveImpairment: 0,
     },
     secondaryAssessmentScores: {
       exhaustion: 0,
       detachment: 0,
-      emotionalImparement: 0,
-      cognitiveImparement: 0,
+      emotionalImpairment: 0,
+      cognitiveImpairment: 0,
     },
     burnoutProfiles: {},
     lastUpdated: 0,

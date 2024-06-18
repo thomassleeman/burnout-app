@@ -4,6 +4,7 @@ import Link from "next/link";
 import EmailSignUpUI from "./emailSignUp/EmailSignUpUI";
 import OAuthUI from "../oAuth/OAuthUI";
 import ErrorAlert from "@/components/ui/ErrorAlert";
+import TermsOfUseModal from "./TermsOfUseModal";
 
 export default async function SignUp() {
   // redirectSignedInUsers();
@@ -12,6 +13,7 @@ export default async function SignUp() {
     <>
       <main className="mt-10">
         <ErrorAlert />
+        <TermsOfUseModal />
         <div className="flex flex-1 flex-col justify-center px-4 sm:px-6 md:py-12  lg:flex-none lg:px-20 xl:px-24">
           <div className="mx-auto w-full max-w-sm lg:w-96">
             <div>

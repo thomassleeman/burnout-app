@@ -6,8 +6,8 @@ import useInitialAssessmentHandler from "../bot/useInitialAssessmentHandler";
 type InitialAssessmentScoreKeys =
   | "exhaustion"
   | "detachment"
-  | "emotionalImparement"
-  | "cognitiveImparement";
+  | "emotionalImpairment"
+  | "cognitiveImpairment";
 
 // for each key 'key' in InitialAssessmentScoreKeys, create a property of that key with type number
 type InitialAssessmentScores = {

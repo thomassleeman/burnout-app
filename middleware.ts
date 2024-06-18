@@ -73,7 +73,7 @@ export const config = {
     "/home",
     "/profile/:path*",
     "/admin/:path*",
-    "/settings",
+    "/profile",
     "/studio/:path*",
     "/superadmin/:path*",
   ],

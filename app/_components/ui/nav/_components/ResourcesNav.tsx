@@ -18,6 +18,8 @@ import YoutubeIcon from "@/components/design/icons/Youtube";
 
 import defaultImage from "@articles/defaultImage.jpeg";
 
+import { usePathname } from "next/navigation";
+
 //types
 import { Course } from "@/types/sanity";
 
@@ -41,7 +43,7 @@ const engagement = [
   { name: "Careers", href: "#", icon: BriefcaseIcon },
   { name: "Privacy", href: "#", icon: ShieldCheckIcon },
 ];
-const resources = [
+const tools = [
   {
     name: "Check up",
     href: "/chatbot/burnout-assessment",
@@ -73,29 +75,7 @@ import {
 
 export default function ResourcesNav() {
   const [courses, setCourses] = useState<Course[]>([]);
-
-  // useEffect(() => {
-  //   const fetchCourses = async () => {
-  //     const cachedCourses = localStorage.getItem("courses");
-  //     const cachedTime = localStorage.getItem("coursesTime");
-
-  //     if (
-  //       cachedCourses &&
-  //       cachedTime &&
-  //       new Date().getTime() - Number(cachedTime) < 1000 * 60 * 60 * 3
-  //     ) {
-  //       setCourses(JSON.parse(cachedCourses));
-  //     } else {
-  //       const data = await getCoursesData();
-  //       setCourses(data);
-
-  //       localStorage.setItem("courses", JSON.stringify(data));
-  //       localStorage.setItem("coursesTime", new Date().getTime().toString());
-  //     }
-  //   };
-
-  //   fetchCourses();
-  // }, []);
+  const pathname = usePathname();
 
   useEffect(() => {
     const fetchCourses = async () => {
@@ -143,7 +123,7 @@ export default function ResourcesNav() {
 
   return (
     <Popover className="relative">
-      {({ open }) => (
+      {({ open, close }) => (
         <>
           <Popover.Button className="inline-flex items-center p-2 text-sm font-semibold leading-6 text-sky-600 outline-none lg:mr-3">
             <span className="hidden lg:mr-1 lg:inline-block">Resources</span>{" "}
@@ -163,14 +143,15 @@ export default function ResourcesNav() {
             leaveTo="opacity-0 translate-y-1"
           >
             <Popover.Panel className="fixed right-0 z-10 mt-5 flex w-screen max-w-max lg:px-4">
+              {/* <Popover.Panel className="fixed right-0 z-10 mt-5 flex w-screen max-w-max overflow-hidden lg:px-4"> */}
               <div className="w-screen flex-auto overflow-hidden overflow-y-scroll rounded-3xl bg-white text-sm leading-6 shadow-lg ring-1 ring-gray-900/5">
                 <div className="p-4">
                   <div>
                     <div
-                      // style={{ height: "34rem" }}
+                      style={{ height: "36rem" }}
                       className="overflow-y-scroll rounded-xl bg-gradient-to-r from-amber-50/75 to-amber-50 p-6"
                     >
-                      <div className="mx-auto grid max-w-7xl grid-cols-1 gap-x-8 gap-y-10 px-6 py-4 lg:grid-cols-2 lg:px-8">
+                      <div className="mx-auto grid max-w-7xl grid-cols-1 gap-x-8 gap-y-10 overflow-y-scroll px-6 py-4 lg:grid-cols-2 lg:px-8">
                         <div className="grid grid-cols-2 gap-x-6 sm:gap-x-8">
                           <div>
                             <h3 className="text-sm font-medium leading-6 text-gray-500">
@@ -196,11 +177,11 @@ export default function ResourcesNav() {
                           </div>
                           <div>
                             <h3 className="text-sm font-medium leading-6 text-gray-500">
-                              Resources
+                              Tools
                             </h3>
                             <div className="mt-6 flow-root">
                               <div className="-my-2 ">
-                                {resources.map((item) => (
+                                {tools.map((item) => (
                                   <a
                                     key={item.name}
                                     href={item.href}
@@ -217,13 +198,18 @@ export default function ResourcesNav() {
                             </div>
                           </div>
                         </div>
-                        <div className="grid grid-cols-1 gap-10 sm:gap-8 lg:grid-cols-2">
-                          <h3 className="sr-only">Courses</h3>
-                          {courses.map((course: Course) => {
-                            return (
-                              <CourseCard key={course.title} course={course} />
-                            );
-                          })}
+                        <div>
+                          <h3 className="mb-2">Courses</h3>
+                          <div className="grid grid-cols-1 gap-10 sm:gap-8 lg:grid-cols-2">
+                            {courses.map((course: Course) => {
+                              return (
+                                //button is included to as to give access to the close function. Without this the menu stays open on navigation.
+                                <button key={course.title} onClick={close}>
+                                  <CourseCard course={course} />
+                                </button>
+                              );
+                            })}
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -246,41 +232,47 @@ const CourseCard = ({ course }: { course: Course }) => {
       key={title}
       className="relative isolate flex max-w-2xl flex-col gap-x-8 gap-y-6 sm:flex-row sm:items-start lg:flex-col lg:items-stretch"
     >
-      <div className="relative flex-none">
-        <Image
-          className="aspect-[2/1] w-full rounded-lg bg-gray-100 object-cover sm:aspect-[16/9] sm:h-32 lg:h-auto"
-          width={250}
-          height={250}
-          src={headerImageUrl || defaultImage}
-          alt={`header image for ${title}`}
-        />
-        <div className="absolute inset-0 rounded-lg ring-1 ring-inset ring-gray-900/10" />
-      </div>
-      <div>
-        <div className="flex items-center gap-x-4">
-          {/* <time
+      <Link
+        href={`/courses/${slug}`}
+        className="flex h-full w-full flex-col gap-y-4 rounded-xl p-4 hover:bg-amber-100/75 sm:flex-row sm:items-start sm:p-6 lg:flex-col lg:items-stretch lg:p-4"
+      >
+        <div className="relative flex-none">
+          <Image
+            className="w-full rounded-lg border-4 border-emerald-800/25 bg-gray-100 object-cover sm:h-32 lg:h-auto"
+            width={250}
+            height={250}
+            src={headerImageUrl || defaultImage}
+            alt={`header image for ${title}`}
+          />
+          <div className="absolute bottom-3 left-0 rounded-r-lg bg-emerald-800/75 px-5 py-2">
+            <h1 className="text-2xl font-bold text-white">{title}</h1>
+          </div>
+          {/* <div className="absolute inset-0 rounded-lg ring-1 ring-inset ring-gray-900/10" /> */}
+        </div>
+        <div>
+          <div className="flex items-center gap-x-4">
+            {/* <time
             dateTime={post.datetime}
             className="text-sm leading-6 text-gray-600"
           >
             {post.date}
           </time> */}
-          {/* <a
+            {/* <a
             href={post.category.href}
             className="relative z-10 rounded-full bg-gray-50 px-3 py-1.5 text-xs font-medium text-gray-600 hover:bg-gray-100"
           >
             {post.category.title}
           </a> */}
-        </div>
-        <h4 className="mt-2 text-sm font-semibold leading-6 text-gray-900">
-          <a href={`courses/${slug}`}>
+          </div>
+          {/* <h4 className="mt-2 text-sm font-semibold leading-6 text-gray-900">
             <span className="absolute inset-0" />
             {title}
-          </a>
-        </h4>
-        <div className="mt-2 text-sm leading-6 text-gray-600">
-          <PortableText value={summary} components={portableTextComponents} />
+          </h4> */}
+          <div className="p-1 text-sm font-light leading-6 text-gray-600">
+            <PortableText value={summary} components={portableTextComponents} />
+          </div>
         </div>
-      </div>
+      </Link>
     </article>
   );
 };

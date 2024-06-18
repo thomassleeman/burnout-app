@@ -4,6 +4,8 @@ import Link from "next/link";
 import updateDatabase from "./functions/updateDatabase";
 import { AssessmentScores } from "@/types/chatbot";
 import Spinner from "@/app/_components/design/Spinner";
+import { useRouter } from "next/navigation";
+// import { revalidatePath } from "next/cache";
 
 export default function UpdateDbAndReturnToDashButton({
   initialAssessmentScores,
@@ -12,11 +14,14 @@ export default function UpdateDbAndReturnToDashButton({
   initialAssessmentScores: AssessmentScores;
   secondaryAssessmentScores: AssessmentScores;
 }) {
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
 
   const handleClick = async () => {
     setLoading(true);
     await updateDatabase(initialAssessmentScores, secondaryAssessmentScores);
+    // revalidatePath("/home");
+    router.push("/home");
     setLoading(false);
   };
 
@@ -29,9 +34,9 @@ export default function UpdateDbAndReturnToDashButton({
         {loading ? (
           <Spinner stroke="blue" />
         ) : (
-          <Link className="flex items-center space-x-3" href="/home">
+          <span className="flex items-center space-x-3">
             Save session and return to Home
-          </Link>
+          </span>
         )}
       </button>
     </div>

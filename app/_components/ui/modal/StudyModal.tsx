@@ -7,7 +7,7 @@ import React, { lazy, Suspense } from "react";
 //   (module) => module.default
 // );
 
-export default function Modal({
+export default function StudyModal({
   currentUrl,
   studyId,
 }: {

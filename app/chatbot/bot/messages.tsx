@@ -151,7 +151,7 @@ export const initialAssessmentMessages = {
       }
     ),
   },
-  emotionalImparementOne: {
+  emotionalImpairmentOne: {
     intro: createChatBotMessage("Thanks. Here's another one to consider...", {
       delay: 1000,
     }),
@@ -162,12 +162,12 @@ export const initialAssessmentMessages = {
         widget: "ResponseOptions",
         payload: {
           stream: "responses",
-          category: "emotionalImparement",
+          category: "emotionalImpairment",
         },
       }
     ),
   },
-  emotionalImparementTwo: {
+  emotionalImpairmentTwo: {
     intro: createChatBotMessage("Ok, Now think about this one...", {
       delay: 1000,
     }),
@@ -178,12 +178,12 @@ export const initialAssessmentMessages = {
         widget: "ResponseOptions",
         payload: {
           stream: "responses",
-          category: "emotionalImparement",
+          category: "emotionalImpairment",
         },
       }
     ),
   },
-  cognativeImparementOne: {
+  cognativeImpairmentOne: {
     intro: createChatBotMessage("Thanks. Just two more to go...", {
       delay: 1000,
     }),
@@ -194,12 +194,12 @@ export const initialAssessmentMessages = {
         widget: "ResponseOptions",
         payload: {
           stream: "responses",
-          category: "cognitiveImparement",
+          category: "cognitiveImpairment",
         },
       }
     ),
   },
-  cognativeImparementTwo: {
+  cognativeImpairmentTwo: {
     intro: createChatBotMessage("Ok, and the last one...", {
       delay: 1000,
     }),
@@ -210,7 +210,7 @@ export const initialAssessmentMessages = {
         widget: "ResponseOptions",
         payload: {
           stream: "responses",
-          category: "cognitiveImparement",
+          category: "cognitiveImpairment",
         },
       }
     ),
@@ -253,7 +253,7 @@ export const secondAssessmentFourToSevenMessages = {
       }
     ),
     createChatBotMessage(
-      "I think we have some advice that might be helpful for you so I’ve added some relevant articles into your recommended reading list...",
+      "I think we have some content that will be helpful for you, so when you complete this session I will add some relevant articles to your recommended reading list...",
       {
         delay: 3000,
       }
@@ -279,7 +279,7 @@ export const secondAssessmentFourToSevenMessages = {
       }
     ),
     createChatBotMessage(
-      "I think we have some advice that might be helpful for you so I’ve added some relevant articles into your recommended reading list...",
+      "I think we have some content that will be helpful for you, so when you complete this session I will add some relevant articles to your recommended reading list...",
       {
         delay: 3000,
       }
@@ -305,7 +305,7 @@ export const secondAssessmentFourToSevenMessages = {
       }
     ),
     createChatBotMessage(
-      "I think we have some advice that might be helpful for you so I’ve added some relevant articles into your recommended reading list...",
+      "I think we have some content that will be helpful for you, so when you complete this session I will add some relevant articles to your recommended reading list...",
       {
         delay: 3000,
       }
@@ -331,7 +331,7 @@ export const secondAssessmentFourToSevenMessages = {
       }
     ),
     createChatBotMessage(
-      "I think I have some advice that might be helpful for you so I’ve added some relevant articles into your recommended reading list...",
+      "I think we have some content that will be helpful for you, so when you complete this session I will add some relevant articles to your recommended reading list...",
       {
         delay: 3000,
       }

@@ -2,10 +2,12 @@
 
 //React
 import { useState, useEffect } from "react";
-//Next
+//next
 import { useRouter } from "next/navigation";
+
 //Firebase
 import { auth } from "@/firebase/auth/appConfig";
+
 //React Firebase hooks
 import {
   useAuthState,
@@ -27,28 +29,37 @@ import Spinner from "@/components/design/Spinner";
 const signUpSchema = Yup.object().shape({
   name: Yup.string().required("Required"),
   email: Yup.string().email("Invalid email").required("Required"),
-  password: Yup.string().required("Required"),
-  //TODO: Uncomment this when you want to enforce password rules
-  // .matches(
-  //   /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
-  //   'Must Contain at least 8 Characters, One Uppercase, One Lowercase, One Number and One Special Character, e.g. ! or *'
-  // ),
+  password: Yup.string()
+    .required("Required")
+    .matches(
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
+      "Must Contain at least 8 Characters, One Uppercase, One Lowercase, One Number and One Special Character, e.g. ! or *"
+    ),
   confirmPassword: Yup.string().oneOf(
     [Yup.ref("password")],
     "Passwords must match"
   ),
 });
 
+let origin: String | undefined;
+if (process.env.NODE_ENV === "development") {
+  origin = process.env.NEXT_PUBLIC_DEV_ORIGIN;
+} else {
+  origin = process.env.NEXT_PUBLIC_PROD_ORIGIN;
+}
+
 //TODO: update url below for production
 export default function EmailSignUpUI() {
   const [createUserWithEmailAndPassword, user, loading, createUserError] =
     useCreateUserWithEmailAndPassword(auth, {
       emailVerificationOptions: {
-        url: "http://localhost:3000/signup/emailSignUp/confirmation",
+        url: `${origin}/signup/emailSignUp/confirmation`,
         handleCodeInApp: false,
       },
       sendEmailVerification: true,
     });
+
+  const router = useRouter();
 
   const [deleteUser, deleteUserLoading, deleteUserError] = useDeleteUser(auth);
 
@@ -88,9 +99,19 @@ export default function EmailSignUpUI() {
         setUserCreated(true);
       }
     } catch (error) {
-      if (error instanceof Error) {
-        console.error("handleError: ", error.message, typeof error.message);
+      // Check if signInError is an object with a message property of type string
+      if (
+        typeof error === "object" &&
+        error !== null &&
+        "message" in error &&
+        typeof error.message === "string"
+      ) {
+        setAnyError({ message: error.message });
+      } else {
+        // If signInError does not match the expected structure, set a default error message
+        setAnyError({ message: "An unexpected error occurred." });
       }
+
       deleteUser();
     }
   };
@@ -99,36 +120,17 @@ export default function EmailSignUpUI() {
   /* ------- Handle errors --------------------------- */
   const [anyError, setAnyError] = useAtom(anyErrorAtom);
 
-  // useEffect(() => {
-  //   let errorHere =
-  //     createUserError ||
-  //     authStateError ||
-  //     updateProfileError ||
-  //     handleEmailSignupError;
-  //   // console.log("errorHere: ", errorHere);
-
-  //   if (errorHere) {
-  //     setAnyError(errorHere);
-  //     console.log("errorHere: ", errorHere);
-  //     errorHere = null;
-  //   }
-  // }, [
-  //   createUserError,
-  //   authStateError,
-  //   updateProfileError,
-  //   handleEmailSignupError,
-  //   setAnyError,
-  // ]);
-
   let error =
     createUserError ||
     authStateError ||
     updateProfileError ||
     handleEmailSignupError;
 
-  if (error) {
-    setAnyError(error);
-  }
+  useEffect(() => {
+    if (error) {
+      setAnyError(error);
+    }
+  }, [error, setAnyError]);
 
   /* -------------------------------------------------- */
 
@@ -139,24 +141,13 @@ export default function EmailSignUpUI() {
   /* ------- Content --------------------------- */
   let content;
 
-  console.log("userCreated: ", userCreated);
-  console.log("anyError: ", anyError);
   /* Success UI */
   if (userCreated && anyError.message === "") {
+    router.push("/signup/email-sent");
     content = (
       <>
         <div className="flex">
-          <Spinner
-            className={`mr-2 ${authStateLoading ? `block` : `hidden`}`}
-          />
-          <h2 className="mt-8 text-2xl font-bold leading-9 tracking-tight text-gray-900">
-            Check your email
-          </h2>
-        </div>
-        <div>
-          <p className="mt-8 text-gray-900">
-            We have sent you an email with a link to verify your account.
-          </p>
+          <Spinner className="mr-2" />
         </div>
       </>
     );
@@ -173,7 +164,7 @@ export default function EmailSignUpUI() {
               confirmPassword: "",
             }}
             validationSchema={signUpSchema}
-            onSubmit={(values, { setSubmitting }) => {
+            onSubmit={async (values, { setSubmitting }) => {
               handleSubmit(values);
               setSubmitting(false);
             }}
@@ -250,8 +241,13 @@ export default function EmailSignUpUI() {
                 </label>
                 <button
                   type="submit"
-                  disabled={isSubmitting || anyLoading}
-                  className="flex w-full justify-center rounded-md bg-emerald-800 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-emerald-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-700"
+                  disabled={
+                    isSubmitting ||
+                    anyLoading ||
+                    userCreated ||
+                    (anyError && anyError.message !== "")
+                  }
+                  className="flex w-full justify-center rounded-md bg-emerald-800 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:cursor-pointer hover:bg-emerald-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600 disabled:cursor-not-allowed disabled:bg-slate-400 disabled:opacity-50"
                 >
                   {!(isSubmitting || anyLoading) ? "Sign up" : <Spinner />}
                 </button>

@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { Martel } from "next/font/google";
-import Modal from "@/components/ui/modal/Modal";
+// import Modal from "@/components/ui/modal/Modal";
 import { getCourseData } from "../getCoursesData";
 import defaultImage from "@articles/defaultImage.jpeg";
 

@@ -107,8 +107,8 @@ const ActionProvider = ({
 
   const handleQuestionFive = (userResponseToLastQuestion) => {
     const userMessage = createClientMessage(userResponseToLastQuestion);
-    const botMessage = initialAssessmentMessages.emotionalImparementOne.intro;
-    const botMessage2 = initialAssessmentMessages.emotionalImparementOne.prompt;
+    const botMessage = initialAssessmentMessages.emotionalImpairmentOne.intro;
+    const botMessage2 = initialAssessmentMessages.emotionalImpairmentOne.prompt;
 
     setState((prevState) => ({
       ...prevState,
@@ -120,8 +120,8 @@ const ActionProvider = ({
 
   const handleQuestionSix = (userResponseToLastQuestion) => {
     const userMessage = createClientMessage(userResponseToLastQuestion);
-    const botMessage = initialAssessmentMessages.emotionalImparementTwo.intro;
-    const botMessage2 = initialAssessmentMessages.emotionalImparementTwo.prompt;
+    const botMessage = initialAssessmentMessages.emotionalImpairmentTwo.intro;
+    const botMessage2 = initialAssessmentMessages.emotionalImpairmentTwo.prompt;
 
     setState((prevState) => ({
       ...prevState,
@@ -133,8 +133,8 @@ const ActionProvider = ({
 
   const handleQuestionSeven = (userResponseToLastQuestion) => {
     const userMessage = createClientMessage(userResponseToLastQuestion);
-    const botMessage = initialAssessmentMessages.cognativeImparementOne.intro;
-    const botMessage2 = initialAssessmentMessages.cognativeImparementOne.prompt;
+    const botMessage = initialAssessmentMessages.cognativeImpairmentOne.intro;
+    const botMessage2 = initialAssessmentMessages.cognativeImpairmentOne.prompt;
 
     setState((prevState) => ({
       ...prevState,
@@ -146,8 +146,8 @@ const ActionProvider = ({
 
   const handleQuestionEight = (userResponseToLastQuestion) => {
     const userMessage = createClientMessage(userResponseToLastQuestion);
-    const botMessage = initialAssessmentMessages.cognativeImparementTwo.intro;
-    const botMessage2 = initialAssessmentMessages.cognativeImparementTwo.prompt;
+    const botMessage = initialAssessmentMessages.cognativeImpairmentTwo.intro;
+    const botMessage2 = initialAssessmentMessages.cognativeImpairmentTwo.prompt;
 
     setState((prevState) => ({
       ...prevState,
@@ -594,8 +594,8 @@ const ActionProvider = ({
     const originalProfileNames = {
       exhausted: "exhaustion",
       detached: "detachment",
-      emotional: "emotionalImparement",
-      distracted: "cognitiveImparement",
+      emotional: "emotionalImpairment",
+      distracted: "cognitiveImpairment",
     };
 
     // Find the key in originalProfileNames that matches the profile argument
