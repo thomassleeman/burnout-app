@@ -61,6 +61,11 @@ const faqs = [
       "We'd love to hear from you! Feel free to share your experience with burnout, provide feedback to enhance The Burnout Hub or ask any questions you may have. You can reach us via email at contact@theburnouthub.com. We look forward to connecting with you!",
   },
   {
+    question: "How do I delete my account?",
+    answer:
+      "If you would like to delete your account you can do so from the profile page which can be accessed by clicking on the round user icon in the right hand corner of the screen. Scroll to the bottom of the page and click 'delete my account', then confirm that you want to go ahead. Your account will be permenantly deleted and you will need to create a new one to use the burnout hub again",
+  },
+  {
     question: "What can I do if I need immediate support?",
     answer: (
       <div>

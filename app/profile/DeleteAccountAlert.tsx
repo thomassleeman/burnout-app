@@ -1,4 +1,6 @@
-import { Fragment, useState } from "react";
+import { Fragment, useState, useEffect } from "react";
+//next.js
+import { useRouter } from "next/navigation";
 import {
   Dialog,
   DialogPanel,
@@ -6,6 +8,21 @@ import {
   Transition,
   TransitionChild,
 } from "@headlessui/react";
+//firebase
+import { auth } from "@/firebase/auth/appConfig";
+//firestore
+import { doc, deleteDoc } from "firebase/firestore";
+import { db } from "@/firebase/auth/appConfig";
+// React firebase hooks
+import { useDeleteUser } from "react-firebase-hooks/auth";
+import { useAuthState } from "react-firebase-hooks/auth";
+
+//jotai
+import { useAtom } from "jotai";
+import { anyErrorAtom } from "@/state/store";
+//comonents
+import ErrorAlert from "@/components/ui/ErrorAlert";
+
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 
 export default function DeleteAccountAlert({
@@ -15,8 +32,48 @@ export default function DeleteAccountAlert({
   open: boolean;
   setOpen: (open: boolean) => void;
 }) {
+  const [user] = useAuthState(auth);
+  const [deleteUser, deleteUserloading, deleteUserError] = useDeleteUser(auth);
+
+  const [anyError, setAnyError] = useAtom(anyErrorAtom);
+  const router = useRouter();
+
+  const handleDeleteAccount = async () => {
+    try {
+      //delete user from firestore
+      const userDocRef = doc(db, "users", user?.uid);
+      await deleteDoc(userDocRef);
+
+      //detete user from auth
+      await deleteUser();
+
+      router.push("/");
+      setOpen(false);
+    } catch (error) {
+      // Check if signInError is an object with a message property of type string
+      if (
+        typeof error === "object" &&
+        error !== null &&
+        "message" in error &&
+        typeof error.message === "string"
+      ) {
+        setAnyError({ message: error.message });
+      } else {
+        // If signInError does not match the expected structure, set a default error message
+        setAnyError({ message: "An unexpected error occurred." });
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (deleteUserError) {
+      setAnyError(deleteUserError);
+    }
+  }, [deleteUserError, setAnyError]);
+
   return (
     <Transition show={open}>
+      <ErrorAlert />
       <Dialog className="relative z-10" onClose={setOpen}>
         <TransitionChild
           enter="ease-out duration-300"
@@ -66,8 +123,11 @@ export default function DeleteAccountAlert({
                 <div className="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse">
                   <button
                     type="button"
-                    className="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto"
-                    onClick={() => setOpen(false)}
+                    disabled={
+                      deleteUserloading || (anyError && anyError.message !== "")
+                    }
+                    onClick={handleDeleteAccount}
+                    className="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 disabled:cursor-not-allowed disabled:bg-slate-400 disabled:opacity-50 sm:ml-3 sm:w-auto"
                   >
                     Delete
                   </button>

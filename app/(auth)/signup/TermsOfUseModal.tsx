@@ -60,7 +60,7 @@ export default function TermsOfUseModal() {
                     </DialogTitle>
                     <div className="mt-2">
                       <p className="text-sm text-gray-500">
-                        The information provided in this app is intended for
+                        The content provided in this app is intended for
                         informational purposes only and is not a substitute for
                         professional medical or psychological advice, diagnosis,
                         or treatment. Always seek the advice of your physician
@@ -69,22 +69,21 @@ export default function TermsOfUseModal() {
                         condition. The creators and publishers of this app do
                         not accept any liability for any injury, loss, or damage
                         incurred as a result of the use of any content or
-                        information contained within this app. By using this
-                        app, you acknowledge and agree to the terms of this
-                        disclaimer.
+                        information contained within this app.
                       </p>
                     </div>
                   </div>
                 </div>
-                <div className="mt-5 sm:mt-6 sm:grid sm:grid-flow-row-dense sm:grid-cols-2 sm:gap-3">
+                {/* <div className="mt-5 sm:mt-6 sm:grid sm:grid-flow-row-dense sm:grid-cols-2 sm:gap-3"> */}
+                <div className="mt-5 sm:mt-6">
                   <button
                     type="button"
                     className="inline-flex w-full justify-center rounded-md bg-emerald-800 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-emerald-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-700 sm:col-start-2"
                     onClick={() => setOpen(false)}
                   >
-                    Agree and Continue
+                    Ok
                   </button>
-                  <button
+                  {/* <button
                     type="button"
                     className="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:col-start-1 sm:mt-0"
                     onClick={() => {
@@ -93,7 +92,7 @@ export default function TermsOfUseModal() {
                     }}
                   >
                     I do not agree
-                  </button>
+                  </button> */}
                 </div>
               </DialogPanel>
             </TransitionChild>

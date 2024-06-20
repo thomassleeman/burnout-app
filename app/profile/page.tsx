@@ -73,7 +73,7 @@ export default function ProfilePage() {
                 </dt>
                 <dd className="mt-1 flex text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
                   <span className="flex-grow">{providerUser.displayName}</span>
-                  <span
+                  {/* <span
                     className={`ml-4 flex-shrink-0 ${
                       passwordUser ? "inline-block" : "hidden"
                     }`}
@@ -84,7 +84,7 @@ export default function ProfilePage() {
                     >
                       Update
                     </button>
-                  </span>
+                  </span> */}
                 </dd>
               </div>
               {/* email */}
@@ -94,7 +94,7 @@ export default function ProfilePage() {
                 </dt>
                 <dd className="mt-1 flex text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
                   <span className="flex-grow">{user.email}</span>
-                  <span
+                  {/* <span
                     className={`ml-4 flex-shrink-0 ${
                       passwordUser ? "inline-block" : "hidden"
                     }`}
@@ -105,7 +105,7 @@ export default function ProfilePage() {
                     >
                       Update
                     </button>
-                  </span>
+                  </span> */}
                 </dd>
               </div>
               {/* account created */}
@@ -146,7 +146,7 @@ export default function ProfilePage() {
         </section>
         <section className="mb-12">
           <div className="px-4 sm:px-0">
-            <h3 className="text-base font-semibold leading-7 text-gray-900">
+            <h3 className="text-base font-semibold leading-7 text-red-400">
               Permanently delete data
             </h3>
           </div>

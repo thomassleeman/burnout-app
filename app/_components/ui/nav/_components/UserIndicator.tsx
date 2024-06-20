@@ -46,7 +46,7 @@ export default function UserIndicator() {
 
   return (
     <Link href="/profile">
-      <div className="ml-6 flex h-12 w-12 items-center justify-center self-center justify-self-end rounded-full bg-gradient-to-r from-purple-500/75 to-pink-500/75 p-3 drop-shadow-lg">
+      <div className="ml-6 flex h-12 w-12 items-center justify-center self-center justify-self-end rounded-full bg-gradient-to-r from-purple-500/75 to-pink-500/75 p-3 drop-shadow-lg hover:outline hover:outline-2 hover:outline-sky-500">
         {content}
       </div>
     </Link>

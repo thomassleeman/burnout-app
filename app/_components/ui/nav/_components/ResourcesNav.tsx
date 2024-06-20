@@ -15,6 +15,7 @@ import portableTextComponents from "@/sanity/schemas/portableText/portableTextCo
 import { Fragment } from "react";
 import { Popover, Transition } from "@headlessui/react";
 import YoutubeIcon from "@/components/design/icons/Youtube";
+import InstagramIcon from "@/app/_components/design/icons/Instagram";
 
 import defaultImage from "@articles/defaultImage.jpeg";
 
@@ -47,18 +48,28 @@ const tools = [
   {
     name: "Check up",
     href: "/chatbot/burnout-assessment",
+    target: "_self",
     icon: () => (
       <ChatBubbleLeftEllipsisIcon className="h-6 w-6 text-blue-400 group-hover:animate-bounce" />
     ),
   },
   {
     name: "Youtube",
-    href: "#",
+    href: "https://www.youtube.com/channel/UCg_SVP7mDgBI4gEcY5mTt-A",
+    target: "_blank",
     icon: () => (
       <YoutubeIcon classes="h-6 w-6 text-red-400 fill-current group-hover:animate-bounce" />
     ),
   },
-  { name: "Guides", href: "#", icon: BookOpenIcon },
+  {
+    name: "Instagram",
+    href: "https://instagram.com/theburnout_hub",
+    target: "_blank",
+    icon: () => (
+      <InstagramIcon classes="h-6 w-6 text-pink-500 fill-current group-hover:animate-bounce" />
+    ),
+  },
+  { name: "Guides", href: "#", target: "_self", icon: BookOpenIcon },
 ];
 
 import {
@@ -185,6 +196,7 @@ export default function ResourcesNav() {
                                   <a
                                     key={item.name}
                                     href={item.href}
+                                    target={item.target}
                                     className="group flex gap-x-4 py-2 text-sm font-semibold leading-6 text-gray-900 hover:text-gray-600"
                                   >
                                     <item.icon
