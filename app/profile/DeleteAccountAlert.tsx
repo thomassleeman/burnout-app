@@ -41,14 +41,18 @@ export default function DeleteAccountAlert({
   const handleDeleteAccount = async () => {
     try {
       //delete user from firestore
-      const userDocRef = doc(db, "users", user?.uid);
-      await deleteDoc(userDocRef);
+      if (user && user.uid) {
+        const userDocRef = doc(db, "users", user.uid);
+        await deleteDoc(userDocRef);
 
-      //detete user from auth
-      await deleteUser();
-
-      router.push("/");
-      setOpen(false);
+        // Deleting user from auth
+        await deleteUser();
+        router.push("/");
+        setOpen(false);
+      } else {
+        // Handle the case where user or user.uid is undefined
+        setAnyError({ message: "User information is missing." });
+      }
     } catch (error) {
       // Check if signInError is an object with a message property of type string
       if (
