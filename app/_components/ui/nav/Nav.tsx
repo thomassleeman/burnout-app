@@ -8,7 +8,7 @@ import Image from "next/image";
 
 //components
 import UserIndicator from "./_components/UserIndicator";
-import ResourcesNav from "./_components/ResourcesNav";
+import ResourcesNav from "./_components/resourcesNav/ResourcesNav";
 // import NavSearch from "./search/NavSearch";
 //functions
 //headlessui
@@ -74,7 +74,7 @@ export default function Nav() {
 
   let content;
 
-  //Nav margins: mb-8 lg:mb-16 in both Disclosure tags lines 177 and 407.
+  //Main Nav
   if (!pathname.includes("/signin") && !pathname.includes("/signup")) {
     content = (
       <Disclosure
@@ -169,7 +169,9 @@ export default function Nav() {
                       </Menu.Items>
                     </Transition>
                   </Menu>
-                  <UserIndicator />
+                  <div className="ml-6">
+                    <UserIndicator />
+                  </div>
                 </div>
                 <div className="flex lg:hidden">
                   {/* ------------------------ Mobile Nav Search -------------------------- */}
@@ -202,6 +204,9 @@ export default function Nav() {
             {/*-------------- MOBILE MENU ----------------*/}
             <Disclosure.Panel className="lg:hidden">
               <div className="space-y-1 pb-3 pt-2">
+                <div className="flex flex-row-reverse bg-slate-200/25 p-4">
+                  <UserIndicator />
+                </div>
                 {navigation.registeredUser.mainNav.map((page) => {
                   return (
                     <Disclosure.Button
@@ -244,6 +249,7 @@ export default function Nav() {
       </Disclosure>
     );
   } else {
+    //Nav for Signin and Signup pages
     content = (
       <Disclosure as="nav" className="max-h-fit shadow">
         {({ open }) => (
@@ -283,8 +289,8 @@ export default function Nav() {
                   </div>
                 </div>
 
+                {/* Mobile menu button */}
                 <div className="flex items-center lg:hidden">
-                  {/* Mobile menu button */}
                   <Disclosure.Button className="inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-emerald-500">
                     <span className="sr-only">Open main menu</span>
                     {open ? (
@@ -318,12 +324,6 @@ export default function Nav() {
                   );
                 })}
               </div>
-              {/* <div className=" pb-3 pt-4"> */}
-              {/* <div className="flex items-center px-4">
-                <Link className="text-right text-sm text-green-700" href="#">
-                  Sign up for a free account
-                </Link>
-              </div> */}
               <Disclosure.Button
                 as="a"
                 href="/signup"
@@ -333,8 +333,6 @@ export default function Nav() {
               >
                 Sign up for a free account
               </Disclosure.Button>
-
-              {/* </div> */}
             </Disclosure.Panel>
           </>
         )}

@@ -3,7 +3,8 @@ import { articleType } from "./articleSchema";
 import { authorType } from "./authorSchema";
 import { categoryType } from "./categorySchema";
 import { courseType } from "./courseSchema";
+import { burnoutStoryType } from "./burnoutStorySchema";
 
 export const schema: { types: SchemaTypeDefinition[] } = {
-  types: [articleType, authorType, categoryType, courseType],
+  types: [articleType, authorType, categoryType, courseType, burnoutStoryType],
 };

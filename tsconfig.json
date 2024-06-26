@@ -30,6 +30,7 @@
       "@types/*": ["./types/*"],
       "@articles/*": ["app/articles/*"],
       "@courses/*": ["app/courses/*"],
+      "@stories/*": ["app/burnout-stories/*"],
       "@actions/*": ["app/actions/*"],
       "@sanity/*": ["app/sanity/*"]
     }

@@ -88,14 +88,9 @@ export async function getRecommendedArticlesData() {
   const recommendedArticlesQuery = recommendedArticles
     .map((slug: string) => `"${slug}"`)
     .join(", ");
-  console.log(
-    "recommendedArticlesQuery(firebase request)",
-    recommendedArticlesQuery
-  );
+
   // b) Get the recommended articles from sanity
   const query = `*[_type == "article" && slug.current in [${recommendedArticlesQuery}]]{${contentCarouselProjection}}`;
-
-  console.log("query", query);
 
   const articles = await client.fetch(query);
 

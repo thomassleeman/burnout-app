@@ -3,14 +3,18 @@ import Link from "next/link";
 import Image from "next/image";
 
 import { getCoursesData } from "@courses/getCoursesData";
+import { getBurnoutStoriesData } from "@stories/getStoriesData";
 import { useState, useEffect } from "react";
+
+import CourseCard from "./CourseCard";
+import StoryCard from "./StoryCard";
 
 const searchApp = process.env.NEXT_PUBLIC_SEARCH_APP;
 const searchKey = process.env.NEXT_PUBLIC_SEARCH_KEY;
 
 import { PortableText } from "@portabletext/react";
-import { urlForImage } from "@/sanity/lib/image";
 import portableTextComponents from "@/sanity/schemas/portableText/portableTextComponents";
+import { urlForImage } from "@/sanity/lib/image";
 
 import { Fragment } from "react";
 import { Popover, Transition } from "@headlessui/react";
@@ -26,6 +30,8 @@ import { Course } from "@/types/sanity";
 
 import {
   BookOpenIcon,
+  FingerPrintIcon,
+  AcademicCapIcon,
   GlobeAltIcon,
   InformationCircleIcon,
   NewspaperIcon,
@@ -35,6 +41,7 @@ import {
   VideoCameraIcon,
   ChatBubbleLeftEllipsisIcon,
   PencilSquareIcon,
+  XMarkIcon,
 } from "@heroicons/react/24/outline";
 
 const engagement = [
@@ -75,7 +82,7 @@ const tools = [
 import {
   ChevronDownIcon,
   ChevronUpIcon,
-  AcademicCapIcon,
+  // AcademicCapIcon,
 } from "@heroicons/react/20/solid";
 import {
   BookmarkSquareIcon,
@@ -86,6 +93,7 @@ import {
 
 export default function ResourcesNav() {
   const [courses, setCourses] = useState<Course[]>([]);
+  const [stories, setStories] = useState<Course[]>([]);
   const pathname = usePathname();
 
   useEffect(() => {
@@ -132,6 +140,50 @@ export default function ResourcesNav() {
     fetchCourses();
   }, []); // Empty dependency array to ensure this runs only once
 
+  useEffect(() => {
+    const fetchStories = async () => {
+      try {
+        const cachedStories = localStorage.getItem("stories");
+        const cachedTime = localStorage.getItem("storiesTime");
+
+        // Check if data is cached and less than a few hours old
+        if (
+          cachedStories &&
+          cachedTime &&
+          new Date().getTime() - Number(cachedTime) < 1000 * 60 * 60 * 3
+        ) {
+          //Using cached courses data
+          const parsedStories = JSON.parse(cachedStories);
+
+          if (!Array.isArray(parsedStories)) {
+            throw new Error("Cached courses data is not an array");
+          }
+
+          setStories(parsedStories);
+        } else {
+          //Fetching new courses data
+          const data = await getBurnoutStoriesData();
+
+          if (!Array.isArray(data)) {
+            throw new Error("Fetched Burnout Stories data is not an array");
+          }
+
+          setStories(data);
+
+          // Cache the data
+          localStorage.setItem("stories", JSON.stringify(data));
+          localStorage.setItem("storiesTime", new Date().getTime().toString());
+        }
+      } catch (error) {
+        console.error("Error fetching or parsing stories data:", error);
+        // Optionally set courses to an empty array on error
+        setCourses([]);
+      }
+    };
+
+    fetchStories();
+  }, []); // Empty dependency array to ensure this runs only once
+
   return (
     <Popover className="relative">
       {({ open, close }) => (
@@ -154,7 +206,9 @@ export default function ResourcesNav() {
             leaveTo="opacity-0 translate-y-1"
           >
             <Popover.Panel className="fixed right-0 z-10 mt-5 flex w-screen max-w-max lg:px-4">
-              {/* <Popover.Panel className="fixed right-0 z-10 mt-5 flex w-screen max-w-max overflow-hidden lg:px-4"> */}
+              <button onClick={close}>
+                <XMarkIcon className="fixed right-0 top-0 h-10 w-10 rounded-full bg-slate-300 p-2 text-gray-900" />
+              </button>
               <div className="w-screen flex-auto overflow-hidden overflow-y-scroll rounded-3xl bg-white text-sm leading-6 shadow-lg ring-1 ring-gray-900/5">
                 <div className="p-4">
                   <div>
@@ -165,7 +219,7 @@ export default function ResourcesNav() {
                       <div className="mx-auto grid max-w-7xl grid-cols-1 gap-x-8 gap-y-10 overflow-y-scroll px-6 py-4 lg:grid-cols-2 lg:px-8">
                         <div className="grid grid-cols-2 gap-x-6 sm:gap-x-8">
                           <div>
-                            <h3 className="text-sm font-medium leading-6 text-gray-500">
+                            <h3 className="font-medium leading-6 text-gray-500">
                               Engagement
                             </h3>
                             <div className="mt-6 flow-root">
@@ -187,7 +241,7 @@ export default function ResourcesNav() {
                             </div>
                           </div>
                           <div>
-                            <h3 className="text-sm font-medium leading-6 text-gray-500">
+                            <h3 className="font-medium leading-6 text-gray-500">
                               Tools
                             </h3>
                             <div className="mt-6 flow-root">
@@ -210,15 +264,58 @@ export default function ResourcesNav() {
                             </div>
                           </div>
                         </div>
+                        {/* Courses */}
                         <div>
-                          <h3 className="mb-2">Courses</h3>
-                          <div className="grid grid-cols-1 gap-10 sm:gap-8 lg:grid-cols-2">
+                          <div className="mb-4 flex items-center gap-x-4 text-gray-500">
+                            <AcademicCapIcon className="h-6 w-6" />
+                            <h3 className="text-lg font-medium leading-6 ">
+                              Courses
+                            </h3>
+                          </div>
+                          <div className="grid grid-cols-1 gap-1 sm:gap-8 lg:grid-cols-2">
                             {courses.map((course: Course) => {
                               return (
-                                //button is included to as to give access to the close function. Without this the menu stays open on navigation.
-                                <button key={course.title} onClick={close}>
-                                  <CourseCard course={course} />
-                                </button>
+                                <CourseCard
+                                  key={course.title}
+                                  course={course}
+                                  closeResourcesNav={close}
+                                />
+                              );
+                            })}
+                          </div>
+                        </div>
+                        {/* Stories */}
+                        <div>
+                          <div className="mb-4 flex items-center gap-x-4 text-gray-500">
+                            <FingerPrintIcon className="h-6 w-6" />
+                            <h3 className="text-lg font-medium leading-6 ">
+                              Burnout Stories
+                            </h3>
+                          </div>
+                          <div className="grid grid-cols-1 gap-10 sm:gap-8 lg:grid-cols-2">
+                            {stories.map((story: Course, index: number) => {
+                              const colors = [
+                                "sky",
+                                "rose",
+                                "lime",
+                                "orange",
+                                "violet",
+                              ];
+
+                              function getColor(
+                                index: number,
+                                colors: string[]
+                              ): string {
+                                return colors[index % colors.length];
+                              }
+
+                              return (
+                                <StoryCard
+                                  key={story.title}
+                                  story={story}
+                                  color={getColor(index, colors)}
+                                  closeResourcesNav={close}
+                                />
                               );
                             })}
                           </div>
@@ -235,56 +332,3 @@ export default function ResourcesNav() {
     </Popover>
   );
 }
-
-const CourseCard = ({ course }: { course: Course }) => {
-  const { title, slug, headerImage, summary } = course;
-  const headerImageUrl = headerImage ? urlForImage(headerImage) : null;
-  return (
-    <article
-      key={title}
-      className="relative isolate flex max-w-2xl flex-col gap-x-8 gap-y-6 sm:flex-row sm:items-start lg:flex-col lg:items-stretch"
-    >
-      <Link
-        href={`/courses/${slug}`}
-        className="flex h-full w-full flex-col gap-y-4 rounded-xl p-4 hover:bg-amber-100/75 sm:flex-row sm:items-start sm:p-6 lg:flex-col lg:items-stretch lg:p-4"
-      >
-        <div className="relative flex-none">
-          <Image
-            className="w-full rounded-lg border-4 border-emerald-800/25 bg-gray-100 object-cover sm:h-32 lg:h-auto"
-            width={250}
-            height={250}
-            src={headerImageUrl || defaultImage}
-            alt={`header image for ${title}`}
-          />
-          <div className="absolute bottom-3 left-0 rounded-r-lg bg-emerald-800/75 px-5 py-2">
-            <h1 className="text-2xl font-bold text-white">{title}</h1>
-          </div>
-          {/* <div className="absolute inset-0 rounded-lg ring-1 ring-inset ring-gray-900/10" /> */}
-        </div>
-        <div>
-          <div className="flex items-center gap-x-4">
-            {/* <time
-            dateTime={post.datetime}
-            className="text-sm leading-6 text-gray-600"
-          >
-            {post.date}
-          </time> */}
-            {/* <a
-            href={post.category.href}
-            className="relative z-10 rounded-full bg-gray-50 px-3 py-1.5 text-xs font-medium text-gray-600 hover:bg-gray-100"
-          >
-            {post.category.title}
-          </a> */}
-          </div>
-          {/* <h4 className="mt-2 text-sm font-semibold leading-6 text-gray-900">
-            <span className="absolute inset-0" />
-            {title}
-          </h4> */}
-          <div className="p-1 text-sm font-light leading-6 text-gray-600">
-            <PortableText value={summary} components={portableTextComponents} />
-          </div>
-        </div>
-      </Link>
-    </article>
-  );
-};

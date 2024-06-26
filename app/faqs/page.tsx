@@ -63,7 +63,7 @@ const faqs = [
   {
     question: "How do I delete my account?",
     answer:
-      "If you would like to delete your account you can do so from the profile page which can be accessed by clicking on the round user icon in the right hand corner of the screen. Scroll to the bottom of the page and click 'delete my account', then confirm that you want to go ahead. Your account will be permenantly deleted and you will need to create a new one to use the burnout hub again",
+      "If you would like to delete your account you can do so from the profile page. Access the profile page by clicking on the round user icon which can be found in the top right hand corner of the screen on larger devices. On mobile devices tap the three bars in the top right hand corner to open up the main menu and the user icon can be found at the top. Scroll to the bottom of the profile page and click 'delete my account', then confirm that you want to go ahead. Your account will be permenantly deleted and you will need to create a new one to use the burnout hub again",
   },
   {
     question: "What can I do if I need immediate support?",

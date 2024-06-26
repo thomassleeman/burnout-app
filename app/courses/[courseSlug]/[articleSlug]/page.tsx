@@ -46,19 +46,10 @@ export default async function Article({
       : process.env.NEXT_PUBLIC_DEV_ORIGIN
   }/articles/${articleSlug}`;
 
-  // const articleData = await getArticleData(slug);
   if (!articleData) notFound();
 
-  const {
-    title,
-    date,
-    content,
-    audio,
-    headerImage,
-    author,
-    readingTime,
-    category,
-  } = articleData;
+  const { title, date, content, audio, headerImage, author, readingTime } =
+    articleData;
 
   const headerImageUrl = headerImage ? urlForImage(headerImage) : null;
   const authorImageUrl = author?.image ? urlForImage(author.image) : null;
@@ -86,17 +77,14 @@ export default async function Article({
             <p className="mx-3">&ndash;</p>
             <p className="mt-0">{getFormattedDate(date)}</p>
           </div>
-          <span className="rounded-lg bg-emerald-500/50 px-2 py-1 text-sm font-extralight text-slate-900">
-            {category?.name}
-          </span>
           <div className="flex items-center justify-between">
             <p className="not-prose text-green-800">
               {readingTime ? `${Math.round(readingTime)} min read` : null}
             </p>
             {audio && <AudioPlayer audio={audio} />}
           </div>
-          <Share />
         </div>
+        <Share />
 
         <Image
           width={1200}

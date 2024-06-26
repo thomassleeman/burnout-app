@@ -96,8 +96,8 @@ export default async function Article({
             </p>
             {audio && <AudioPlayer audio={audio} />}
           </div>
-          <Share />
         </div>
+        <Share />
 
         <Image
           width={1200}
