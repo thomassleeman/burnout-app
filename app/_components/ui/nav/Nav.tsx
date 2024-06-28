@@ -40,7 +40,7 @@ const navigation = {
   },
 
   guest: [
-    { id: "whatisburnout", name: "What is burnout?", href: "#" },
+    // { id: "whatisburnout", name: "What is burnout?", href: "#" },
     // { id: "articles", name: "Articles", href: "/articles" },
   ],
 };
@@ -97,7 +97,7 @@ export default function Nav() {
                     >
                       Sign up for a free account
                     </Link>
-                    {navigation.guest.map((page) => {
+                    {/* {navigation.guest.map((page) => {
                       return (
                         <Link
                           key={page.name}
@@ -111,24 +111,24 @@ export default function Nav() {
                           {page.name}
                         </Link>
                       );
-                    })}
+                    })} */}
                   </div>
                 </div>
 
                 <Link
                   href="/signin"
-                  className=" hidden self-center justify-self-end rounded-lg border border-slate-600 bg-transparent px-2 py-1 text-slate-600 lg:inline-block"
+                  className="mx-2 self-center justify-self-end rounded-lg border border-slate-600 bg-transparent px-2 py-1 text-slate-600"
                 >
                   Sign in
                 </Link>
-                <div className="flex items-center gap-x-6 lg:hidden">
+                {/* Mobile menu button */}
+                {/* <div className="flex items-center gap-x-6 lg:hidden">
                   <Link
                     href="/signin"
                     className="text-nowrap self-center justify-self-end rounded-lg border border-slate-600 bg-transparent px-2 py-1 text-sm text-slate-600"
                   >
                     Sign in
                   </Link>
-                  {/* Mobile menu button */}
                   <div className="flex items-center lg:hidden">
                     <Disclosure.Button className="inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-emerald-500">
                       <span className="sr-only">Open main menu</span>
@@ -145,13 +145,13 @@ export default function Nav() {
                       )}
                     </Disclosure.Button>
                   </div>
-                </div>
+                </div> */}
               </div>
             </div>
 
             {/*  -------------------------------------------------------------------------------------------------------------- */}
 
-            <Disclosure.Panel className="lg:hidden">
+            {/* <Disclosure.Panel className="lg:hidden">
               <div className="space-y-1 pb-3 pt-2">
                 {navigation.guest.map((page) => {
                   return (
@@ -179,7 +179,7 @@ export default function Nav() {
               >
                 Sign up for a free account
               </Disclosure.Button>
-            </Disclosure.Panel>
+            </Disclosure.Panel> */}
           </>
         )}
       </Disclosure>

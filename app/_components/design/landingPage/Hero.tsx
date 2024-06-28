@@ -12,9 +12,9 @@ const martel = Martel({
 
 export default function Hero() {
   return (
-    <div className="mx-auto mt-10 overflow-hidden px-2 py-6 md:px-8">
+    <div className="mx-auto mt-0 overflow-hidden px-2 py-6 md:mt-6 md:px-8 lg:mt-10">
       <div className="relative flex h-full flex-col items-center gap-x-6 md:flex-row">
-        <div className=" p-4 md:p-8 lg:p-16">
+        <div className=" p-6 md:p-8 lg:p-16">
           <h1
             className={`${martel.className} text-5xl font-bold tracking-tight text-emerald-900 md:text-6xl`}
           >
@@ -24,7 +24,7 @@ export default function Hero() {
             </em>
             .
           </h1>
-          <p className="mt-6 text-lg tracking-wide text-slate-500">
+          <p className="mt-6 tracking-wide text-slate-500 md:text-lg">
             Stay happy, focussed and productive with our free content and tools.
             Avoid burnout using the workplace wellness app that focusses on
             stress and mental health.
