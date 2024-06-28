@@ -30,7 +30,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <Providers>
-        <body className="flex flex-col bg-amber-50/75 dark:bg-gradient-to-tr dark:from-slate-950 dark:via-slate-800 dark:to-zinc-900 dark:text-white">
+        <body className="flex min-h-screen flex-col bg-amber-50/75 dark:bg-gradient-to-tr dark:from-slate-950 dark:via-slate-800 dark:to-zinc-900 dark:text-white">
           <Nav />
           <NextTopLoader showSpinner={false} shadow={false} />
           <h1 className=" w-full bg-amber-100 py-1 pl-3 text-sm font-extralight text-slate-600 lg:pl-8">

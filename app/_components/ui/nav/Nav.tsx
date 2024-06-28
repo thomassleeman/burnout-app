@@ -41,7 +41,7 @@ const navigation = {
 
   guest: [
     { id: "whatisburnout", name: "What is burnout?", href: "#" },
-    { id: "articles", name: "Articles", href: "/articles" },
+    // { id: "articles", name: "Articles", href: "/articles" },
   ],
 };
 /* -------------------------------------------------------------- */
@@ -71,11 +71,120 @@ function classNames(...classes: string[]) {
 
 export default function Nav() {
   const pathname = usePathname();
+  console.log("pathname: ", pathname);
 
   let content;
 
-  //Main Nav
-  if (!pathname.includes("/signin") && !pathname.includes("/signup")) {
+  if (pathname === "/" || pathname === "/signup" || pathname === "/signin") {
+    content = (
+      <Disclosure as="nav" className="max-h-fit shadow">
+        {({ open }) => (
+          <>
+            <div className="mx-auto my-1 px-2 sm:px-4 lg:px-8">
+              <div className="flex h-16 justify-between">
+                <div className="flex px-2 lg:px-0">
+                  <div className="flex flex-shrink-0 items-center">
+                    <Image
+                      className="h-5/6 w-auto pr-12 drop-shadow-lg"
+                      src={brainLogo}
+                      alt="MindHub Logo"
+                    />{" "}
+                  </div>
+                  <div className="hidden lg:ml-6 lg:flex lg:space-x-8">
+                    <Link
+                      className="inline-flex items-center justify-self-end px-1 pt-1 text-sm font-medium text-green-700 hover:text-green-900"
+                      href="/signup"
+                    >
+                      Sign up for a free account
+                    </Link>
+                    {navigation.guest.map((page) => {
+                      return (
+                        <Link
+                          key={page.name}
+                          href={page.href}
+                          className={`inline-flex items-center border-b-2 px-1 pt-1 text-sm font-medium ${
+                            pathname === page.href
+                              ? pageIndicator.lg.current
+                              : pageIndicator.lg.default
+                          }`}
+                        >
+                          {page.name}
+                        </Link>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                <Link
+                  href="/signin"
+                  className=" hidden self-center justify-self-end rounded-lg border border-slate-600 bg-transparent px-2 py-1 text-slate-600 lg:inline-block"
+                >
+                  Sign in
+                </Link>
+                <div className="flex items-center  gap-x-6 lg:hidden">
+                  <Link
+                    href="/signin"
+                    className=" self-center justify-self-end rounded-lg border border-slate-600 bg-transparent px-2 py-1 text-slate-600"
+                  >
+                    Sign in
+                  </Link>
+                  {/* Mobile menu button */}
+                  <div className="flex items-center lg:hidden">
+                    <Disclosure.Button className="inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-emerald-500">
+                      <span className="sr-only">Open main menu</span>
+                      {open ? (
+                        <XMarkIcon
+                          className="block h-6 w-6"
+                          aria-hidden="true"
+                        />
+                      ) : (
+                        <Bars3Icon
+                          className="block h-6 w-6"
+                          aria-hidden="true"
+                        />
+                      )}
+                    </Disclosure.Button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/*  -------------------------------------------------------------------------------------------------------------- */}
+
+            <Disclosure.Panel className="lg:hidden">
+              <div className="space-y-1 pb-3 pt-2">
+                {navigation.guest.map((page) => {
+                  return (
+                    <Disclosure.Button
+                      key={page.name}
+                      as="a"
+                      href={page.href}
+                      className={`block border-l-4 py-2 pl-3 pr-4 text-base font-medium ${
+                        pathname === page.href
+                          ? pageIndicator.sm.current
+                          : pageIndicator.sm.default
+                      }`}
+                    >
+                      {page.name}
+                    </Disclosure.Button>
+                  );
+                })}
+              </div>
+              <Disclosure.Button
+                as="a"
+                href="/signup"
+                className={
+                  "mb-4 block py-2 pl-3 pr-4 text-base font-medium text-green-700"
+                }
+              >
+                Sign up for a free account
+              </Disclosure.Button>
+            </Disclosure.Panel>
+          </>
+        )}
+      </Disclosure>
+    );
+  } else {
     content = (
       <Disclosure
         as="nav"
@@ -244,96 +353,6 @@ export default function Nav() {
               </div>
             </Disclosure.Panel>
             {/* ------------------------------ */}
-          </>
-        )}
-      </Disclosure>
-    );
-  } else {
-    //Nav for Signin and Signup pages
-    content = (
-      <Disclosure as="nav" className="max-h-fit shadow">
-        {({ open }) => (
-          <>
-            <div className="mx-auto my-1 px-2 sm:px-4 lg:px-8">
-              <div className="flex h-16 justify-between">
-                <div className="flex px-2 lg:px-0">
-                  <div className="flex flex-shrink-0 items-center">
-                    <Image
-                      className="h-5/6 w-auto pr-12 drop-shadow-lg"
-                      src={brainLogo}
-                      alt="MindHub Logo"
-                    />{" "}
-                  </div>
-                  <div className="hidden lg:ml-6 lg:flex lg:space-x-8">
-                    <Link
-                      className="inline-flex items-center justify-self-end px-1 pt-1 text-sm font-medium text-green-700 hover:text-green-900"
-                      href="/signup"
-                    >
-                      Sign up for a free account
-                    </Link>
-                    {navigation.guest.map((page) => {
-                      return (
-                        <Link
-                          key={page.name}
-                          href={page.href}
-                          className={`inline-flex items-center border-b-2 px-1 pt-1 text-sm font-medium ${
-                            pathname === page.href
-                              ? pageIndicator.lg.current
-                              : pageIndicator.lg.default
-                          }`}
-                        >
-                          {page.name}
-                        </Link>
-                      );
-                    })}
-                  </div>
-                </div>
-
-                {/* Mobile menu button */}
-                <div className="flex items-center lg:hidden">
-                  <Disclosure.Button className="inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-emerald-500">
-                    <span className="sr-only">Open main menu</span>
-                    {open ? (
-                      <XMarkIcon className="block h-6 w-6" aria-hidden="true" />
-                    ) : (
-                      <Bars3Icon className="block h-6 w-6" aria-hidden="true" />
-                    )}
-                  </Disclosure.Button>
-                </div>
-              </div>
-            </div>
-
-            {/*  -------------------------------------------------------------------------------------------------------------- */}
-
-            <Disclosure.Panel className="lg:hidden">
-              <div className="space-y-1 pb-3 pt-2">
-                {navigation.guest.map((page) => {
-                  return (
-                    <Disclosure.Button
-                      key={page.name}
-                      as="a"
-                      href={page.href}
-                      className={`block border-l-4 py-2 pl-3 pr-4 text-base font-medium ${
-                        pathname === page.href
-                          ? pageIndicator.sm.current
-                          : pageIndicator.sm.default
-                      }`}
-                    >
-                      {page.name}
-                    </Disclosure.Button>
-                  );
-                })}
-              </div>
-              <Disclosure.Button
-                as="a"
-                href="/signup"
-                className={
-                  "mb-4 block py-2 pl-3 pr-4 text-base font-medium text-green-700"
-                }
-              >
-                Sign up for a free account
-              </Disclosure.Button>
-            </Disclosure.Panel>
           </>
         )}
       </Disclosure>
