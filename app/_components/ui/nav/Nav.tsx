@@ -119,7 +119,7 @@ export default function Nav() {
                   href="/signin"
                   className="mx-2 self-center justify-self-end rounded-lg border border-slate-600 bg-transparent px-2 py-1 text-slate-600"
                 >
-                  Sign in
+                  login
                 </Link>
                 {/* Mobile menu button */}
                 {/* <div className="flex items-center gap-x-6 lg:hidden">

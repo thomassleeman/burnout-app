@@ -20,7 +20,7 @@ export default function Hero() {
           >
             Let&apos;s make Burnout a thing of the{" "}
             <em className="underline decoration-yellow-300 underline-offset-8">
-              past{" "}
+              past
             </em>
             .
           </h1>
