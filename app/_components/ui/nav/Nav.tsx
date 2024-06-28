@@ -121,10 +121,10 @@ export default function Nav() {
                 >
                   Sign in
                 </Link>
-                <div className="flex items-center  gap-x-6 lg:hidden">
+                <div className="flex items-center gap-x-6 lg:hidden">
                   <Link
                     href="/signin"
-                    className=" self-center justify-self-end rounded-lg border border-slate-600 bg-transparent px-2 py-1 text-slate-600"
+                    className="text-nowrap self-center justify-self-end rounded-lg border border-slate-600 bg-transparent px-2 py-1 text-sm text-slate-600"
                   >
                     Sign in
                   </Link>
