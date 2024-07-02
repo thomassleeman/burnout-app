@@ -36,7 +36,7 @@ export default function Share({
   const pathname = usePathname();
   const currentUrl = `${origin}${pathname}`;
   return (
-    <div className="mt-6 flex items-center gap-4">
+    <div className="mt-6 flex items-center gap-4 px-2 md:px-0">
       <span className="font-mono text-sm text-slate-500">
         Share this {articleType}:
       </span>
