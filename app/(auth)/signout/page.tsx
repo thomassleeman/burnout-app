@@ -31,7 +31,7 @@ export default function SignOut() {
         method: "POST",
       });
       if (response.status === 200 && userSignedOut) {
-        router.push("/signin");
+        router.push("/");
       } else {
         setAnyError({
           message: "Something went wrong. Please try again.",
@@ -54,11 +54,11 @@ export default function SignOut() {
   };
 
   //If a user who is not signed in navigates to the signout page, redirect them to the signin page.
-  useEffect(() => {
-    if (!user) {
-      router.push("/signin");
-    }
-  }, [user, router]);
+  // useEffect(() => {
+  //   if (!user) {
+  //     router.push("/signin");
+  //   }
+  // }, [user, router]);
 
   useEffect(() => {
     if (useSignOutError) {
