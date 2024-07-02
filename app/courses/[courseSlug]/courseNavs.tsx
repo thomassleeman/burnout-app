@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import Share from "../_components/Share";
+import Share from "@/components/ui/Share";
 
 import {
   ArrowRightIcon,
@@ -24,7 +24,7 @@ function CourseHeadNav({ course }: { course: Course }) {
   const pathSlug = pathname.split("/").pop();
   return (
     <>
-      <div>
+      <div className="">
         <Link href={`/courses/${slug}`}>
           <div className="mx-2 mb-4 flex items-center space-x-6 text-slate-700 md:mx-0">
             <AcademicCapIcon className="h-6 w-6" />
@@ -56,7 +56,7 @@ function CourseHeadNav({ course }: { course: Course }) {
               ))}
             </nav>
           </div>
-          <Share />
+          <Share title={title} articleType="course" />
         </div>
       </div>
       {/* Script to scroll nav bar to current page */}

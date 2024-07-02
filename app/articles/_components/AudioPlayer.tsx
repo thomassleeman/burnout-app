@@ -7,10 +7,8 @@ type AudioPlayerProps = {
 
 export default function AudioPlayer({ audio }: AudioPlayerProps) {
   return (
-    <div className="flex flex-col items-center">
-      <audio controls>
-        <source src={accessAssetUrl(audio)} type="audio/mpeg" />
-      </audio>
-    </div>
+    <audio controls>
+      <source src={accessAssetUrl(audio)} type="audio/mpeg" />
+    </audio>
   );
 }

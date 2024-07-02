@@ -72,6 +72,17 @@ interface ContentCarouselProps {
   articles?: Article[];
 }
 
+const individualCarouselThemes = (carouselTitle: string) => {
+  switch (carouselTitle) {
+    case "The Basics":
+      return "rounded-xl p-4 outline outline-4 outline-amber-300/50";
+    case "Recommended for You":
+      return "rounded-xl p-4 bg-emerald-300/25";
+    default:
+      return "";
+  }
+};
+
 export default function ContentCarousel({
   carouselTitle = "",
   carouselTagline = "",
@@ -89,7 +100,7 @@ export default function ContentCarousel({
     content = null;
   } else {
     content = (
-      <div>
+      <div className={individualCarouselThemes(carouselTitle)}>
         <div className="lg:mx-auto lg:max-w-7xl lg:px-8">
           <div className="mx-auto">
             <h2 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-slate-50">
@@ -123,7 +134,7 @@ export default function ContentCarousel({
                 headerImage,
                 slug,
                 id,
-                category,
+                classification,
                 summary,
                 author,
                 audio,

@@ -9,9 +9,33 @@ import ArticleFooter from "../_components/ArticleFooter";
 import AudioPlayer from "../_components/AudioPlayer";
 
 import MarkDown from "markdown-to-jsx";
-import Share from "../_components/Share";
+import Share from "@/components/ui/Share";
 import { Martel } from "next/font/google";
 import brainLogo from "@/components/design/brainLogo.png";
+
+//react-share
+import {
+  EmailShareButton,
+  FacebookShareButton,
+  GabShareButton,
+  HatenaShareButton,
+  InstapaperShareButton,
+  LineShareButton,
+  LinkedinShareButton,
+  LivejournalShareButton,
+  MailruShareButton,
+  OKShareButton,
+  PinterestShareButton,
+  PocketShareButton,
+  RedditShareButton,
+  TelegramShareButton,
+  TumblrShareButton,
+  TwitterShareButton,
+  ViberShareButton,
+  VKShareButton,
+  WhatsappShareButton,
+  WorkplaceShareButton,
+} from "react-share";
 
 //Sanity
 
@@ -97,7 +121,7 @@ export default async function Article({
             {audio && <AudioPlayer audio={audio} />}
           </div>
         </div>
-        <Share />
+        <Share title={title} articleType="article" />
 
         <Image
           width={1200}

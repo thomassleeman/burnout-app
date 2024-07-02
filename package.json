@@ -49,6 +49,7 @@
     "react-firebase-hooks": "^5.1.1",
     "react-instantsearch": "^7.7.0",
     "react-instantsearch-nextjs": "^0.1.14",
+    "react-share": "^5.1.0",
     "sanity": "^3.38.0",
     "server-only": "^0.0.1",
     "sharp": "^0.33.2",

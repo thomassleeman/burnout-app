@@ -8,7 +8,7 @@ import StudyModal from "@/components/ui/modal/StudyModal";
 import { CourseHeadNav, CourseFootNav } from "../courseNavs";
 import AudioPlayer from "@articles/_components/AudioPlayer";
 
-import Share from "@articles/_components/Share";
+import Share from "@/components/ui/Share";
 import { Martel } from "next/font/google";
 import brainLogo from "@/components/design/brainLogo.png";
 
@@ -84,7 +84,7 @@ export default async function Article({
             {audio && <AudioPlayer audio={audio} />}
           </div>
         </div>
-        <Share />
+        <Share title={title} articleType="article" />
 
         <Image
           width={1200}

@@ -104,6 +104,19 @@ export async function getArticlesByCategory() {
 
   const articles = await client.fetch(query);
 
+  // function groupByCategory(items: any[], groupName: string) {
+  //   const grouped = items.reduce((result, item) => {
+  //     const groupKey = item[groupName];
+  //     if (!result[groupKey]) {
+  //       result[groupKey] = [];
+  //     }
+  //     result[groupKey].push(item);
+  //     return result;
+  //   }, {});
+
+  //   return Object.keys(grouped).map((key) => grouped[key]);
+  // }
+
   function groupByCategory(items: any[], groupName: string) {
     const grouped = items.reduce((result, item) => {
       const groupKey = item[groupName];
@@ -114,7 +127,20 @@ export async function getArticlesByCategory() {
       return result;
     }, {});
 
-    return Object.keys(grouped).map((key) => grouped[key]);
+    let groupedArticles = Object.keys(grouped).map((key) => grouped[key]);
+
+    // Find the index of the array for "The Basics" classification
+    const basicsIndex = groupedArticles.findIndex((group) =>
+      group.some((article: Article) => article.classification === "The Basics")
+    );
+
+    // If found, move the "The Basics" group to the start
+    if (basicsIndex > -1) {
+      const [basicsGroup] = groupedArticles.splice(basicsIndex, 1);
+      groupedArticles.unshift(basicsGroup);
+    }
+
+    return groupedArticles;
   }
 
   const groupedArticles = groupByCategory(articles, "classification");

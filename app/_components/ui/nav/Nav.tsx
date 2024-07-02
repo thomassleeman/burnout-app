@@ -71,7 +71,6 @@ function classNames(...classes: string[]) {
 
 export default function Nav() {
   const pathname = usePathname();
-  console.log("pathname: ", pathname);
 
   let content;
 

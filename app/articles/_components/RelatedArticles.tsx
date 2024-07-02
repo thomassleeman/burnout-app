@@ -27,7 +27,7 @@ export default function RelatedArticles({ articles }: RelatedArticlesProps) {
         <h3 className="sr-only">Recommended Articles</h3>
         <div className="grid grid-cols-1 justify-center gap-14 lg:grid-cols-2 lg:gap-20">
           {articles.map((article: Article) => {
-            const { title, author, category, date, slug, headerImage } =
+            const { title, author, classification, date, slug, headerImage } =
               article;
 
             let formattedDate;
@@ -61,7 +61,7 @@ export default function RelatedArticles({ articles }: RelatedArticlesProps) {
                         {author}
                       </span>
                       <span className="z-10 rounded-full bg-blue-100 px-2 py-1 text-xs text-slate-800">
-                        {category}
+                        {classification}
                       </span>
                     </div>
                     <h4 className="text-lg font-semibold leading-6 text-slate-800 group-hover:text-emerald-600">

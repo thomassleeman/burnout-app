@@ -44,7 +44,7 @@ export type Article = {
   headerImage?: SanityImage;
   author: string;
   readingTime?: number;
-  category: string;
+  classification: string;
   summary?: string;
 };
 
