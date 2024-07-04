@@ -93,7 +93,7 @@ export default async function Article({
       <article
         className={`${martel.className} prose prose-slate mx-auto dark:prose-invert md:prose-lg`}
       >
-        <div className="px-6 font-sans">
+        {/* <div className="px-6 font-sans">
           <h1 className="mt-4 text-slate-800">{title}</h1>
           <div className="not-prose flex items-center">
             <div className="flex items-center gap-x-2">
@@ -111,7 +111,7 @@ export default async function Article({
             <p className="mx-3">&ndash;</p>
             <p className="mt-0">{getFormattedDate(date)}</p>
           </div>
-          <span className="rounded-lg bg-emerald-500/50 px-2 py-1 text-sm font-extralight text-slate-900">
+          <span className="w-fit rounded-lg bg-emerald-500/50 px-2 py-1 text-sm font-extralight text-slate-900">
             {category?.name}
           </span>
           <div className="flex items-center justify-between">
@@ -120,6 +120,30 @@ export default async function Article({
             </p>
             {audio && <AudioPlayer audio={audio} />}
           </div>
+        </div> */}
+        <div className="flex flex-col justify-items-start gap-y-4 px-2 py-2">
+          <h1 className="mb-2 text-5xl text-slate-800">{title}</h1>
+          <div className="not-prose flex items-center gap-x-2">
+            {authorImageUrl && (
+              <Image
+                src={authorImageUrl}
+                alt={`author image for ${
+                  author?.name || "the author of this article"
+                }`}
+                width={60}
+                height={60}
+                className="h-12 w-12 rounded-full"
+              />
+            )}
+            <p className="mt-0">{author?.name || "Burnout Project Team"}</p>
+            <p className="">&ndash;</p>
+            <p className="">{getFormattedDate(date)}</p>
+          </div>
+          <span className="w-fit rounded-lg bg-emerald-500/50 px-2 py-1 text-sm font-extralight text-slate-900">
+            {category?.name}
+          </span>
+
+          {audio && <AudioPlayer audio={audio} />}
         </div>
         <Share title={title} articleType="article" />
 

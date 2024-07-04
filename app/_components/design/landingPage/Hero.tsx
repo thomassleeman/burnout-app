@@ -25,9 +25,9 @@ export default function Hero() {
             .
           </h1>
           <p className="mt-6 tracking-wide text-slate-500 md:text-lg">
-            Stay happy, focussed and productive with our free content and tools.
-            Avoid burnout using the workplace wellness app that focusses on
-            stress and mental health.
+            Articles, courses and tools to fight the growing issue of burnout.
+            Welcome to the wellness platform focused on stress and mental health
+            at work.
           </p>
           <div className="mt-8 flex justify-center gap-x-6 lg:justify-start">
             <button className=" rounded-lg bg-emerald-900 px-4 py-2 text-white hover:bg-emerald-800">

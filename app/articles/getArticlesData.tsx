@@ -204,3 +204,24 @@ export async function getRelatedArticles(
 }
 
 /* ----------------------------------------------------------------------------------------- */
+
+export async function getArticlesForGivenCategories(categories: string[]) {
+  const query = `*[_type == "article" && category->name in [${categories
+    .map((category: string) => `"${category}"`)
+    .join(",")}]]| order(date desc){
+            title,
+           date,
+           "slug": slug.current,
+          "category":category->{name}.name,  
+           headerImage,
+           "author": author->{name}.name,
+            "summary": summary[0].children[0].text,
+            audio,
+          }`;
+
+  const articles = await client.fetch(query);
+
+  return articles;
+}
+
+/* ----------------------------------------------------------------------------------------- */

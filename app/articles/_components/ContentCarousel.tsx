@@ -89,8 +89,6 @@ export default function ContentCarousel({
   image = "",
   articles = [],
 }: ContentCarouselProps) {
-  const [playingAudioId, setPlayingAudioId] = useState<string | null>(null);
-
   const [showSearchResults, setShowSearchResults] = useAtom(
     showSearchResultsAtom
   );
