@@ -1,32 +1,44 @@
 "use client";
 import { useState } from "react";
 import ContentSelectorCarousel from "./ContentSelectorCarousel";
-const tabs = [
-  { name: "My Account", href: "#", current: false },
-  { name: "Company", href: "#", current: false },
-  { name: "Team Members", href: "#", current: true },
-  { name: "Billing", href: "#", current: false },
-];
+import { InformationCircleIcon } from "@heroicons/react/24/outline";
+//types
+import { Article } from "@/types/sanity";
 
-function classNames(...classes) {
+function classNames(...classes: (string | false | null | undefined)[]) {
   return classes.filter(Boolean).join(" ");
 }
 
-export default function ContentSelectorControl({ articlesByCategory }) {
+interface ArticlesByCategory {
+  [category: string]: Article[];
+}
+
+export default function ContentSelectorControl({
+  articlesByCategory,
+}: {
+  articlesByCategory: ArticlesByCategory;
+}) {
   const categoryKeys = Object.keys(articlesByCategory).map((key) =>
     key.replace("Burnout Signs: ", "")
   );
 
   const [selectedCategory, setSelectedCategory] = useState("Distracted");
-  console.log("selectedCategory: ", selectedCategory);
-  console.log("articles: ", articlesByCategory.selectedCategory);
+
   return (
-    <div>
-      <div className="lg:mx-auto lg:max-w-7xl lg:px-8">
+    <div className="">
+      <div className=" lg:mx-auto lg:max-w-7xl lg:px-8">
         <div className="mx-auto">
-          <h2 className="mb-6 text-2xl font-bold tracking-tight text-gray-900 dark:text-slate-50">
-            Burnout Signs
-          </h2>
+          <div className="mb-6 flex flex-col gap-y-2">
+            <h2 className=" text-2xl font-bold tracking-tight text-gray-900 dark:text-slate-50">
+              Burnout Signs
+            </h2>
+            <div className="flex gap-x-3">
+              <InformationCircleIcon className="h-5 w-5 text-emerald-800" />
+              <span className="text-sm text-emerald-800">
+                There are 4 key signs of Burnout. Select below to learn more.
+              </span>
+            </div>
+          </div>
           {/* Dropdown for mobile */}
           <div className="sm:hidden">
             <label htmlFor="tabs" className="sr-only">
@@ -48,7 +60,7 @@ export default function ContentSelectorControl({ articlesByCategory }) {
           </div>
           {/* ------------------------ */}
           <div className="hidden sm:block">
-            <div className="border-b border-amber-100">
+            <div className="border-b border-gray-100">
               <nav className="-mb-px flex" aria-label="Tabs">
                 {categoryKeys.map((category, index) => (
                   <button
@@ -56,9 +68,9 @@ export default function ContentSelectorControl({ articlesByCategory }) {
                     onClick={() => setSelectedCategory(category)}
                     className={classNames(
                       selectedCategory === category
-                        ? "cursor-pointer border-emerald-700 text-emerald-700"
-                        : "cursor-pointer border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700",
-                      "w-1/4 border-b-2 px-1 py-4 text-center text-sm font-medium"
+                        ? " border-emerald-700 text-emerald-700"
+                        : "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700",
+                      "w-1/4 cursor-pointer border-b-2 px-1 py-4 text-center font-medium"
                     )}
                   >
                     {category}

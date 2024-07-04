@@ -11,12 +11,19 @@ const categories = [
 ];
 const articles = await getArticlesForGivenCategories(categories);
 
+interface CategoryMap {
+  [key: string]: any[]; // Use any[] or a more specific type for the array elements if possible
+}
+
 function groupByCategory(items: any[], categories: string[]) {
   // Initialize an object with keys as the given categories and values as empty arrays
-  const groupedByCategory = categories.reduce((acc, category) => {
-    acc[category] = [];
-    return acc;
-  }, {});
+  const groupedByCategory = categories.reduce(
+    (acc: CategoryMap, category: string) => {
+      acc[category] = [];
+      return acc;
+    },
+    {} as CategoryMap
+  );
 
   // Iterate through the items and group them by category if the category matches one of the given categories
   items.forEach((item) => {
@@ -32,6 +39,5 @@ function groupByCategory(items: any[], categories: string[]) {
 export default async function ContentSelector() {
   const groupedArticles = groupByCategory(articles, categories);
 
-  console.log("groupedArticles: ", groupedArticles);
   return <ContentSelectorControl articlesByCategory={groupedArticles} />;
 }
