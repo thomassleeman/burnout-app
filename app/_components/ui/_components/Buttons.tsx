@@ -1,3 +1,6 @@
+"use client";
+
+import { useFormStatus } from "react-dom";
 import Link from "next/link";
 
 type MainButtonProps = {
@@ -18,3 +21,19 @@ export const PrimaryLinkButton: React.FC<MainButtonProps> = ({
     </Link>
   );
 };
+
+export function SubmitButton({
+  children,
+  classes,
+}: {
+  children: React.ReactNode;
+  classes?: string;
+}) {
+  const { pending } = useFormStatus();
+
+  return (
+    <button className={classes} type="submit" disabled={pending}>
+      {children}
+    </button>
+  );
+}

@@ -138,13 +138,13 @@ export const courseType = defineType({
         rule.required().error(`Please include a slug for the course.`),
     }),
     defineField({
-      name: "articles",
-      title: "Articles",
+      name: "resources",
+      title: "Resources",
       type: "array",
       of: [
         {
           type: "reference",
-          to: { type: "article" },
+          to: [{ type: "article" }, { type: "selfReflectionExercise" }],
         },
       ],
       validation: (rule) =>

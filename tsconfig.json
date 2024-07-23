@@ -31,6 +31,7 @@
       "@articles/*": ["app/articles/*"],
       "@courses/*": ["app/courses/*"],
       "@stories/*": ["app/burnout-stories/*"],
+      "@exercises/*": ["app/exercises/*"],
       "@actions/*": ["app/actions/*"],
       "@sanity/*": ["app/sanity/*"]
     }

@@ -48,11 +48,27 @@ export type Article = {
   summary?: string;
 };
 
+export type Exercise = {
+  title: string;
+  content: PortableTextBlock[];
+  slug: string;
+  headerImage?: SanityImage;
+  summary: PortableTextBlock[];
+  classification: string;
+};
+
+export type CourseResource = {
+  title: string;
+  headerImage?: SanityImage;
+  slug: string;
+  type: "article" | "selfReflectionExercise";
+};
+
 export type Course = {
   title: string;
   content: PortableTextBlock[];
   slug: string;
   headerImage?: SanityImage;
   summary: PortableTextBlock[];
-  articles: Article[];
+  resources: CourseResource[];
 };

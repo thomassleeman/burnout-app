@@ -7,8 +7,10 @@ type AudioPlayerProps = {
 
 export default function AudioPlayer({ audio }: AudioPlayerProps) {
   return (
-    <audio controls>
-      <source src={accessAssetUrl(audio)} type="audio/mpeg" />
-    </audio>
+    <div className="z-0">
+      <audio controls>
+        <source src={accessAssetUrl(audio)} type="audio/mpeg" />
+      </audio>
+    </div>
   );
 }

@@ -5,7 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import defaultImage from "@articles/defaultImage.jpeg";
 import StudyModal from "@/components/ui/modal/StudyModal";
-import { CourseHeadNav, CourseFootNav } from "../courseNavs";
+import { CourseHeadNav, CourseFootNav } from "../../courseNavs";
 import AudioPlayer from "@articles/_components/AudioPlayer";
 
 import Share from "@/components/ui/Share";
@@ -18,7 +18,7 @@ import { PortableText } from "@portabletext/react";
 import { urlForImage } from "@/sanity/lib/image";
 import portableTextComponents from "@/sanity/schemas/portableText/portableTextComponents";
 
-export const revalidate = 1; // revalidate the data cache at most every hour
+export const revalidate = 3600; // revalidate the data cache at most every hour
 
 const martel = Martel({
   subsets: ["latin"],
@@ -61,7 +61,7 @@ export default async function Article({
       >
         <div className="px-6 font-sans">
           <h1 className="mt-4 text-slate-800">{title}</h1>
-          <div className="not-prose flex items-center">
+          {/* <div className="not-prose flex items-center">
             <div className="flex items-center gap-x-2">
               <Image
                 src={authorImageUrl || brainLogo}
@@ -76,15 +76,15 @@ export default async function Article({
             </div>
             <p className="mx-3">&ndash;</p>
             <p className="mt-0">{getFormattedDate(date)}</p>
-          </div>
+          </div> */}
           <div className="flex items-center justify-between">
-            <p className="not-prose text-green-800">
+            {/* <p className="not-prose text-green-800">
               {readingTime ? `${Math.round(readingTime)} min read` : null}
-            </p>
+            </p> */}
             {audio && <AudioPlayer audio={audio} />}
           </div>
         </div>
-        <Share title={title} articleType="article" />
+        {/* <Share title={title} articleType="article" /> */}
 
         <Image
           width={1200}
@@ -92,14 +92,15 @@ export default async function Article({
           src={headerImageUrl || defaultImage}
           alt={`header image for the article ${title}`}
           priority={true}
+          // className="h-96 w-auto"
         ></Image>
 
         <div className="px-6 first-letter:float-left first-letter:mr-2 first-letter:text-6xl first-letter:font-extrabold first-letter:text-green-900">
           <PortableText value={content} components={portableTextComponents} />
         </div>
-        <div className="not-prose mt-6 pl-1 font-sans lg:pl-0">
+        {/* <div className="not-prose mt-6 pl-1 font-sans lg:pl-0">
           <Link href="/articles">← Back to library</Link>
-        </div>
+        </div> */}
         {showModal && study && (
           <StudyModal currentUrl={currentUrl} studyId={study} />
         )}

@@ -37,7 +37,6 @@ export async function POST(request: NextRequest, response: NextResponse) {
 
   //Get the userID from the decoded cookie
   const userID = decodedClaims.uid;
-  console.log("userID(route): ", userID);
 
   return NextResponse.json({ userID });
 }

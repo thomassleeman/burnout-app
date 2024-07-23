@@ -30,10 +30,11 @@ export async function getCourseData(slug: string) {
       }
     }
       },
-      "articles": articles[]->{
+      "resources": resources[]->{
   "title": title,
-  "headerImage": headerImage,
+  "headerImage": coalesce(headerImage, ""),
   "slug": slug.current,
+  "type": _type,
 }
   }`;
   const article = await client.fetch(query);
