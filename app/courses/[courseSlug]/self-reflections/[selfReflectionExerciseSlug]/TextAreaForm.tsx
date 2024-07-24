@@ -3,18 +3,12 @@
 import { useState, useEffect } from "react";
 //next
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 //firebase
 import { app } from "@firebase/auth/appConfig";
-import {
-  doc,
-  getFirestore,
-  setDoc,
-  serverTimestamp,
-  getDoc,
-} from "firebase/firestore";
+import { doc, getFirestore, getDoc } from "firebase/firestore";
 //components
 import { SubmitButton } from "@/app/_components/ui/_components/Buttons";
-import Spinner from "@/app/_components/design/Spinner";
 //functions
 import updateDatabase from "@exercises/selfReflectionExercises/updateDatabase";
 //actions
@@ -31,20 +25,14 @@ export default function TextAreaForm({
 }: {
   exerciseSlug: string;
 }) {
+  const router = useRouter();
+
   const [loading, setLoading] = useState(true);
   const [submitted, setSubmitted] = useState(false);
   const [userInput, setUserInput] = useState("");
 
   const [previousInputData, setPreviousInputData] = useState<PreviousInputData>(
     {}
-  );
-  console.log(
-    "submitted: ",
-    submitted,
-    "userInput: ",
-    userInput,
-    "previousInputData: ",
-    previousInputData
   );
 
   ///Load up any previous input
@@ -60,6 +48,7 @@ export default function TextAreaForm({
       });
 
       if (!response.ok) {
+        router.push("/signin");
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 

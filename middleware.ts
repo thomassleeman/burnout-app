@@ -67,7 +67,7 @@ export async function middleware(request: NextRequest, response: NextResponse) {
   return NextResponse.next();
 }
 
-//Add your protected routes
+//Protected routes
 export const config = {
   matcher: [
     "/home",
@@ -76,5 +76,6 @@ export const config = {
     "/profile",
     "/studio/:path*",
     "/superadmin/:path*",
+    "/courses/:path*",
   ],
 };
