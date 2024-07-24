@@ -65,6 +65,10 @@ export default function TextAreaForm({
       }
 
       const previousInput = data.exercises[exerciseSlug];
+      if (!previousInput) {
+        setLoading(false);
+        return;
+      }
 
       const previousInputDate = getFormattedDate(
         previousInput.createdAt.seconds

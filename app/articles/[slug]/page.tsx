@@ -13,30 +13,6 @@ import Share from "@/components/ui/Share";
 import { Martel } from "next/font/google";
 import brainLogo from "@/components/design/brainLogo.png";
 
-//react-share
-import {
-  EmailShareButton,
-  FacebookShareButton,
-  GabShareButton,
-  HatenaShareButton,
-  InstapaperShareButton,
-  LineShareButton,
-  LinkedinShareButton,
-  LivejournalShareButton,
-  MailruShareButton,
-  OKShareButton,
-  PinterestShareButton,
-  PocketShareButton,
-  RedditShareButton,
-  TelegramShareButton,
-  TumblrShareButton,
-  TwitterShareButton,
-  ViberShareButton,
-  VKShareButton,
-  WhatsappShareButton,
-  WorkplaceShareButton,
-} from "react-share";
-
 //Sanity
 
 import { PortableText } from "@portabletext/react";
