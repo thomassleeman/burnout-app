@@ -25,14 +25,14 @@ function classNames(...classes: string[]) {
 }
 
 function CourseHeadNav({ course }: { course: Course }) {
+  const pathname = usePathname();
+  const pathSlug = pathname.split("/").pop();
+
   if (!course) {
     return null;
   }
 
   const { resources, slug, title } = course;
-
-  const pathname = usePathname();
-  const pathSlug = pathname.split("/").pop();
 
   return (
     <>

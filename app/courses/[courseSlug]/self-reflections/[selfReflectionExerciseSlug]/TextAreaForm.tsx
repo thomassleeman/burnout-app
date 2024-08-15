@@ -101,7 +101,7 @@ export default function TextAreaForm({
     }
 
     fetchSavedUserInput();
-  }, [exerciseSlug]);
+  }, [exerciseSlug, router]);
   ////////////////////////////////////////
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
