@@ -25,12 +25,15 @@ function classNames(...classes: string[]) {
 }
 
 function CourseHeadNav({ course }: { course: Course }) {
-  const { resources, slug, title } = course;
+  if (!course) {
+    return null;
+  }
 
-  console.log("resources: ", resources);
+  const { resources, slug, title } = course;
 
   const pathname = usePathname();
   const pathSlug = pathname.split("/").pop();
+
   return (
     <>
       <div className="z-50 bg-amber-50">
@@ -47,7 +50,7 @@ function CourseHeadNav({ course }: { course: Course }) {
               className="-mb-px flex space-x-8 overflow-x-scroll "
               aria-label="Tabs"
             >
-              {resources.map((resource) => (
+              {resources?.map((resource) => (
                 <Link
                   href={`/courses/${slug}/${getResourcePathType(
                     resource.type
@@ -99,9 +102,17 @@ function CourseHeadNav({ course }: { course: Course }) {
 }
 
 function CourseFootNav({ course }: { course: Course }) {
-  const { resources, slug } = course;
   const pathname = usePathname();
   const pathSlug = pathname.split("/").pop();
+
+  if (!course) {
+    return null;
+  }
+  const { resources, slug } = course;
+
+  if (!resources) {
+    return null;
+  }
 
   const tabIndex = () => {
     return resources.findIndex((resource) => resource.slug === pathSlug);

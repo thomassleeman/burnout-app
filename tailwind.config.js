@@ -6,6 +6,14 @@ module.exports = {
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
+  // safelist: [
+  //   "border-sky-600",
+  //   "bg-sky-700/25",
+  //   "border-emerald-700",
+  //   "bg-emerald-700/25",
+  //   "text-emerald-900",
+  //   "text-sky-900",
+  // ],
   theme: {
     extend: {
       keyframes: {

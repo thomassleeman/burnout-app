@@ -5,6 +5,7 @@ import {
   BookOpenIcon,
   ArrowTopRightOnSquareIcon,
   LinkIcon,
+  InformationCircleIcon,
 } from "@heroicons/react/24/outline";
 import ReadingTimeInput from "./components/ReadingTimeInput";
 
@@ -107,6 +108,52 @@ export const articleType = defineType({
               type: "string",
               title: "Image Caption",
               description: "A caption to appear under the image.",
+            },
+          ],
+        },
+        {
+          name: "infoBox",
+          type: "object",
+          title: "Info Box",
+          icon: () => <InformationCircleIcon className="h-5 w-5" />,
+
+          fields: [
+            {
+              name: "infoBoxType",
+              type: "string",
+              title: "Info box type",
+              options: {
+                list: [
+                  {
+                    title: "Seeing it in action",
+                    value: "seeingItInAction",
+                  },
+                  { title: "Take it further", value: "takeItFurther" },
+                ],
+                layout: "dropdown",
+              },
+            },
+            {
+              name: "content",
+              title: "Content",
+              type: "array",
+              of: [
+                {
+                  type: "block",
+                  options: {
+                    spellCheck: true,
+                  },
+
+                  marks: {
+                    decorators: [
+                      { title: "Strong", value: "strong" },
+                      { title: "Emphasis", value: "em" },
+                      { title: "Underline", value: "underline" },
+                      { title: "Strike", value: "strike-through" },
+                    ],
+                  },
+                },
+              ],
             },
           ],
         },

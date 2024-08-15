@@ -30,3 +30,44 @@
 /* p {
   margin-bottom: 1em; 
 } */
+
+/* The following classes are equivalents to tailwind styles that are in use to be used where tailwind has issues. I have found that sanity components are not consistently picking up tailwind classes where I have added them dynamically even though I am following the tailwind dynamic classes approach of using full class names rather than attempting to dynamically add part of a class name. */
+/* Custom class for border color equivalent to Tailwind's border-sky-600 */
+.custom-border-sky-600 {
+  border-color: #0284c7; /* Hex value for sky-600 */
+}
+
+/* Custom class for background color with opacity equivalent to Tailwind's bg-sky-700/25 */
+.custom-bg-sky-700-25 {
+  background-color: rgba(
+    3,
+    105,
+    161,
+    0.25
+  ); /* RGB value for sky-700 with 25% opacity */
+}
+
+/* Custom class for border color equivalent to Tailwind's border-emerald-700 */
+.custom-border-emerald-700 {
+  border-color: #047857; /* Hex value for emerald-700 */
+}
+
+/* Custom class for background color with opacity equivalent to Tailwind's bg-emerald-700/25 */
+.custom-bg-emerald-700-25 {
+  background-color: rgba(
+    4,
+    120,
+    87,
+    0.25
+  ); /* RGB value for emerald-700 with 25% opacity */
+}
+
+/* Custom class for text color equivalent to Tailwind's text-emerald-900 */
+.custom-text-emerald-900 {
+  color: #064e3b; /* Hex value for emerald-900 */
+}
+
+/* Custom class for text color equivalent to Tailwind's text-sky-900 */
+.custom-text-sky-900 {
+  color: #0c4a6e; /* Hex value for sky-900 */
+}

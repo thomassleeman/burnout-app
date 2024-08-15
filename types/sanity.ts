@@ -70,5 +70,5 @@ export type Course = {
   slug: string;
   headerImage?: SanityImage;
   summary: PortableTextBlock[];
-  resources: CourseResource[];
+  resources: CourseResource[] | null;
 };

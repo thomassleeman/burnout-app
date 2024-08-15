@@ -39,6 +39,8 @@ export async function getCourseData(slug: string) {
   }`;
   const article = await client.fetch(query);
 
+  console.log("slug: ", slug);
+
   return article;
 }
 
