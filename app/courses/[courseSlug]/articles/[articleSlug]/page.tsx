@@ -7,6 +7,7 @@ import defaultImage from "@articles/defaultImage.jpeg";
 import StudyModal from "@/components/ui/modal/StudyModal";
 import { CourseHeadNav, CourseFootNav } from "../../courseNavs";
 import AudioPlayer from "@articles/_components/AudioPlayer";
+import QuizModal from "../../../quiz/QuizModal";
 
 import Share from "@/components/ui/Share";
 import { Martel } from "next/font/google";
@@ -48,8 +49,19 @@ export default async function Article({
 
   if (!articleData) notFound();
 
-  const { title, date, content, audio, headerImage, author, readingTime } =
-    articleData;
+  const {
+    title,
+    date,
+    content,
+    audio,
+    headerImage,
+    author,
+    readingTime,
+    quiz,
+    classification,
+  } = articleData;
+
+  console.log("classification: ", classification.slug);
 
   const headerImageUrl = headerImage ? urlForImage(headerImage) : null;
   const authorImageUrl = author?.image ? urlForImage(author.image) : null;
@@ -105,6 +117,13 @@ export default async function Article({
           <StudyModal currentUrl={currentUrl} studyId={study} />
         )}
       </article>
+      {quiz && (
+        <QuizModal
+          quiz={quiz}
+          articleSlug={articleSlug}
+          courseSlug={classification.slug}
+        />
+      )}
     </>
   );
 }

@@ -236,6 +236,48 @@ export const articleType = defineType({
       },
       group: "metaData",
     }),
+    defineField({
+      name: "quiz",
+      title: "Quiz",
+      type: "array",
+      of: [
+        {
+          type: "object",
+          fields: [
+            {
+              name: "question",
+              title: "Question",
+              type: "string",
+            },
+            {
+              name: "answers",
+              title: "Answers",
+              type: "array",
+              of: [
+                {
+                  type: "object",
+                  fields: [
+                    {
+                      name: "text",
+                      title: "Answer Text",
+                      type: "string",
+                    },
+                    {
+                      name: "correct",
+                      title: "Correct",
+                      type: "boolean",
+                    },
+                  ],
+                },
+              ],
+              options: {
+                layout: "list", // You can change this to "tags" or "grid" if needed
+              },
+            },
+          ],
+        },
+      ],
+    }),
   ],
   // After the "fields" array
   preview: {

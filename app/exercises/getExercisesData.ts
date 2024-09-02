@@ -15,7 +15,7 @@ export async function getSelfReflectionExerciseData(slug: string) {
   const query = `*[_type == "selfReflectionExercise" && slug.current == "${slug}"][0]{
       title,
       categorisation,
-      instructions[]{
+      introduction[]{
         ...,
         markDefs[]{
       ...,
@@ -24,6 +24,10 @@ export async function getSelfReflectionExerciseData(slug: string) {
       }
     }
       },
+      prompts[]{
+        ...,
+ }
+
   }`;
   const exercise = await client.fetch(query);
 

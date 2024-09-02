@@ -72,3 +72,10 @@ export type Course = {
   summary: PortableTextBlock[];
   resources: CourseResource[] | null;
 };
+
+export type Prompt = {
+  type: "prompt";
+  _key: string;
+  title: string;
+  instructions: PortableTextBlock[];
+};

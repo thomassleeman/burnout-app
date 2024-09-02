@@ -6,23 +6,23 @@ import { PortableText } from "@portabletext/react";
 import portableTextComponents from "@/sanity/schemas/portableText/portableTextComponents";
 
 //components
-import TextAreaForm from "./TextAreaForm";
+import NewTextAreaForm from "./NewTextAreaForm";
 
 export const revalidate = 3600; // revalidate the data cache at most every hour
 
 export default async function SelfReflectionExercise({
   params,
 }: {
-  params: { selfReflectionExerciseSlug: string };
+  params: { courseSlug: string; selfReflectionExerciseSlug: string };
 }) {
-  const { selfReflectionExerciseSlug } = params;
+  const { courseSlug, selfReflectionExerciseSlug } = params;
   const exerciseData = await getSelfReflectionExerciseData(
     selfReflectionExerciseSlug
   );
 
   if (!exerciseData) notFound();
 
-  const { title, instructions, classification } = exerciseData;
+  const { title, introduction, prompts } = exerciseData;
 
   return (
     <>
@@ -31,11 +31,30 @@ export default async function SelfReflectionExercise({
 
         <div className="">
           <PortableText
-            value={instructions}
+            value={introduction}
             components={portableTextComponents}
           />
         </div>
-        <TextAreaForm exerciseSlug={selfReflectionExerciseSlug} />
+        <NewTextAreaForm
+          courseSlug={courseSlug}
+          exerciseSlug={selfReflectionExerciseSlug}
+          prompts={prompts}
+        />
+        {/* {prompts.map((prompt, index) => (
+          <div key={index} className=" mb-20 p-4">
+            <h2 className="text-2xl font-light">{prompt.title}</h2>
+            <div className="">
+              <PortableText
+                value={prompt.instructions}
+                components={portableTextComponents}
+              />
+            </div>
+            <TextAreaForm
+              exerciseSlug={selfReflectionExerciseSlug}
+              prompts={prompts}
+            />
+          </div>
+        ))} */}
       </section>
     </>
   );

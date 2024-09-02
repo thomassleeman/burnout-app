@@ -138,6 +138,8 @@ export default function ContentCarousel({
                 audio,
               } = article;
 
+              // console.log("ID: ", id, title);
+
               const headerImageUrl = headerImage
                 ? urlForImage(headerImage)
                 : null;

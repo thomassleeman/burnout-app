@@ -4,15 +4,14 @@ import { app } from "@firebase/auth/appConfig";
 import {
   doc,
   getFirestore,
+  getDoc,
   setDoc,
-  serverTimestamp,
   arrayUnion,
 } from "firebase/firestore";
 
 export default async function updateDatabase(
-  encryptedUserInput: string,
-  courseSlug: string,
-  exerciseSlug: string
+  articleSlug: string,
+  courseSlug: string
 ) {
   try {
     const response = await fetch("/api/accessUserId", {
@@ -31,23 +30,17 @@ export default async function updateDatabase(
     const db = getFirestore(app);
     const userID = result.userID;
     const userRef = doc(db, "users", userID);
-    const createdAt = serverTimestamp();
 
     await setDoc(
       userRef,
       {
-        exercises: {
-          [exerciseSlug]: {
-            encryptedUserInput: encryptedUserInput,
-            createdAt: createdAt,
-          },
-        },
         courses: {
-          [courseSlug]: arrayUnion(exerciseSlug),
+          [courseSlug]: arrayUnion(articleSlug),
         },
       },
       { merge: true }
     );
+
     return true;
   } catch (error) {
     console.error("Error:", (error as Error).message);

@@ -115,9 +115,11 @@ export default async function Article({
             <p className="">&ndash;</p>
             <p className="">{getFormattedDate(date)}</p>
           </div>
-          <span className="w-fit rounded-lg bg-emerald-500/50 px-2 py-1 text-sm font-extralight text-slate-900">
-            {category?.name}
-          </span>
+          {category?.name && (
+            <span className="w-fit rounded-lg bg-emerald-500/50 px-2 py-1 text-sm font-extralight text-slate-900">
+              {category?.name}
+            </span>
+          )}
 
           {audio && <AudioPlayer audio={audio} />}
         </div>

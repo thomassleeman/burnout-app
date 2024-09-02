@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 //next
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -13,12 +14,15 @@ import {
   ArrowRightIcon,
   ArrowLeftIcon,
   AcademicCapIcon,
+  CheckCircleIcon,
 } from "@heroicons/react/20/solid";
 
 import { BookOpenIcon, PencilIcon } from "@heroicons/react/24/outline";
 
 //types
 import { Course, CourseResource } from "@/types/sanity";
+
+import subscribeToCompletedResources from "./subscribeToCompletedResources";
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
@@ -27,12 +31,31 @@ function classNames(...classes: string[]) {
 function CourseHeadNav({ course }: { course: Course }) {
   const pathname = usePathname();
   const pathSlug = pathname.split("/").pop();
+  const [completedModules, setCompletedModules] = useState<string[]>([]);
+
+  const { resources, slug, title } = course;
+
+  useEffect(() => {
+    let unsubscribe: (() => void) | null = null;
+
+    const fetchAndSubscribe = async () => {
+      unsubscribe = await subscribeToCompletedResources(
+        course.slug,
+        setCompletedModules
+      );
+    };
+
+    fetchAndSubscribe();
+
+    // Cleanup subscription on component unmount
+    return () => {
+      if (unsubscribe) unsubscribe();
+    };
+  }, [course.slug]);
 
   if (!course) {
     return null;
   }
-
-  const { resources, slug, title } = course;
 
   return (
     <>
@@ -72,6 +95,9 @@ function CourseHeadNav({ course }: { course: Course }) {
                     <PencilIcon className="h-4 w-4" />
                   )}
                   <span>{resource.title}</span>
+                  {completedModules?.includes(resource.slug) && (
+                    <CheckCircleIcon className="h-6 w-6 text-sky-600" />
+                  )}
                 </Link>
               ))}
             </nav>

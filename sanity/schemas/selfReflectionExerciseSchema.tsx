@@ -22,8 +22,8 @@ export const selfReflectionExerciseType = defineType({
           .error(`Please include a title for this self reflection exercise.`),
     }),
     defineField({
-      name: "instructions",
-      title: "Instructions",
+      name: "introduction",
+      title: "Introduction",
       type: "array",
       of: [
         {
@@ -95,8 +95,6 @@ export const selfReflectionExerciseType = defineType({
           ],
         },
       ],
-      validation: (rule) =>
-        rule.required().error(`Please include content for the article.`),
     }),
     defineField({
       name: "slug",
@@ -119,11 +117,62 @@ export const selfReflectionExerciseType = defineType({
         rule
           .required()
           .error(
-            `Please include a classification (either a category or a course) for the exercise. Most self reflection exercises should be associated with a course.`
+            `Please include a classification (either a category or a course) for the exercise. Most self reflection exercises will be associated with a course.`
           ),
     }),
+    defineField({
+      name: "prompts",
+      title: "Writing Exercise Prompts",
+      description:
+        "Define the prompts that you want the user to respond to. Each block represents a question or prompt for the user and will be accompanied by a single input box for the user to write and save their response.",
+      type: "array",
+      of: [
+        {
+          type: "object",
+          title: "Prompt",
+          name: "prompt",
+          fields: [
+            {
+              type: "string",
+              name: "title",
+              title: "Title",
+              validation: (rule) =>
+                rule
+                  .required()
+                  .error(`Please include a title for this prompt.`),
+            },
+            {
+              name: "instructions",
+              title: "Instructions",
+              validation: (rule) =>
+                rule
+                  .required()
+                  .error(`Please include instructions for this prompt.`),
+              type: "array",
+              of: [
+                {
+                  type: "block",
+                  options: {
+                    spellCheck: true,
+                  },
+
+                  marks: {
+                    decorators: [
+                      { title: "Strong", value: "strong" },
+                      { title: "Emphasis", value: "em" },
+                      { title: "Underline", value: "underline" },
+                      { title: "Strike", value: "strike-through" },
+                    ],
+                  },
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    }),
   ],
-  // After the "fields" array
+
   preview: {
     select: {
       title: "title",

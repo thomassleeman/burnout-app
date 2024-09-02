@@ -155,6 +155,7 @@ export async function getArticleData(slug: string) {
   const query = `*[_type == "article" && slug.current == "${slug}"][0]{
       title,
       headerImage,
+      quiz,
       content[]{
         ...,
         markDefs[]{
@@ -168,9 +169,9 @@ export async function getArticleData(slug: string) {
       author->,
       date,
       readingTime,
-      category->{
-          name
-      }
+      classification->{
+    "slug": slug.current
+  }
   }`;
   const article = await client.fetch(query);
 
