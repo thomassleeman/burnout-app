@@ -31,7 +31,6 @@ const navigation = {
   registeredUser: {
     mainNav: [
       { id: "home", name: <HomeIcon className="h-6 w-6" />, href: "/home" },
-      { id: "library", name: "Library", href: "/articles" },
     ],
     settingsNav: [
       // { id: "settings", name: "Settings", href: "/settings" },

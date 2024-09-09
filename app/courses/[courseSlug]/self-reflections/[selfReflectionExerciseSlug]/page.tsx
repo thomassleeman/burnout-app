@@ -6,7 +6,7 @@ import { PortableText } from "@portabletext/react";
 import portableTextComponents from "@/sanity/schemas/portableText/portableTextComponents";
 
 //components
-import NewTextAreaForm from "./NewTextAreaForm";
+import TextAreaForm from "./TextAreaForm";
 
 export const revalidate = 3600; // revalidate the data cache at most every hour
 
@@ -35,26 +35,11 @@ export default async function SelfReflectionExercise({
             components={portableTextComponents}
           />
         </div>
-        <NewTextAreaForm
+        <TextAreaForm
           courseSlug={courseSlug}
           exerciseSlug={selfReflectionExerciseSlug}
           prompts={prompts}
         />
-        {/* {prompts.map((prompt, index) => (
-          <div key={index} className=" mb-20 p-4">
-            <h2 className="text-2xl font-light">{prompt.title}</h2>
-            <div className="">
-              <PortableText
-                value={prompt.instructions}
-                components={portableTextComponents}
-              />
-            </div>
-            <TextAreaForm
-              exerciseSlug={selfReflectionExerciseSlug}
-              prompts={prompts}
-            />
-          </div>
-        ))} */}
       </section>
     </>
   );

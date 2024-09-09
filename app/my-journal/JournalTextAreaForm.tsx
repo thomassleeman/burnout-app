@@ -1,32 +1,22 @@
 "use client";
-//react
 import React, { useState, useEffect, useRef } from "react";
-//next
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-//firebase
-import { app } from "@firebase/auth/appConfig";
 import { doc, getFirestore, getDoc } from "firebase/firestore";
-//Sanity
-import { PortableText } from "@portabletext/react";
-import portableTextComponents from "@/sanity/schemas/portableText/portableTextComponents";
-//components
-import { SubmitButton } from "@/app/_components/ui/_components/Buttons";
-import NewTextAreaInput from "./NewTextAreaInput";
-//functions
-import updateDatabase from "@exercises/selfReflectionExercises/updateDatabase";
-//actions
-import getFormattedDate from "@actions/getFormattedDate";
-//Image
-import logo from "@/components/design/brainLogoCompressed.png";
-//types
-import { Prompt } from "@/types/sanity";
-//icons
-import { ArrowLongDownIcon } from "@heroicons/react/24/outline";
+import { format, addDays, subDays, isBefore, isToday } from "date-fns";
 
-type UserInputs = {
-  [key: string]: string;
-};
+import { app } from "@firebase/auth/appConfig";
+import { SubmitButton } from "@/app/_components/ui/_components/Buttons";
+import updateDatabase from "./updateDatabase";
+import getFormattedDate from "@actions/getFormattedDate";
+import logo from "@/components/design/brainLogoCompressed.png";
+import journalingPrompts from "./journalingPrompts";
+import {
+  ArrowRightCircleIcon,
+  ArrowLeftCircleIcon,
+  // ArrowLongDownIcon,
+} from "@heroicons/react/24/outline";
+import { set } from "sanity";
 
 interface DecryptedInputs {
   [key: string]: any;
@@ -37,28 +27,72 @@ interface PreviousInputData {
   createdAt?: string;
 }
 
-export default function NewTextAreaForm({
-  courseSlug,
-  exerciseSlug,
-  prompts,
-}: {
-  courseSlug: string;
-  exerciseSlug: string;
-  prompts: Prompt[];
-}) {
-  const router = useRouter();
+interface UserInputs {
+  [key: string]: string;
+}
 
+interface UserInputsWithIds {
+  [key: string]: string | undefined;
+}
+
+export default function JournalTextAreaForm() {
+  const router = useRouter();
   const [loading, setLoading] = useState(true);
   const [submitted, setSubmitted] = useState(false);
   const [userInputs, setUserInputs] = useState<UserInputs>({});
-
+  console.log("userInputs: ", userInputs);
   const [previousInputData, setPreviousInputData] = useState<PreviousInputData>(
     {}
   );
 
-  ///Load up any previous input
+  const formatDate = (date: Date) => {
+    const day = `0${date.getDate()}`.slice(-2);
+    const month = date.toLocaleString("default", { month: "short" });
+    const year = date.getFullYear();
+    return `${day}-${month}-${year}`;
+  };
+
+  const today = formatDate(new Date());
+
+  const [selectedDate, setSelectedDate] = useState(today);
+
+  const handlePreviousDay = () => {
+    const currentDate = new Date(selectedDate);
+    currentDate.setDate(currentDate.getDate() - 1);
+    setSelectedDate(formatDate(currentDate));
+    setSubmitted(false);
+    console.log("selectedDateBtn: ", selectedDate);
+  };
+
+  const handleNextDay = () => {
+    const currentDate = new Date(selectedDate);
+    currentDate.setDate(currentDate.getDate() + 1);
+    setSelectedDate(formatDate(currentDate));
+    setSubmitted(false);
+  };
+
+  const formattedDate = format(selectedDate, "dd-MMM-yyyy").replace(
+    "Sep",
+    "Sept"
+  );
+
+  const setDateUI = (
+    <div className="flex items-center gap-x-2">
+      <button onClick={handlePreviousDay}>
+        <ArrowLeftCircleIcon className="h-6 w-6" />
+      </button>
+      <h1 className="text-2xl">{formattedDate}</h1>
+      {selectedDate !== today && (
+        <button onClick={handleNextDay}>
+          <ArrowRightCircleIcon className="h-6 w-6" />
+        </button>
+      )}
+    </div>
+  );
+
+  // Load any previous input
   useEffect(() => {
-    async function fetchSavedUserInput() {
+    async function fetchSavedUserInput(selectedDate: string) {
       setLoading(true);
 
       try {
@@ -81,18 +115,31 @@ export default function NewTextAreaForm({
 
         if (!docSnap.exists()) {
           setLoading(false);
-          return;
+          router.push("/signin");
         }
 
         const data = docSnap.data();
         if (!data) {
           setLoading(false);
-          return;
+          router.push("/signin");
         }
 
-        const previousInput = data.exercises[exerciseSlug];
+        // console.log("data: ", data); // Log the entire data object
+        // console.log("data.journal: ", data.journal); // Log the journal object
+        // console.log("selectedDate: ", selectedDate); // Log the selectedDate
+
+        // if (!data.journal.hasOwnProperty(selectedDate)) {
+        //   console.error(
+        //     `selectedDate ${selectedDate} does not exist in data.journal`
+        //   );
+        //   setLoading(false);
+        //   return;
+        // }
+        const previousInput = data?.journal?.[selectedDate];
         if (!previousInput) {
           setLoading(false);
+          setPreviousInputData({});
+          setUserInputs({});
           return;
         }
 
@@ -100,8 +147,6 @@ export default function NewTextAreaForm({
           previousInput.createdAt.seconds
         );
         const encryptedUserInputs = previousInput.encryptedUserInput;
-
-        // Prepare to store decrypted inputs
 
         const decryptedInputs: DecryptedInputs = {};
 
@@ -129,14 +174,12 @@ export default function NewTextAreaForm({
           }
         }
 
-        // Set the decrypted inputs and other state
         const previousInputData: PreviousInputData = {
           decryptedUserInput: decryptedInputs,
           createdAt: previousInputDate,
         };
 
         setPreviousInputData(previousInputData);
-
         setUserInputs(decryptedInputs); // Load decrypted inputs into state
         setLoading(false);
       } catch (error) {
@@ -145,10 +188,12 @@ export default function NewTextAreaForm({
       }
     }
 
-    fetchSavedUserInput();
-  }, [exerciseSlug, router]);
-
-  ////////////////////////////////////////
+    //   fetchSavedUserInput(selectedDate);
+    // }, [selectedDate, router]);
+    fetchSavedUserInput(
+      format(selectedDate, "dd-MMM-yyyy").replace("Sep", "Sept")
+    );
+  }, [selectedDate, router]);
 
   const handleInputChange = (key: string, value: any) => {
     setUserInputs((prevInputs) => ({
@@ -157,8 +202,6 @@ export default function NewTextAreaForm({
     }));
   };
 
-  /////////////////////////////////////////
-
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setLoading(true);
@@ -166,22 +209,31 @@ export default function NewTextAreaForm({
     if (!userInputs) return;
 
     try {
-      // Encrypt the userInputs object before saving, if necessary
+      // Map prompt IDs to corresponding user inputs for better structure
+      let userInputsWithIds: UserInputsWithIds = {};
+      journalingPrompts.general.forEach((prompt) => {
+        userInputsWithIds[prompt.id] = userInputs[prompt.id]; // Use prompt ID as key
+      });
+
+      journalingPrompts.exhausted.forEach((prompt) => {
+        userInputsWithIds[prompt.id] = userInputs[prompt.id]; // Same for exhausted category
+      });
+
+      // Encrypt the userInputsWithIds object before saving
       const response = await fetch("/api/encryptText", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ userInputs }),
+        body: JSON.stringify({ userInputs: userInputsWithIds }),
       });
 
       const encryptedUserInputs = await response.json();
 
-      // Assuming updateDatabase is a function that updates Firestore with the encrypted data
+      // Save the encrypted data under the selected date
       const databaseUpdated = await updateDatabase(
         encryptedUserInputs,
-        courseSlug,
-        exerciseSlug
+        selectedDate
       );
 
       if (!databaseUpdated) {
@@ -189,14 +241,13 @@ export default function NewTextAreaForm({
         return;
       }
 
-      setSubmitted(true); // Update the submitted state based on the response
+      setSubmitted(true);
       setLoading(false);
     } catch (error) {
       console.error("Error submitting form:", error);
       setLoading(false);
     }
   };
-  ////////////////////////////////////////
 
   const submissionNoticeRef = useRef<HTMLDivElement>(null);
 
@@ -208,6 +259,8 @@ export default function NewTextAreaForm({
 
   let submissionNotice;
   let content;
+
+  const prompts = journalingPrompts.general.concat(journalingPrompts.exhausted); // Use general prompts (adjust according to your logic)
 
   if (submitted) {
     submissionNotice = (
@@ -229,10 +282,10 @@ export default function NewTextAreaForm({
     content = (
       <ExistingEntry
         previousInputData={{
-          decryptedUserInput: userInputs, // Use userInputs instead of userInput
+          decryptedUserInput: userInputs,
           createdAt: "Just now",
         }}
-        setUserInputs={setUserInputs} // Updated to setUserInputs
+        setUserInputs={setUserInputs}
         setPreviousInputData={setPreviousInputData}
         setSubmitted={setSubmitted}
         prompts={prompts}
@@ -258,29 +311,20 @@ export default function NewTextAreaForm({
         <div>
           <form onSubmit={handleSubmit}>
             {prompts.map((prompt, index) => (
-              <div key={prompt._key} className="flex flex-col items-center">
-                <div className="my-6 w-full rounded-lg border-2 border-emerald-700 p-4">
-                  <h5 className="font-semibold">{prompt.title}</h5>
-                  <div className="text-sky-800">
-                    <PortableText
-                      value={prompt.instructions}
-                      components={portableTextComponents}
-                    />
-                  </div>
+              <div key={prompt.id} className="flex flex-col items-center">
+                <div className="my-6 w-full rounded-lg p-4">
+                  <h5 className="font-semibold">{prompt.prompt}</h5>{" "}
+                  {/* Access the `prompt` field */}
                   <textarea
-                    id={`textarea-${prompt._key}`}
-                    name={`userInput-${prompt._key}`}
+                    id={`textarea-${prompt.id}`}
+                    name={`userInput-${prompt.id}`}
                     className="my-6 h-40 w-full rounded-md"
-                    value={userInputs[prompt._key] || ""}
-                    onChange={(e) => {
-                      handleInputChange(prompt._key, e.target.value);
-                    }}
+                    value={userInputs[prompt.id] || ""}
+                    onChange={(e) =>
+                      handleInputChange(prompt.id, e.target.value)
+                    } // Use prompt ID
                   ></textarea>
                 </div>
-                {/* <ArrowLongDownIcon className="h-12 w-12 text-sky-500" /> */}
-                {prompts.length - 1 > index ? (
-                  <ArrowLongDownIcon className="h-12 w-12 text-sky-500" />
-                ) : null}
               </div>
             ))}
             <SubmitButton classes="rounded-lg bg-emerald-700 px-4 py-2 mt-10 text-white disabled:bg-gray-500 disabled:cursor-not-allowed disabled:text-gray-100 w-full">
@@ -302,51 +346,12 @@ export default function NewTextAreaForm({
 
   return (
     <>
+      {setDateUI}
       {submissionNotice}
       {content}
     </>
   );
 }
-
-// const ExistingEntry = ({
-//   previousInputData,
-//   setUserInputs,
-//   setPreviousInputData,
-//   setSubmitted,
-// }: {
-//   previousInputData: PreviousInputData;
-//   setUserInputs: React.Dispatch<React.SetStateAction<{}>>;
-//   setPreviousInputData: React.Dispatch<React.SetStateAction<PreviousInputData>>;
-//   setSubmitted: React.Dispatch<React.SetStateAction<boolean>>;
-// }) => {
-//   const handleClick = () => {
-//     setUserInputs(previousInputData.decryptedUserInput || {});
-//     setPreviousInputData({});
-//     setSubmitted(false);
-//   };
-
-//   return (
-//     <div className="my-6 rounded-lg border-2 border-emerald-700 px-4">
-//       <h4 className="text-xl text-emerald-700">
-//         {`Your response, last updated: ${previousInputData.createdAt}`}
-//       </h4>
-//       <div>
-//         {Object.keys(previousInputData.decryptedUserInput || {}).map((key) => (
-//           <div key={key}>
-//             <h5 className="font-semibold">Prompt {key}:</h5>
-//             <p>{previousInputData.decryptedUserInput[key]}</p>
-//           </div>
-//         ))}
-//       </div>
-//       <button
-//         onClick={handleClick}
-//         className="my-2 w-full rounded-lg bg-emerald-700 px-4 py-1 text-white hover:bg-emerald-600"
-//       >
-//         Edit
-//       </button>
-//     </div>
-//   );
-// };
 
 const ExistingEntry = ({
   previousInputData,
@@ -359,7 +364,7 @@ const ExistingEntry = ({
   setUserInputs: React.Dispatch<React.SetStateAction<{}>>;
   setPreviousInputData: React.Dispatch<React.SetStateAction<PreviousInputData>>;
   setSubmitted: React.Dispatch<React.SetStateAction<boolean>>;
-  prompts: Prompt[]; // Ensure to pass the prompts array as props
+  prompts: { id: string; prompt: string }[]; // Update prompts type
 }) => {
   const handleClick = () => {
     setUserInputs(previousInputData.decryptedUserInput || {});
@@ -368,11 +373,8 @@ const ExistingEntry = ({
   };
 
   return (
-    <div className="">
+    <div>
       <div className="not-prose flex items-center space-x-10">
-        <h4 className="text-xl text-emerald-700">
-          {`Your responses, last updated: ${previousInputData.createdAt}`}
-        </h4>
         <button
           onClick={handleClick}
           className="w-36 rounded-md bg-emerald-700 px-4 py-1 text-white hover:bg-emerald-600"
@@ -381,21 +383,16 @@ const ExistingEntry = ({
         </button>
       </div>
       <div>
-        {prompts.map((prompt, index) => {
+        {prompts.map((prompt) => {
           const response = previousInputData.decryptedUserInput
-            ? previousInputData.decryptedUserInput[prompt._key]
+            ? previousInputData.decryptedUserInput[prompt.id]
             : "";
 
           return (
-            <div key={prompt._key} className="flex flex-col items-center">
-              <div className="my-6 w-full rounded-lg border-2 border-emerald-700 p-4">
-                <h5 className="font-semibold">{prompt.title}</h5>
-                <div className="text-sm text-sky-800">
-                  <PortableText
-                    value={prompt.instructions}
-                    components={portableTextComponents}
-                  />
-                </div>
+            <div key={prompt.id} className="flex flex-col items-center">
+              <div className="my-6 w-full rounded-lg p-4">
+                <h5 className="font-semibold">{prompt.prompt}</h5>{" "}
+                {/* Display the prompt text */}
                 <p>
                   {response || (
                     <div className="relative rounded-lg border border-gray-500 bg-white px-6 text-gray-600">
@@ -405,9 +402,6 @@ const ExistingEntry = ({
                           <span className="relative inline-flex h-5 w-5 rounded-full bg-sky-500"></span>
                         </span>{" "}
                       </div>
-                      <p className="underline decoration-sky-400 decoration-1 underline-offset-4">
-                        You haven&apos;t written anything here yet...
-                      </p>{" "}
                       <p className="text-sm">
                         Click Edit at the top of the page to complete this
                         field.
@@ -416,43 +410,10 @@ const ExistingEntry = ({
                   )}
                 </p>
               </div>
-              {prompts.length - 1 > index ? (
-                <ArrowLongDownIcon className="h-12 w-12 text-sky-500" />
-              ) : null}
             </div>
           );
         })}
-        {/* {Object.keys(previousInputData.decryptedUserInput || {}).map(
-          (key, index) => {
-            const prompt = prompts.find((p) => p._key === key); // Find the prompt using the key
-            return (
-              <div key={key} className="flex flex-col items-center">
-                <div className="my-6 w-full rounded-lg border-2 border-emerald-700 p-4">
-                  <h5 className="font-semibold">
-                    {prompt ? prompt.title : ""}
-                  </h5>
-                  <div className="text-sm text-sky-800">
-                    <PortableText
-                      value={prompt.instructions}
-                      components={portableTextComponents}
-                    />
-                  </div>
-                  <p>{previousInputData.decryptedUserInput[key]}</p>
-                </div>
-                {userInputKeys.length - 1 > index ? (
-                  <ArrowLongDownIcon className="h-12 w-12 text-sky-500" />
-                ) : null}
-              </div>
-            );
-          }
-        )} */}
       </div>
-      {/* <button
-        onClick={handleClick}
-        className="my-10 w-full rounded-lg bg-emerald-700 px-4 py-1 text-white hover:bg-emerald-600"
-      >
-        Edit
-      </button> */}
     </div>
   );
 };

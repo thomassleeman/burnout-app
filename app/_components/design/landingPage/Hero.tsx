@@ -18,7 +18,9 @@ export default function Hero() {
           <h1
             className={`${martel.className} text-5xl font-bold tracking-tight text-emerald-900 md:text-6xl`}
           >
-            Let&apos;s make Burnout a thing of the{" "}
+            Let&apos;s make{" "}
+            <span className="font-sans font-semibold">Burnout</span> a thing of
+            the{" "}
             <em className="underline decoration-yellow-300 underline-offset-8">
               past
             </em>

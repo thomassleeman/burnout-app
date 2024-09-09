@@ -42,6 +42,7 @@ import {
   ChatBubbleLeftEllipsisIcon,
   PencilSquareIcon,
   XMarkIcon,
+  PencilIcon,
 } from "@heroicons/react/24/outline";
 
 const engagement = [
@@ -58,6 +59,14 @@ const tools = [
     target: "_self",
     icon: () => (
       <ChatBubbleLeftEllipsisIcon className="h-6 w-6 text-blue-400 group-hover:animate-bounce" />
+    ),
+  },
+  {
+    name: "My Journal",
+    href: "/my-journal",
+    target: "_self",
+    icon: () => (
+      <PencilIcon className="h-6 w-6 text-emerald-600 group-hover:animate-bounce" />
     ),
   },
   {
