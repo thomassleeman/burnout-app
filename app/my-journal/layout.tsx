@@ -12,4 +12,5 @@ export default function JournalLayout({
   children: React.ReactNode;
 }) {
   return <section className="mx-2 md:mx-6 lg:mx-16">{children}</section>;
+  // return <section className="">{children}</section>;
 }

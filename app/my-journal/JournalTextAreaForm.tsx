@@ -40,7 +40,6 @@ export default function JournalTextAreaForm() {
   const [loading, setLoading] = useState(true);
   const [submitted, setSubmitted] = useState(false);
   const [userInputs, setUserInputs] = useState<UserInputs>({});
-  console.log("userInputs: ", userInputs);
   const [previousInputData, setPreviousInputData] = useState<PreviousInputData>(
     {}
   );
@@ -61,7 +60,6 @@ export default function JournalTextAreaForm() {
     currentDate.setDate(currentDate.getDate() - 1);
     setSelectedDate(formatDate(currentDate));
     setSubmitted(false);
-    console.log("selectedDateBtn: ", selectedDate);
   };
 
   const handleNextDay = () => {
@@ -124,17 +122,6 @@ export default function JournalTextAreaForm() {
           router.push("/signin");
         }
 
-        // console.log("data: ", data); // Log the entire data object
-        // console.log("data.journal: ", data.journal); // Log the journal object
-        // console.log("selectedDate: ", selectedDate); // Log the selectedDate
-
-        // if (!data.journal.hasOwnProperty(selectedDate)) {
-        //   console.error(
-        //     `selectedDate ${selectedDate} does not exist in data.journal`
-        //   );
-        //   setLoading(false);
-        //   return;
-        // }
         const previousInput = data?.journal?.[selectedDate];
         if (!previousInput) {
           setLoading(false);
@@ -393,7 +380,7 @@ const ExistingEntry = ({
               <div className="my-6 w-full rounded-lg p-4">
                 <h5 className="font-semibold">{prompt.prompt}</h5>{" "}
                 {/* Display the prompt text */}
-                <p>
+                <div>
                   {response || (
                     <div className="relative rounded-lg border border-gray-500 bg-white px-6 text-gray-600">
                       <div className="absolute -right-3 -top-3">
@@ -408,7 +395,7 @@ const ExistingEntry = ({
                       </p>
                     </div>
                   )}
-                </p>
+                </div>
               </div>
             </div>
           );
