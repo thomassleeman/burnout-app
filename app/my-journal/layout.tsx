@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Footer from "@/components/ui/Footer";
 
 export const metadata: Metadata = {
   title: "My Journal",
@@ -11,6 +12,12 @@ export default function JournalLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return <section className="mx-2 md:mx-6 lg:mx-16">{children}</section>;
-  // return <section className="">{children}</section>;
+  return (
+    <>
+      <div className="mx-2 md:mx-10 lg:mx-16">
+        <section className="">{children}</section>
+      </div>
+      <Footer />
+    </>
+  );
 }

@@ -71,3 +71,28 @@
 .custom-text-sky-900 {
   color: #0c4a6e; /* Hex value for sky-900 */
 }
+
+/* Custom class for border color equivalent to Tailwind's border-yellow-700 */
+.custom-border-yellow-700 {
+  border-color: #b45309; /* Hex value for yellow-700 */
+}
+
+/* Custom class for background color with opacity equivalent to Tailwind's bg-yellow-700/25 */
+.custom-bg-yellow-700-25 {
+  background-color: rgba(
+    180,
+    83,
+    9,
+    0.25
+  ); /* RGB value for yellow-700 with 25% opacity */
+}
+
+/* Custom class for text color equivalent to Tailwind's text-yellow-900 */
+.custom-text-yellow-900 {
+  color: #78350f; /* Hex value for yellow-900 */
+}
+
+/* Custom class for text color equivalent to Tailwind's text-amber-900 */
+.custom-text-amber-900 {
+  color: #78350f; /* Hex value for amber-900 */
+}

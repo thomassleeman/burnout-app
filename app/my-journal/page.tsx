@@ -1,10 +1,10 @@
-import JournalTextAreaForm from "./JournalTextAreaForm";
+import JournalWithCalendar from "./JournalWithCalendar";
 
-export default async function SelfReflectionExercise() {
+export default async function MyJournalPage() {
   return (
     <>
-      <div className="mx-4 md:mx-12 lg:mx-64">
-        <JournalTextAreaForm />
+      <div>
+        <JournalWithCalendar />
       </div>
     </>
   );

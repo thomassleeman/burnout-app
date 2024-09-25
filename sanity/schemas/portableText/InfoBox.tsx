@@ -30,6 +30,12 @@ const InfoBox: React.FC<InfoBoxProps> = ({ value }) => {
         backgroundClass = "custom-bg-sky-700-25";
         textClass = "custom-text-sky-900";
         break;
+      case "tip":
+        title = "Tip";
+        borderClass = "custom-border-yellow-600";
+        backgroundClass = "custom-bg-yellow-700-25";
+        textClass = "custom-text-yellow-900";
+        break;
       default:
         title = "Info Box";
         borderClass = "border-gray-600";
