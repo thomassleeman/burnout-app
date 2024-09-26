@@ -98,7 +98,9 @@ export default async function Article({
           </div>
         </div> */}
         <div className="flex flex-col justify-items-start gap-y-4 px-2 py-2">
-          <h1 className="mb-2 text-5xl text-slate-800">{title}</h1>
+          <h1 className="mb-2 text-2xl text-slate-800 md:text-3xl lg:text-5xl">
+            {title}
+          </h1>
           <div className="not-prose flex items-center gap-x-2">
             {authorImageUrl && (
               <Image

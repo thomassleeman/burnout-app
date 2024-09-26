@@ -20,6 +20,7 @@ export interface Day {
 export interface JournalCalendarProps {
   selectedDate: Date;
   setSelectedDate: React.Dispatch<React.SetStateAction<Date>>;
+  journalData: { [key: string]: any } | null;
 }
 
 export interface DecryptedInputs {
@@ -42,6 +43,11 @@ export interface UserInputsWithIds {
 export interface JournalTextAreaFormProps {
   selectedDate: Date;
   setSelectedDate: React.Dispatch<React.SetStateAction<Date>>;
+  journalData: { [key: string]: any } | null;
+  setJournalData: React.Dispatch<
+    React.SetStateAction<{ [key: string]: any } | null>
+  >;
+  fetchUserDataLoading: boolean;
 }
 
 export interface ExistingEntryProps {

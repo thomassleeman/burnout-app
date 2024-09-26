@@ -100,33 +100,37 @@ export default function TextAreaForm({
         );
         const encryptedUserInputs = previousInput.encryptedUserInput;
 
-        // Prepare to store decrypted inputs
+        // Collect all encrypted inputs into an array
+        const encryptedInputsArray = Object.keys(encryptedUserInputs).map(
+          (key) => ({
+            key,
+            iv: encryptedUserInputs[key].iv,
+            encryptedData: encryptedUserInputs[key].encryptedData,
+          })
+        );
 
-        const decryptedInputs: DecryptedInputs = {};
+        // Make a single API call to decrypt all inputs
+        const decryptionResponse = await fetch("/api/decryptText", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ encryptedInputs: encryptedInputsArray }),
+        });
 
-        // Decrypt each encrypted user input
-        for (const key in encryptedUserInputs) {
-          if (encryptedUserInputs.hasOwnProperty(key)) {
-            const { iv, encryptedData } = encryptedUserInputs[key];
-
-            const decryptionResponse = await fetch("/api/decryptText", {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({ iv, encryptedData }),
-            });
-
-            if (!decryptionResponse.ok) {
-              throw new Error(
-                `Decryption error! status: ${decryptionResponse.status}`
-              );
-            }
-
-            const decryptedData = await decryptionResponse.json();
-            decryptedInputs[key] = decryptedData.decryptedData;
-          }
+        if (!decryptionResponse.ok) {
+          throw new Error(
+            `Decryption error! status: ${decryptionResponse.status}`
+          );
         }
+
+        const { decryptedOutputs } = await decryptionResponse.json();
+
+        // Map decrypted outputs back to their keys
+        const decryptedInputs: DecryptedInputs = {};
+        encryptedInputsArray.forEach((input, index) => {
+          decryptedInputs[input.key] = decryptedOutputs[index];
+        });
 
         // Set the decrypted inputs and other state
         const previousInputData: PreviousInputData = {
@@ -135,7 +139,6 @@ export default function TextAreaForm({
         };
 
         setPreviousInputData(previousInputData);
-
         setUserInputs(decryptedInputs); // Load decrypted inputs into state
         setLoading(false);
       } catch (error) {
