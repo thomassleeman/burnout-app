@@ -186,7 +186,8 @@ export default function Nav() {
     content = (
       <Disclosure
         as="nav"
-        className="max-h-fit bg-transparent shadow dark:border-pink-700 dark:text-slate-50"
+        // className="max-h-fit bg-transparent shadow dark:border-pink-700 dark:text-slate-50"
+        className="h-18 z-50 bg-transparent shadow dark:border-pink-700 dark:text-slate-50"
       >
         {/* <Disclosure as="nav" className="h-16 shadow"> */}
         {({ open }) => (

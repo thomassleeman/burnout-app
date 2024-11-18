@@ -19,7 +19,7 @@ export default async function CourseLayout({
 }) {
   const { courseSlug } = params;
 
-  const courseData = await getCourseData(courseSlug);
+  const courseData = await getCourseData(courseSlug, "layout");
 
   return (
     <>

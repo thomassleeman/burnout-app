@@ -139,7 +139,7 @@ export default async function Article({
           <PortableText value={content} components={portableTextComponents} />
         </div>
         <div className="not-prose mt-6 pl-1 font-sans lg:pl-0">
-          <Link href="/articles">← Back to library</Link>
+          <Link href="/home">← Back to home</Link>
         </div>
         {showModal && study && (
           <StudyModal currentUrl={currentUrl} studyId={study} />

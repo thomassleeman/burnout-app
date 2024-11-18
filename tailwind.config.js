@@ -16,12 +16,10 @@ module.exports = {
   // ],
   theme: {
     extend: {
-      keyframes: {
-        marquee: {
-          "0%": { transform: "translateX(0%)" },
-          "100%": { transform: "translateX(-100%)" },
-        },
+      colors: {
+        "background-amber": "#fffefa",
       },
+
       keyframes: {
         wave: {
           "0%": { transform: "rotate(28deg)" },
@@ -50,6 +48,16 @@ module.exports = {
             "background-position": "right center",
           },
         },
+        "quick-bounce": {
+          " 0%, 100%": {
+            transform: "translateY(-25%)",
+            "animation-timing-function": "cubic-bezier(0.8, 0, 1, 1)",
+          },
+          "50%": {
+            transform: "translateY(0)",
+            "animation-timing-function": "cubic-bezier(0, 0, 0.2, 1)",
+          },
+        },
       },
       animation: {
         wave: "wave 2s linear infinite",
@@ -57,6 +65,7 @@ module.exports = {
         marquee: "marquee 25s linear infinite",
         marquee2: "marquee2 25s linear infinite",
         text: "text 5s ease infinite",
+        "quick-bounce": "quick-bounce 0.8s infinite",
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",

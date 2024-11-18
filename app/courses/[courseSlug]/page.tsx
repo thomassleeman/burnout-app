@@ -24,6 +24,7 @@ import {
 } from "@heroicons/react/24/outline";
 //types
 import { CourseResource } from "@/types/sanity";
+import GetStartedButton from "./GetStartedButton";
 
 export const revalidate = 3600; // revalidate the data cache at most every hour
 
@@ -40,7 +41,7 @@ export default async function Course({
 }) {
   const { courseSlug } = params;
 
-  const courseData = await getCourseData(courseSlug);
+  const courseData = await getCourseData(courseSlug, "page");
   if (!courseData) notFound();
 
   const { title, content, headerImage, resources } = courseData;
@@ -101,17 +102,7 @@ export default async function Course({
           })}
         </div>
       </div>
-
-      <button className="mt-32 w-full rounded-md bg-emerald-800 px-4 py-2 text-xl text-white hover:bg-emerald-700">
-        <Link
-          className="text-white no-underline"
-          href={`${courseSlug}/${getResourcePathType(resources[0].type)}/${
-            resources[0].slug
-          }`}
-        >
-          Get Started
-        </Link>
-      </button>
+      <GetStartedButton courseSlug={courseSlug} resources={resources} />
     </article>
   );
 }

@@ -1,6 +1,7 @@
 import "./globals.css";
 import type { Metadata, Viewport } from "next";
 import Providers from "@/state/providers";
+import SetUser from "@/state/SetUser";
 
 import Nav from "./_components/ui/nav/Nav";
 
@@ -28,15 +29,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html className="h-full" lang="en">
       <Providers>
-        <body className="flex min-h-screen flex-col bg-amber-50/75 dark:bg-gradient-to-tr dark:from-slate-950 dark:via-slate-800 dark:to-zinc-900 dark:text-white">
+        <body className="flex h-full min-h-screen flex-col bg-amber-50/25 dark:bg-gradient-to-tr dark:from-slate-950 dark:via-slate-800 dark:to-zinc-900 dark:text-white">
           <Nav />
           <NextTopLoader showSpinner={false} shadow={false} />
-          <h1 className=" w-full bg-amber-100 py-1 pl-3 text-sm font-extralight text-slate-600 lg:pl-8">
+          {/* <h1 className=" w-full bg-amber-100 py-1 pl-3 text-sm font-extralight text-slate-600 lg:pl-8">
             The Burnout Hub is currently under development but please feel free
             to take a look around 😎
-          </h1>
+          </h1> */}
+          <SetUser />
           <main className="selection:bg-fuchsia-300/50 selection:text-fuchsia-900">
             {children}
             <Analytics />

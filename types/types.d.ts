@@ -22,3 +22,7 @@ type PlayThisType = {
   title: string;
   author: string;
 };
+
+type SVGProps = {
+  classes?: string;
+};

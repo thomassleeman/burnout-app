@@ -33,7 +33,8 @@
       "@stories/*": ["app/burnout-stories/*"],
       "@exercises/*": ["app/exercises/*"],
       "@actions/*": ["app/actions/*"],
-      "@sanity/*": ["app/sanity/*"]
+      "@sanity/*": ["app/sanity/*"],
+      "@stripe/*": ["app/stripe/*"]
     }
   },
   "include": [
@@ -45,7 +46,8 @@
     "app/api/uploadArticle",
     "atoms/isAdminAtom.js",
     "app/_components/studies/StudyModal.js",
-    "app/chatbot/burnout-assessment/page.jsx"
+    "app/chatbot/burnout-assessment/page.jsx",
+    "pathGenerate.js"
   ],
   "exclude": ["node_modules", "functions"]
 }

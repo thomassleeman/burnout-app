@@ -12,7 +12,7 @@ export interface Day {
   dayNumber: string;
   isCurrentMonth: boolean;
   isToday: boolean;
-  isSelected: boolean;
+  isSelected?: boolean;
   isFuture: boolean;
   hasJournalEntry: boolean;
 }

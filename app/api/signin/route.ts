@@ -71,5 +71,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ isLogged: false }, { status: 401 });
   }
 
+  console.log("deconded claims /signin route:", decodedClaims);
+
   return NextResponse.json({ decodedClaims }, { status: 200 });
 }

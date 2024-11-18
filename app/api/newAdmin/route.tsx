@@ -1,15 +1,8 @@
 import { adminInit } from "@/firebase/auth/adminConfig";
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "firebase-admin";
-// const {
-//   getFirestore,
-//   Timestamp,
-//   FieldValue,
-//   Filter,
-// } = require('firebase-admin/firestore');
 
 adminInit();
-// const db = getFirestore();
 
 export async function POST(request: NextRequest) {
   try {
@@ -21,22 +14,13 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-    // const userRef = db.collection('users').doc(id);
-    // const doc = await userRef.get();
-    // console.log('doc', doc);
-    // if (doc.displayName.stringValue !== name) {
-    //   console.log('doc.displayName', doc.displayName);
-    //   console.log('name', name);
-    //   return NextResponse.json(
-    //     {
-    //       error:
-    //         'The name given does not match the record we hold. The name must be an exact match to update the user to Admin',
-    //     },
-    //     { status: 400 }
-    //   );
-    // }
+
+    // Fetch existing custom claims
+    const user = await auth().getUser(id);
+    const existingCustomClaims = user.customClaims || {};
 
     await auth().setCustomUserClaims(id, {
+      // ...existingCustomClaims,
       admin: true,
     });
 

@@ -1,13 +1,7 @@
 "use client";
 
 import { app } from "@firebase/auth/appConfig";
-import {
-  doc,
-  getFirestore,
-  setDoc,
-  serverTimestamp,
-  arrayUnion,
-} from "firebase/firestore";
+import { doc, getFirestore, setDoc, serverTimestamp } from "firebase/firestore";
 import { AssessmentScores } from "@/types/chatbot";
 import calculateRecommendedArticles from "./calculateRecommendedArticles";
 
@@ -44,20 +38,22 @@ export default async function updateDatabase(
     const month = date.toLocaleString("en-US", { month: "short" });
     const year = date.getFullYear();
     const recordNameDateElement = `${day}${month}${year}`;
-    const assessmentRecordName = `assessment-${recordNameDateElement}`;
+    // const assessmentRecordName = `assessment-${recordNameDateElement}`;
     const recommendedArticles = calculateRecommendedArticles(assessment2);
 
     setDoc(
       userRef,
       {
-        exercises: {
-          [assessmentRecordName]: {
+        assessments: {
+          burnoutAssessment: {
+            // [assessmentRecordName]: {
             ...assessmentsObject,
             createdAt: createdAt,
           },
         },
+        // },
         articles: {
-          recommended: arrayUnion(...recommendedArticles),
+          recommended: recommendedArticles, // Removed arrayUnion to overwrite
         },
       },
       { merge: true }

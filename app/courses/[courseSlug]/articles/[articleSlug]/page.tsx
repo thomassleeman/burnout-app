@@ -61,8 +61,6 @@ export default async function Article({
     classification,
   } = articleData;
 
-  console.log("classification: ", classification.slug);
-
   const headerImageUrl = headerImage ? urlForImage(headerImage) : null;
   const authorImageUrl = author?.image ? urlForImage(author.image) : null;
 
@@ -110,9 +108,7 @@ export default async function Article({
         <div className="px-6 first-letter:float-left first-letter:mr-2 first-letter:text-6xl first-letter:font-extrabold first-letter:text-green-900">
           <PortableText value={content} components={portableTextComponents} />
         </div>
-        {/* <div className="not-prose mt-6 pl-1 font-sans lg:pl-0">
-          <Link href="/articles">← Back to library</Link>
-        </div> */}
+
         {showModal && study && (
           <StudyModal currentUrl={currentUrl} studyId={study} />
         )}

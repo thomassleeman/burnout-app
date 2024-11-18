@@ -45,7 +45,7 @@ export async function getSortedLimitedArticlesData(
   order: "asc" | "desc",
   limit: number
 ) {
-  const query = `*[_type == "article"]| order(${orderedBy} ${order})[0..${
+  const query = `*[_type == "article" && classification->_type != "course" ]| order(${orderedBy} ${order})[0..${
     limit - 1
   }]{${contentCarouselProjection}}`;
 

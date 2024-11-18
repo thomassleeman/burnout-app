@@ -79,3 +79,15 @@ export type Prompt = {
   title: string;
   instructions: PortableTextBlock[];
 };
+
+export interface JournalingSection {
+  _key: string;
+  slug: string;
+  sectionTitle: string;
+}
+
+export interface WritingExercise {
+  slug: { current: string };
+  title: string;
+  journalingSections?: JournalingSection[];
+}

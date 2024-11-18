@@ -1,10 +1,10 @@
-import { SVGProps } from "react";
+// import { SVGProps } from "react";
 
-interface YoutubeIconProps extends SVGProps<SVGSVGElement> {
-  classes?: string;
-}
+// interface YoutubeIconProps extends SVGProps<SVGSVGElement> {
+//   classes?: string;
+// }
 
-const YoutubeIcon = ({ classes, ...props }: YoutubeIconProps) => (
+const YoutubeIcon: React.FC<SVGProps> = ({ classes, ...props }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 -62 512.002 512"

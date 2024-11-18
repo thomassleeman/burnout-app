@@ -11,10 +11,10 @@ import {
 
 export default async function updateDatabase(
   encryptedUserInput: string,
-  courseSlug: string,
   exerciseSlug: string
 ) {
   try {
+    console.log("writing ex db update");
     const response = await fetch("/api/accessUserId", {
       method: "POST",
       headers: {
@@ -41,9 +41,6 @@ export default async function updateDatabase(
             encryptedUserInput: encryptedUserInput,
             createdAt: createdAt,
           },
-        },
-        courses: {
-          [courseSlug]: arrayUnion(exerciseSlug),
         },
       },
       { merge: true }

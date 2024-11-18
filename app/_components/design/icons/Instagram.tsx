@@ -1,10 +1,4 @@
-import { SVGProps } from "react";
-
-interface InstagramIconProps extends SVGProps<SVGSVGElement> {
-  classes?: string;
-}
-
-const InstagramIcon = ({ classes, ...props }: InstagramIconProps) => (
+const InstagramIcon: React.FC<SVGProps> = ({ classes, ...props }) => (
   <svg fill="currentColor" className={classes} viewBox="0 0 24 24" {...props}>
     <path
       fillRule="evenodd"

@@ -5,6 +5,7 @@ import { categoryType } from "./categorySchema";
 import { courseType } from "./courseSchema";
 import { burnoutStoryType } from "./burnoutStorySchema";
 import { selfReflectionExerciseType } from "./selfReflectionExerciseSchema";
+import { writingExerciseType } from "./writingExerciseSchema";
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
@@ -14,5 +15,6 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     courseType,
     burnoutStoryType,
     selfReflectionExerciseType,
+    writingExerciseType,
   ],
 };

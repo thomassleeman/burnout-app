@@ -3,7 +3,7 @@ import { PortableText } from "@portabletext/react";
 import portableTextComponents from "@/sanity/schemas/portableText/portableTextComponents";
 import { PortableTextBlock } from "@/types/sanity";
 
-interface InfoBoxProps {
+export interface InfoBoxProps {
   value: {
     infoBoxType: string;
     content: PortableTextBlock[]; // Adjust the type of content based on its actual structure

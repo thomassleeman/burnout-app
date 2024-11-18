@@ -16,7 +16,8 @@ const db = getFirestore();
 /* COURSE PAGE QUERIES */
 /* ----------------------------------------------------------------------------------------- */
 
-export async function getCourseData(slug: string) {
+export async function getCourseData(slug: string, origin: string) {
+  console.log("Fetching data from Sanity.io... Request from: ", origin);
   const query = `*[_type == "course" && slug.current == "${slug}"][0]{
       title,
       "slug": slug.current,

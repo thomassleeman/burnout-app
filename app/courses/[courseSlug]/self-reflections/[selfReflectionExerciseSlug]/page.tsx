@@ -1,4 +1,4 @@
-import { getSelfReflectionExerciseData } from "@exercises/getExercisesData";
+import { getSelfReflectionData } from "../getSelfReflectionsData";
 import { notFound } from "next/navigation";
 
 //Sanity
@@ -16,9 +16,7 @@ export default async function SelfReflectionExercise({
   params: { courseSlug: string; selfReflectionExerciseSlug: string };
 }) {
   const { courseSlug, selfReflectionExerciseSlug } = params;
-  const exerciseData = await getSelfReflectionExerciseData(
-    selfReflectionExerciseSlug
-  );
+  const exerciseData = await getSelfReflectionData(selfReflectionExerciseSlug);
 
   if (!exerciseData) notFound();
 

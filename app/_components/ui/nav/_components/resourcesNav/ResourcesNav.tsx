@@ -1,6 +1,4 @@
 "use client";
-import Link from "next/link";
-import Image from "next/image";
 
 import { getCoursesData } from "@courses/getCoursesData";
 import { getBurnoutStoriesData } from "@stories/getStoriesData";
@@ -9,13 +7,6 @@ import { useState, useEffect } from "react";
 import CourseCard from "./CourseCard";
 import StoryCard from "./StoryCard";
 
-const searchApp = process.env.NEXT_PUBLIC_SEARCH_APP;
-const searchKey = process.env.NEXT_PUBLIC_SEARCH_KEY;
-
-import { PortableText } from "@portabletext/react";
-import portableTextComponents from "@/sanity/schemas/portableText/portableTextComponents";
-import { urlForImage } from "@/sanity/lib/image";
-
 import { Fragment } from "react";
 import { Popover, Transition } from "@headlessui/react";
 import YoutubeIcon from "@/components/design/icons/Youtube";
@@ -23,22 +14,15 @@ import InstagramIcon from "@/app/_components/design/icons/Instagram";
 
 import defaultImage from "@articles/defaultImage.jpeg";
 
-import { usePathname } from "next/navigation";
-
 //types
 import { Course } from "@/types/sanity";
 
 import {
-  BookOpenIcon,
   FingerPrintIcon,
   AcademicCapIcon,
-  GlobeAltIcon,
   InformationCircleIcon,
   NewspaperIcon,
   ShieldCheckIcon,
-  UserGroupIcon,
-  UsersIcon,
-  VideoCameraIcon,
   ChatBubbleLeftEllipsisIcon,
   PencilSquareIcon,
   XMarkIcon,
@@ -52,58 +36,86 @@ const engagement = [
   { name: "Careers", href: "#", icon: BriefcaseIcon },
   { name: "Privacy", href: "#", icon: ShieldCheckIcon },
 ];
+
 const tools = [
   {
     name: "Check up",
     href: "/chatbot/burnout-assessment",
     target: "_self",
-    icon: () => (
-      <ChatBubbleLeftEllipsisIcon className="h-6 w-6 text-blue-400 group-hover:animate-bounce" />
+    icon: (props: SVGProps) => (
+      <ChatBubbleLeftEllipsisIcon
+        className={props.classes}
+        aria-hidden="true"
+      />
     ),
+    classes: "h-6 w-6 text-blue-400 group-hover:animate-bounce",
   },
   {
     name: "My Journal",
     href: "/my-journal",
     target: "_self",
-    icon: () => (
-      <PencilIcon className="h-6 w-6 text-emerald-600 group-hover:animate-bounce" />
+    icon: (props: SVGProps) => (
+      <PencilIcon className={props.classes} aria-hidden="true" />
     ),
+    classes: "h-6 w-6 text-emerald-600 group-hover:animate-bounce",
   },
   {
     name: "Youtube",
     href: "https://www.youtube.com/channel/UCg_SVP7mDgBI4gEcY5mTt-A",
     target: "_blank",
-    icon: () => (
-      <YoutubeIcon classes="h-6 w-6 text-red-400 fill-current group-hover:animate-bounce" />
-    ),
+    icon: (props: SVGProps) => <YoutubeIcon classes={props.classes} />,
+    classes: "h-6 w-6 text-red-400 fill-current group-hover:animate-bounce",
   },
   {
     name: "Instagram",
     href: "https://instagram.com/theburnout_hub",
     target: "_blank",
-    icon: () => (
-      <InstagramIcon classes="h-6 w-6 text-pink-500 fill-current group-hover:animate-bounce" />
-    ),
+    icon: (props: SVGProps) => <InstagramIcon classes={props.classes} />,
+    classes: "h-6 w-6 text-pink-500 fill-current group-hover:animate-bounce",
   },
-  { name: "Guides", href: "#", target: "_self", icon: BookOpenIcon },
 ];
+// const tools = [
+//   {
+//     name: "Check up",
+//     href: "/chatbot/burnout-assessment",
+//     target: "_self",
+//     icon: (props: SVGProps) => (
+//       <ChatBubbleLeftEllipsisIcon className="h-6 w-6 text-blue-400 group-hover:animate-bounce" />
+//     ),
+//   },
+//   {
+//     name: "My Journal",
+//     href: "/my-journal",
+//     target: "_self",
+//     icon: (props: SVGProps) => (
+//       <PencilIcon className="h-6 w-6 text-emerald-600 group-hover:animate-bounce" />
+//     ),
+//   },
+//   {
+//     name: "Youtube",
+//     href: "https://www.youtube.com/channel/UCg_SVP7mDgBI4gEcY5mTt-A",
+//     target: "_blank",
+//     icon: (props: SVGProps) => (
+//       <YoutubeIcon classes="h-6 w-6 text-red-400 fill-current group-hover:animate-bounce" />
+//     ),
+//   },
+//   {
+//     name: "Instagram",
+//     href: "https://instagram.com/theburnout_hub",
+//     target: "_blank",
+//     icon: (props: SVGProps) => (
+//       <InstagramIcon classes="h-6 w-6 text-pink-500 fill-current group-hover:animate-bounce" />
+//     ),
+//   },
+//   // { name: "Guides", href: "#", target: "_self", icon: BookOpenIcon },
+// ];
 
-import {
-  ChevronDownIcon,
-  ChevronUpIcon,
-  // AcademicCapIcon,
-} from "@heroicons/react/20/solid";
-import {
-  BookmarkSquareIcon,
-  CalendarDaysIcon,
-  LifebuoyIcon,
-  BriefcaseIcon,
-} from "@heroicons/react/24/outline";
+import { ChevronDownIcon } from "@heroicons/react/20/solid";
+import { BriefcaseIcon } from "@heroicons/react/24/outline";
 
 export default function ResourcesNav() {
   const [courses, setCourses] = useState<Course[]>([]);
   const [stories, setStories] = useState<Course[]>([]);
-  const pathname = usePathname();
 
   useEffect(() => {
     const fetchCourses = async () => {
@@ -198,8 +210,8 @@ export default function ResourcesNav() {
       {({ open, close }) => (
         <>
           <Popover.Button className="inline-flex items-center p-2 text-sm font-semibold leading-6 text-sky-600 outline-none lg:mr-3">
-            <span className="hidden lg:mr-1 lg:inline-block">Resources</span>{" "}
-            <BriefcaseIcon className="h-5 w-5 lg:hidden" />
+            <span className="hidden lg:mr-2 lg:inline-block">Resources</span>{" "}
+            <BriefcaseIcon className="h-5 w-5 lg:h-4 lg:w-4" />
             <ChevronDownIcon
               className={`h-6 w-6 ${open ? "rotate-180" : ""}`}
               aria-hidden="true"
@@ -218,7 +230,7 @@ export default function ResourcesNav() {
               <button onClick={close}>
                 <XMarkIcon className="fixed right-0 top-0 h-10 w-10 rounded-full bg-slate-300 p-2 text-gray-900" />
               </button>
-              <div className="w-screen flex-auto overflow-hidden overflow-y-scroll rounded-3xl bg-white text-sm leading-6 shadow-lg ring-1 ring-gray-900/5">
+              <div className="w-screen flex-auto overflow-hidden overflow-y-scroll rounded-xl bg-white text-sm leading-6 shadow-lg ring-1 ring-gray-900/5">
                 <div className="p-4">
                   <div>
                     <div
@@ -262,6 +274,24 @@ export default function ResourcesNav() {
                                     target={item.target}
                                     className="group flex gap-x-4 py-2 text-sm font-semibold leading-6 text-gray-900 hover:text-gray-600"
                                   >
+                                    {item.icon({
+                                      classes: item.classes,
+                                    })}
+                                    {item.name}
+                                  </a>
+                                ))}
+                              </div>
+                            </div>
+
+                            {/* <div className="mt-6 flow-root">
+                              <div className="-my-2 ">
+                                {tools.map((item) => (
+                                  <a
+                                    key={item.name}
+                                    href={item.href}
+                                    target={item.target}
+                                    className="group flex gap-x-4 py-2 text-sm font-semibold leading-6 text-gray-900 hover:text-gray-600"
+                                  >
                                     <item.icon
                                       className="h-6 w-6 flex-none text-gray-400 group-hover:animate-bounce"
                                       aria-hidden="true"
@@ -270,7 +300,7 @@ export default function ResourcesNav() {
                                   </a>
                                 ))}
                               </div>
-                            </div>
+                            </div> */}
                           </div>
                         </div>
                         {/* Courses */}
