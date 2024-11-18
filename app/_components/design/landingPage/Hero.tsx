@@ -45,9 +45,11 @@ export default function Hero() {
           </div>
         </div>
 
-        <div className="relative mt-16 flex h-full w-full flex-1 justify-center lg:mt-0">
+        <div className=" relative mt-16 h-full w-full flex-1 lg:mt-0">
           <BurnoutImage
-            classes={" h-full w-auto lg:w-full lg:h-auto max-w-xl xl:max-w-3xl"}
+            classes={
+              " h-full mx-auto w-auto lg:w-full lg:h-auto max-w-xl xl:max-w-3xl"
+            }
           />
           <TargetImage classes="h-16 sm:h-24 2xl:h-32 w-auto animate-bounce absolute top-0 left-0 md:left-1/4 lg:left-0 2xl:left-4 z-20" />
           <AlarmClockImage classes="absolute h-14 sm:h-20 2xl:h-24 w-auto animate-spin bottom-5 sm:bottom-20 right-14 md:right-1/4 lg:right-14 2xl:right-24 z-20" />
