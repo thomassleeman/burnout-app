@@ -79,7 +79,7 @@ function SuccessPageContent() {
           <p>
             You have purchased <strong>{subscriptionQuantity}</strong> seats.
           </p>
-          <p>Let's create an organization to manage your team</p>
+          <p>Let&apos;s create an organization to manage your team</p>
           <button
             onClick={() => router.push("/subscribe/create-organisation")}
             className="btn btn-primary mt-4"
