@@ -40,7 +40,7 @@ const Assessment1Results = () => {
   const assessment1 = user.assessments?.burnoutAssessment?.assessment1;
 
   if (!assessment1) {
-    return <p>No assessment data available.</p>;
+    return <p className="mt-2">No assessment data available yet.</p>;
   }
 
   const metrics = Object.entries(assessment1);

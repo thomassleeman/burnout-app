@@ -61,6 +61,22 @@ export async function getCoursesData() {
 
 /* ----------------------------------------------------------------------------------------- */
 
+export async function getNamedCoursesData(slugs: string[]) {
+  const query = `*[_type == "course" && slug.current in $slugs][0...10]{
+      title,
+      "slug": slug.current,
+      headerImage,
+      summary[]{
+        ...,
+      },
+  }`;
+  const articles = await client.fetch(query, { slugs });
+
+  return articles;
+}
+
+/* ----------------------------------------------------------------------------------------- */
+
 export async function getCompletedModules(courseSlug: string) {
   // a) Get the user from firebase and check for recommended articles
   const userId = await userIdAction();

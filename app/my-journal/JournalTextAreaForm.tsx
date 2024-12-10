@@ -221,11 +221,11 @@ export default function JournalTextAreaForm({
             {prompts.map((prompt) => (
               <div key={prompt.id} className="flex flex-col items-center">
                 <div className="my-2 w-full rounded-lg py-1">
-                  <h5 className="font-light">{prompt.prompt}</h5>
+                  <h5 className="text-lg font-light">{prompt.prompt}</h5>
                   <textarea
                     id={`textarea-${prompt.id}`}
                     name={`userInput-${prompt.id}`}
-                    className="my-2 h-28 w-full rounded-md border border-gray-100 p-2"
+                    className="my-2 h-28 w-full rounded-md border-0 p-2 shadow-sm ring-2 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-emerald-700"
                     value={userInputs[prompt.id] || ""}
                     onChange={(e) =>
                       handleInputChange(prompt.id, e.target.value)
@@ -234,7 +234,7 @@ export default function JournalTextAreaForm({
                 </div>
               </div>
             ))}
-            <SubmitButton classes="rounded-lg bg-emerald-700 px-4 py-2 mt-6 text-white disabled:bg-gray-500 disabled:cursor-not-allowed disabled:text-gray-100 w-full">
+            <SubmitButton classes="rounded-lg bg-emerald-700 px-4 text-lg py-2 mt-6 text-white disabled:bg-gray-500 disabled:cursor-not-allowed disabled:text-gray-100 w-full">
               Save my answers
             </SubmitButton>
           </form>

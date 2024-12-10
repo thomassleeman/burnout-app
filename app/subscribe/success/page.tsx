@@ -34,6 +34,8 @@ function SuccessPageContent() {
     refreshTokenAndGetClaims();
   }, []);
 
+  console.log("session id: ", sessionId);
+
   useEffect(() => {
     const fetchSession = async () => {
       if (sessionId) {
@@ -77,10 +79,9 @@ function SuccessPageContent() {
           <p>
             You have purchased <strong>{subscriptionQuantity}</strong> seats.
           </p>
-          <p>Would you like to create an organization to manage your team?</p>
-          {/* Link or button to create organization */}
+          <p>Let's create an organization to manage your team</p>
           <button
-            onClick={() => router.push("/create-organisation")}
+            onClick={() => router.push("/subscribe/create-organisation")}
             className="btn btn-primary mt-4"
           >
             Create Organization

@@ -58,7 +58,7 @@ export default async function Course({
         alt={`header image for the course ${title}`}
         priority={true}
         className=""
-      ></Image>
+      />
 
       <div className={`${martel.className} first-line:bold px-6`}>
         <PortableText value={content} components={portableTextComponents} />

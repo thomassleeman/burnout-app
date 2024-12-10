@@ -30,7 +30,7 @@ const stats = [
 
 export default function TheProblemSection() {
   return (
-    <div className="mx-auto mt-16 px-6 py-28 lg:px-8 2xl:mt-32">
+    <div className="mx-auto mt-16 max-w-7xl px-6 py-28 lg:px-8 2xl:mt-32 2xl:max-w-screen-2xl">
       <div className="mx-auto max-w-2xl lg:text-center">
         <h2 className="font-mono text-base/7 font-semibold text-red-500">
           The Problem

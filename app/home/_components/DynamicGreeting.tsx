@@ -20,7 +20,7 @@ const DynamicGreeting: React.FC<GreetingProps> = ({ userName }) => {
     <div className="text-left sm:pt-1">
       <p className="text-sm font-extralight text-gray-600">Welcome back,</p>
       <p className="text-xl font-bold text-gray-900 sm:text-2xl">
-        {`Good ${getGreeting()}, ${userName}`}
+        {`Good ${getGreeting()}, ${userName || ""}`}
       </p>
     </div>
   );

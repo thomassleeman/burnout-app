@@ -16,10 +16,20 @@ const martel = Martel({
 
 export default function Hero() {
   return (
-    <div className="mx-auto mt-0 overflow-hidden px-2 py-6 md:mt-6 md:px-8 lg:mt-16 lg:px-12">
-      <div className=" flex h-full flex-col items-center gap-x-6 lg:flex-row">
+    <div className="mx-auto mt-0 max-w-7xl overflow-hidden px-2 py-6 md:mt-6 md:px-8 lg:mt-16 lg:px-12 2xl:max-w-screen-2xl">
+      <div className=" flex h-full flex-col items-center gap-x-8 lg:flex-row">
         <div className="mt-6 flex-1 px-4 lg:mt-0 lg:px-2 xl:px-4">
           <h1
+            className={`${martel.className} text-5xl font-bold tracking-tight text-emerald-900 md:text-6xl`}
+          >
+            Let&apos;s make a plan to tackle{" "}
+            <span className="font-sans font-semibold">Burnout</span> in{" "}
+            <em className="underline decoration-yellow-300 underline-offset-8">
+              your team
+            </em>
+            .
+          </h1>
+          {/* <h1
             className={`${martel.className} text-5xl font-bold tracking-tight text-emerald-900 md:text-6xl`}
           >
             Let&apos;s make{" "}
@@ -29,12 +39,22 @@ export default function Hero() {
               past
             </em>
             .
-          </h1>
+          </h1> */}
+
+          {/* <p className="mt-6 tracking-wide text-slate-500 lg:text-lg xl:text-xl">
+            Articles, courses, exercises and tools to fight burnout.
+            Welcome to the wellness platform focused on{" "}
+            <em className="font-semibold">stress and mental health at work.</em>
+          </p> */}
+          {/* <p className="lg:text-md mt-6 font-mono text-sm tracking-wide text-slate-600 xl:text-lg">
+            Articles, courses, exercises and tools to fight burnout.
+          </p> */}
           <p className="mt-6 tracking-wide text-slate-500 lg:text-lg xl:text-xl">
-            Articles, courses and tools to{" "}
-            <em className="font-semibold">fight burnout amongst your team</em>.
-            Welcome to the wellness platform focused on stress and mental health
-            at work.
+            Articles, courses, exercises and tools to fight burnout. <br />
+            Welcome to the wellness platform focused on{" "}
+            <span className="font-semibold">
+              stress and mental health at work.
+            </span>
           </p>
           <div className="mt-8 flex max-w-fit flex-row justify-center gap-x-6 lg:flex-col lg:gap-y-4 xl:flex-row xl:justify-start">
             <button className=" rounded-lg bg-emerald-900 px-4 py-2 text-white hover:bg-emerald-800">

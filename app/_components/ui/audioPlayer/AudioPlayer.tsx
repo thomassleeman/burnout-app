@@ -150,9 +150,7 @@ export default function AudioPlayer() {
     content = null;
   } else {
     content = (
-      <div
-        className={`fixed bottom-0 left-0 grid h-16 w-full grid-cols-10 place-items-center border-amber-200 bg-amber-100 md:bottom-4 md:h-24 md:w-2/5 lg:bottom-2 lg:rounded-r-xl lg:border-y-4 lg:border-r-4 lg:drop-shadow-lg`}
-      >
+      <div className="fixed bottom-0 left-0 grid h-16 w-full grid-cols-10 place-items-center bg-amber-50 md:bottom-4 md:h-24 md:w-2/5 lg:bottom-2 lg:rounded-r-xl lg:drop-shadow-lg">
         <Image
           src={image}
           alt={`Header image for the article titled ${title} by ${author}`}
@@ -193,7 +191,7 @@ export default function AudioPlayer() {
           onClick={handleCloseAndReset}
           className="absolute -top-6 right-0 lg:-right-5 lg:-top-4"
         >
-          <XMarkIcon className="h-7 w-7 rounded-full border-2 border-amber-200 bg-amber-100 text-slate-600 drop-shadow-lg" />
+          <XMarkIcon className="h-7 w-7 rounded-full bg-gray-700/25 text-white drop-shadow-lg" />
         </button>
       </div>
     );

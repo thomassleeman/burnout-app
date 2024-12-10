@@ -39,7 +39,7 @@ export default function RootLayout({
             to take a look around 😎
           </h1> */}
           <SetUser />
-          <main className="selection:bg-fuchsia-300/50 selection:text-fuchsia-900">
+          <main className="selection:bg-emerald-500/25 selection:text-emerald-900">
             {children}
             <Analytics />
           </main>

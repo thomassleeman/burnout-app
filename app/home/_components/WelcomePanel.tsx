@@ -8,7 +8,7 @@ import StressLevelComponent from "./StressLevelComponent";
 
 export default function WelcomePanel() {
   const user = useAtomValue(userAtom);
-  console.log("user welcome panel: ", user);
+  console.log("user: ", user);
 
   // Show loading skeleton while user data is not yet available
   if (!user) {
@@ -45,12 +45,14 @@ export default function WelcomePanel() {
   }
 
   const userDetails = user.providerData[0];
-  const firstName = userDetails.displayName.split(" ")[0];
+  const firstName = userDetails.displayName?.split(" ")[0];
   const currentDate = new Date();
 
   // Calculate "Member Since"
-  const accountCreationDate = new Date(user.createdAt.seconds * 1000);
-  const memberSinceDays = differenceInDays(currentDate, accountCreationDate);
+  const accountCreationDate = new Date(user.createdAt?.seconds * 1000);
+  console.log("accountCreationDate: ", accountCreationDate);
+  const memberSinceDays =
+    differenceInDays(currentDate, accountCreationDate) || null;
 
   // Calculate "Last Journal Entry"
   const journalEntries = Object.keys(user.journal || {});
@@ -104,7 +106,11 @@ export default function WelcomePanel() {
 
   // Update the stats object
   const stats = [
-    { label: "Member for", value: `${memberSinceDays} days` },
+    //whereas last journal entry and last assessment have fallback text, there is none for member for, so here we do a test to ensure there is a number available. If not we return an empty string.
+    {
+      label: memberSinceDays ? "Member for" : "",
+      value: memberSinceDays ? `${memberSinceDays} days` : "",
+    },
     { label: "Last journal entry", value: lastJournalEntry },
     { label: "Last assessment", value: lastCheckin },
   ];

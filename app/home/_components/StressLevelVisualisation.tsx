@@ -68,7 +68,7 @@ const StressRatingChart = () => {
   const stressRatings: Rating[] = user.stressRating ?? [];
 
   if (stressRatings.length === 0) {
-    return <p>No stress rating data available.</p>;
+    return <p className="mt-2">No stress rating data available yet.</p>;
   }
 
   // Process data: sort by date and prepare labels and data arrays
