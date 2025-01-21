@@ -2,9 +2,11 @@
 
 import { getCoursesData } from "@courses/getCoursesData";
 import { getBurnoutStoriesData } from "@stories/getStoriesData";
+import { getWritingExercisesData } from "@exercises/writing-exercises/getWritingExercisesData";
 import { useState, useEffect } from "react";
 
 import CourseCard from "./CourseCard";
+import ExerciseCard from "./ExerciseCard";
 import StoryCard from "./StoryCard";
 
 import { Fragment } from "react";
@@ -15,10 +17,11 @@ import InstagramIcon from "@/app/_components/design/icons/Instagram";
 import defaultImage from "@articles/defaultImage.jpeg";
 
 //types
-import { Course } from "@/types/sanity";
+import { Course, WritingExercise } from "@/types/sanity";
 
 import {
   FingerPrintIcon,
+  EyeIcon,
   AcademicCapIcon,
   InformationCircleIcon,
   NewspaperIcon,
@@ -42,7 +45,7 @@ const tools = [
     name: "Check up",
     href: "/chatbot/burnout-assessment",
     target: "_self",
-    icon: (props: SVGProps) => (
+    icon: (props: CustomSVGProps) => (
       <ChatBubbleLeftEllipsisIcon
         className={props.classes}
         aria-hidden="true"
@@ -54,7 +57,7 @@ const tools = [
     name: "My Journal",
     href: "/my-journal",
     target: "_self",
-    icon: (props: SVGProps) => (
+    icon: (props: CustomSVGProps) => (
       <PencilIcon className={props.classes} aria-hidden="true" />
     ),
     classes: "h-6 w-6 text-emerald-600 group-hover:animate-bounce",
@@ -63,58 +66,24 @@ const tools = [
     name: "Youtube",
     href: "https://www.youtube.com/channel/UCg_SVP7mDgBI4gEcY5mTt-A",
     target: "_blank",
-    icon: (props: SVGProps) => <YoutubeIcon classes={props.classes} />,
+    icon: (props: CustomSVGProps) => <YoutubeIcon classes={props.classes} />,
     classes: "h-6 w-6 text-red-400 fill-current group-hover:animate-bounce",
   },
   {
     name: "Instagram",
     href: "https://instagram.com/theburnout_hub",
     target: "_blank",
-    icon: (props: SVGProps) => <InstagramIcon classes={props.classes} />,
+    icon: (props: CustomSVGProps) => <InstagramIcon classes={props.classes} />,
     classes: "h-6 w-6 text-pink-500 fill-current group-hover:animate-bounce",
   },
 ];
-// const tools = [
-//   {
-//     name: "Check up",
-//     href: "/chatbot/burnout-assessment",
-//     target: "_self",
-//     icon: (props: SVGProps) => (
-//       <ChatBubbleLeftEllipsisIcon className="h-6 w-6 text-blue-400 group-hover:animate-bounce" />
-//     ),
-//   },
-//   {
-//     name: "My Journal",
-//     href: "/my-journal",
-//     target: "_self",
-//     icon: (props: SVGProps) => (
-//       <PencilIcon className="h-6 w-6 text-emerald-600 group-hover:animate-bounce" />
-//     ),
-//   },
-//   {
-//     name: "Youtube",
-//     href: "https://www.youtube.com/channel/UCg_SVP7mDgBI4gEcY5mTt-A",
-//     target: "_blank",
-//     icon: (props: SVGProps) => (
-//       <YoutubeIcon classes="h-6 w-6 text-red-400 fill-current group-hover:animate-bounce" />
-//     ),
-//   },
-//   {
-//     name: "Instagram",
-//     href: "https://instagram.com/theburnout_hub",
-//     target: "_blank",
-//     icon: (props: SVGProps) => (
-//       <InstagramIcon classes="h-6 w-6 text-pink-500 fill-current group-hover:animate-bounce" />
-//     ),
-//   },
-//   // { name: "Guides", href: "#", target: "_self", icon: BookOpenIcon },
-// ];
 
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import { BriefcaseIcon } from "@heroicons/react/24/outline";
 
 export default function ResourcesNav() {
   const [courses, setCourses] = useState<Course[]>([]);
+  const [exercises, setExercises] = useState<WritingExercise[]>([]);
   const [stories, setStories] = useState<Course[]>([]);
 
   useEffect(() => {
@@ -159,6 +128,54 @@ export default function ResourcesNav() {
     };
 
     fetchCourses();
+  }, []); // Empty dependency array to ensure this runs only once
+
+  useEffect(() => {
+    const fetchWritingExercises = async () => {
+      try {
+        const cachedExercises = localStorage.getItem("writingExercises");
+        const cachedTime = localStorage.getItem("writingExercisesTime");
+
+        // Check if data is cached and less than a few hours old
+        if (
+          cachedExercises &&
+          cachedTime &&
+          // new Date().getTime() - Number(cachedTime) < 1000 * 60 * 60 * 3
+          new Date().getTime() - Number(cachedTime) < 1
+        ) {
+          //Using cached courses data
+          const parsedExercises = JSON.parse(cachedExercises);
+
+          if (!Array.isArray(parsedExercises)) {
+            throw new Error("Cached exercises data is not an array");
+          }
+
+          setExercises(parsedExercises);
+        } else {
+          //Fetching new courses data
+          const data = await getWritingExercisesData();
+
+          if (!Array.isArray(data)) {
+            throw new Error("Fetched exercises data is not an array");
+          }
+
+          setExercises(data);
+
+          // Cache the data
+          localStorage.setItem("writingExercises", JSON.stringify(data));
+          localStorage.setItem(
+            "writingExercisesTime",
+            new Date().getTime().toString()
+          );
+        }
+      } catch (error) {
+        console.error("Error fetching or parsing exercises data:", error);
+        // Optionally set courses to an empty array on error
+        setCourses([]);
+      }
+    };
+
+    fetchWritingExercises();
   }, []); // Empty dependency array to ensure this runs only once
 
   useEffect(() => {
@@ -323,8 +340,35 @@ export default function ResourcesNav() {
                             })}
                           </div>
                         </div>
-                        {/* Stories */}
+                        {/* Exercises */}
                         <div>
+                          <div className="mb-4">
+                            <div className="flex items-center gap-x-4 text-gray-500">
+                              <EyeIcon className="h-6 w-6" />
+                              <h3 className="text-lg font-medium leading-6 ">
+                                Journaling for insight
+                              </h3>
+                            </div>
+                            <span className="text-sm text-emerald-800">
+                              Explore your thoughts and feelings through guided
+                              writing exercises.
+                            </span>
+                          </div>
+                          <div className="grid grid-cols-1 gap-1 sm:gap-8 lg:grid-cols-2">
+                            {exercises.map((exercise: WritingExercise) => {
+                              return (
+                                <ExerciseCard
+                                  key={exercise.title}
+                                  exercise={exercise}
+                                  closeResourcesNav={close}
+                                />
+                              );
+                            })}
+                          </div>
+                        </div>
+                        {/* Stories */}
+                        {/* TODO This is temporarily removed. Put back in as appropriate.  */}
+                        {/* <div>
                           <div className="mb-4 flex items-center gap-x-4 text-gray-500">
                             <FingerPrintIcon className="h-6 w-6" />
                             <h3 className="text-lg font-medium leading-6 ">
@@ -358,7 +402,7 @@ export default function ResourcesNav() {
                               );
                             })}
                           </div>
-                        </div>
+                        </div> */}
                       </div>
                     </div>
                   </div>

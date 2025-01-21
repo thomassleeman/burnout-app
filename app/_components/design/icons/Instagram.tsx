@@ -1,4 +1,4 @@
-const InstagramIcon: React.FC<SVGProps> = ({ classes, ...props }) => (
+const InstagramIcon: React.FC<CustomSVGProps> = ({ classes, ...props }) => (
   <svg fill="currentColor" className={classes} viewBox="0 0 24 24" {...props}>
     <path
       fillRule="evenodd"

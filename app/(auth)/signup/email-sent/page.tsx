@@ -47,8 +47,8 @@ export default async function SignUp() {
                 </div>
                 <div className="mt-10 flex gap-x-6">
                   <p className=" font-extralight text-gray-900">
-                    ...check your spam folder if you do not find the email in
-                    your inbox.
+                    ...if you do not find the email in your inbox please check
+                    your spam folder.
                   </p>
                 </div>
               </>

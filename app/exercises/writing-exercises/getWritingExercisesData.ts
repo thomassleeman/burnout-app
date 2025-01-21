@@ -1,3 +1,6 @@
+//sanity
+import { client } from "@/sanity/client";
+
 export async function getWritingExerciseData(slug: string) {
   const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
   const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET;
@@ -5,6 +8,7 @@ export async function getWritingExerciseData(slug: string) {
   const query = `*[_type == "writingExercise" && slug.current == "${slug}"][0]{
   ...,
   classification->,
+  headerImage,
   introduction[]{
     ...,
     markDefs[]{
@@ -69,4 +73,18 @@ export async function getWritingExerciseData(slug: string) {
   const { result } = await res.json();
   console.log("Data fetched for slug:", slug);
   return result;
+}
+
+/* ----------------------------------------------------------------------------------------- */
+
+export async function getWritingExercisesData() {
+  const query = `*[_type == "writingExercise"][0...10]{
+      title,
+      "slug": slug.current,
+      headerImage,
+      
+  }`;
+  const articles = await client.fetch(query);
+
+  return articles;
 }

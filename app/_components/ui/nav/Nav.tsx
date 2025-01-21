@@ -6,6 +6,10 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
 
+//jotai
+import { useAtomValue } from "jotai";
+import { userAtom } from "@/state/store";
+
 //components
 import UserIndicator from "./_components/UserIndicator";
 import ResourcesNav from "./_components/resourcesNav/ResourcesNav";
@@ -24,6 +28,7 @@ import {
   AdjustmentsHorizontalIcon,
   HomeIcon,
 } from "@heroicons/react/24/outline";
+import OrgIndicator from "./_components/resourcesNav/OrgIndicator";
 
 /* -------------- NAVIGATION ARRAY -------------------- */
 
@@ -70,6 +75,16 @@ function classNames(...classes: string[]) {
 
 export default function Nav() {
   const pathname = usePathname();
+  const user = useAtomValue(userAtom);
+  let organisation: UserOrganisation = {
+    joined: { seconds: 0, nanoseconds: 0 }, // Default timestamp
+    name: "",
+    organisationId: "",
+    role: "",
+  };
+  if (user?.organisation) {
+    organisation = user.organisation;
+  }
 
   let content;
 
@@ -81,7 +96,7 @@ export default function Nav() {
             <div className="mx-auto my-1 px-2 sm:px-4 lg:px-8">
               <div className="flex h-16 justify-between">
                 <div className="flex px-2 lg:px-0">
-                  <div className="flex flex-shrink-0 items-center">
+                  <div className="flex flex-shrink-0 items-center gap-x-4">
                     <Image
                       className="h-5/6 w-auto pr-12 drop-shadow-lg"
                       src={brainLogo}
@@ -196,14 +211,15 @@ export default function Nav() {
               <div className="flex h-16 justify-between">
                 {/* Logo and page links */}
                 <div className="flex lg:px-0">
-                  <div className="flex flex-shrink-0 items-center">
+                  <div className="mr-4 flex flex-shrink-0 items-center gap-x-4">
                     <Link href="/home" className="m-2 h-12 lg:h-14">
                       <Image
-                        className="h-full w-auto pr-4 drop-shadow-lg md:pr-12"
+                        className="h-full w-auto drop-shadow-lg"
                         src={brainLogo}
                         alt="MindHub Logo"
                       />{" "}
                     </Link>
+                    <OrgIndicator />
                   </div>
                   <div className="hidden lg:ml-6 lg:flex lg:space-x-8">
                     {navigation.registeredUser.mainNav.map((page) => {
@@ -257,6 +273,23 @@ export default function Nav() {
                       leaveTo="transform opacity-0 scale-95"
                     >
                       <Menu.Items className="absolute right-0 z-50 mt-2 w-48 origin-top-right rounded-sm bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:bg-slate-800 dark:hover:bg-slate-700">
+                        {organisation.role === "admin" ? (
+                          <Menu.Item>
+                            {({ active }) => (
+                              <Link
+                                href={`/organisation/${organisation.organisationId}`}
+                                className={classNames(
+                                  active
+                                    ? "border-green-600 bg-green-800/25"
+                                    : "border-transparent",
+                                  "block border-l-4 px-4 py-2 text-slate-700"
+                                )}
+                              >
+                                {organisation?.name}
+                              </Link>
+                            )}
+                          </Menu.Item>
+                        ) : null}
                         {navigation.registeredUser.settingsNav.map((page) => (
                           <Menu.Item key={page.name}>
                             {({ active }) => (

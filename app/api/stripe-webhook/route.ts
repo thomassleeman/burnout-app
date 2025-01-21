@@ -14,6 +14,7 @@ export const runtime = "nodejs";
 export async function POST(request: NextRequest) {
   const sig = request.headers.get("stripe-signature")!;
   const body = await request.text(); // Get raw body
+  console.log("stripe webhook ran");
 
   let event: Stripe.Event;
 

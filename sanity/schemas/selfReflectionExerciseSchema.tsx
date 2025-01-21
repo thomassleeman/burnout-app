@@ -144,6 +144,22 @@ export const selfReflectionExerciseType = defineType({
       ],
     }),
     defineField({
+      name: "summary",
+      title: "Summary",
+      type: "array",
+      description:
+        "A brief summary of the exercise. This will be displayed on the course card on the home page.",
+      of: [{ type: "block" }],
+      validation: (rule) =>
+        rule
+          .required()
+          .min(20)
+          .max(200)
+          .warning(
+            `Please include a summary between 20-200 characters in length for the course.`
+          ),
+    }),
+    defineField({
       name: "slug",
       title: "Slug",
       type: "slug",

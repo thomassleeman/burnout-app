@@ -21,7 +21,7 @@ export default async function WritingExercise({
   console.log("exerciseData: ", exerciseData);
 
   return (
-    <section className="mx-2">
+    <section className="mx-2 mb-32">
       <HeadNav exercise={exerciseData} />
 
       {children}

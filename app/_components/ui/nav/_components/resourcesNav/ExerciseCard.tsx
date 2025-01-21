@@ -8,17 +8,17 @@ import defaultImage from "@articles/defaultImage.jpeg";
 import CardSummary from "@/components/ui/CardSummary";
 
 //types
-import { Course } from "@/types/sanity";
+import { WritingExercise } from "@/types/sanity";
 type CloseResourcesNavFunction = () => void;
 
-const CourseCard = ({
-  course,
+const ExerciseCard = ({
+  exercise,
   closeResourcesNav,
 }: {
-  course: Course;
+  exercise: WritingExercise;
   closeResourcesNav: CloseResourcesNavFunction;
 }) => {
-  const { title, slug, headerImage, summary } = course;
+  const { title, slug, headerImage } = exercise;
   const headerImageUrl = headerImage ? urlForImage(headerImage) : null;
   return (
     <article
@@ -27,8 +27,8 @@ const CourseCard = ({
     >
       <button onClick={closeResourcesNav}>
         <Link
-          href={`/courses/${slug}`}
-          className="flex h-full w-full flex-col rounded-lg outline-4 outline-offset-4 outline-sky-400/25 hover:outline sm:flex-row sm:items-start lg:flex-col lg:items-stretch"
+          href={`/exercises/writing-exercises/${slug}`}
+          className="flex h-full w-full flex-col rounded-lg outline-4 outline-offset-4 outline-purple-400/25 hover:outline sm:flex-row sm:items-start lg:flex-col lg:items-stretch"
         >
           <div className="relative aspect-square flex-none overflow-hidden">
             <Image
@@ -38,8 +38,8 @@ const CourseCard = ({
               src={headerImageUrl || defaultImage}
               alt={`header image for ${title}`}
             />
-            <div className="absolute bottom-3 left-0 w-11/12 rounded-r-lg bg-gray-800/50 px-5 py-2 drop-shadow-2xl">
-              <h1 className="text-2xl font-bold text-white">{title}</h1>
+            <div className="absolute bottom-3 left-0 w-11/12 rounded-r-lg  bg-gray-800/50 px-5 py-2 drop-shadow-2xl">
+              <h1 className="text-left text-lg text-white">{title}</h1>
             </div>
           </div>
           <div>
@@ -47,9 +47,9 @@ const CourseCard = ({
           </div>
         </Link>
       </button>
-      {summary ? <CardSummary summary={summary} title={title} /> : null}
+      {/* {summary ? <CardSummary summary={summary} title={title} /> : null} */}
     </article>
   );
 };
 
-export default CourseCard;
+export default ExerciseCard;

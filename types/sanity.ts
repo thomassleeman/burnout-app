@@ -80,14 +80,50 @@ export type Prompt = {
   instructions: PortableTextBlock[];
 };
 
+// export interface JournalingSection {
+//   _key: string;
+//   slug: string;
+//   sectionTitle: string;
+// }
+
+// export interface WritingExercise {
+//   slug: { current: string };
+//   title: string;
+//   journalingSections?: JournalingSection[];
+// }
+
+export interface Classification {
+  _id: string;
+  title?: string;
+}
+
+export interface PromptItem {
+  _key?: string;
+  content?: PortableTextBlock[];
+}
+
+export interface PromptGroup {
+  _key?: string;
+  heading?: string;
+  prompts?: PromptItem[];
+}
+
 export interface JournalingSection {
-  _key: string;
-  slug: string;
-  sectionTitle: string;
+  _key?: string;
+  slug?: string;
+  sectionTitle?: string;
+  promptGroups?: PromptGroup[];
 }
 
 export interface WritingExercise {
-  slug: { current: string };
+  _id?: string;
+  _type?: "writingExercise";
   title: string;
+  headerImage?: SanityImage;
+  slug: {
+    current: string;
+  };
+  classification?: Classification;
+  introduction?: PortableTextBlock[];
   journalingSections?: JournalingSection[];
 }

@@ -23,6 +23,18 @@ export const writingExerciseType = defineType({
           .error(`Please include a title for this writing exercise.`),
     }),
     defineField({
+      name: "headerImage",
+      title: "Header Image",
+      type: "image",
+      description:
+        "Images will be cropped to a square shape, ensure you have set the image hotspot to determine the crop.",
+      options: {
+        hotspot: true,
+      },
+      validation: (rule) =>
+        rule.required().error(`Please include a header image for the article.`),
+    }),
+    defineField({
       name: "introduction",
       title: "Introduction",
       type: "array",

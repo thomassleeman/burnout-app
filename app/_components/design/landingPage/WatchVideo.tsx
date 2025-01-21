@@ -7,7 +7,6 @@ import { PlayCircleIcon } from "@heroicons/react/24/outline";
 
 export default function WatchVideo() {
   const [showVideo, setShowVideo] = useState(false);
-  console.log("showVideo watchVideo: ", showVideo);
 
   return (
     <>

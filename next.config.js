@@ -13,6 +13,11 @@ const nextConfig = {
         protocol: "https",
         hostname: "cdn.sanity.io",
       },
+      {
+        protocol: "https",
+        hostname: "storage.googleapis.com",
+        pathname: "/**", // Adjust the pattern to match your URLs
+      },
     ],
   },
 };

@@ -26,7 +26,7 @@ type Action = {
 };
 
 function ActionsPanel() {
-  const user = useAtomValue(userAtom);
+  const user: UserData | null = useAtomValue(userAtom);
 
   // Initialize the action arrays
   const courseActions: Action[] = [];
@@ -98,20 +98,17 @@ function ActionsPanel() {
       // Calculate progress if resourcesCompleted is available
       let progress: { percentage: number; isComplete: boolean } | undefined =
         undefined; // Set to undefined initially
-      if (exercise.resourcesCompleted) {
-        const totalResources = Object.keys(exercise.resourcesCompleted).length;
-        const completedResources = Object.values(
-          exercise.resourcesCompleted
-        ).filter((completed) => completed).length;
-        const percentage = Math.round(
-          (completedResources / totalResources) * 100
-        );
+      // if (exercise.resourcesCompleted) {
+      //   const totalResources = Object.keys(exercise.resourcesCompleted).length;
+      //   const completedResources = Object.values(
+      //     exercise.resourcesCompleted
+      //   ).filter((completed) => completed).length;
+      const percentage = exercise.completionPercentage;
 
-        progress = {
-          percentage,
-          isComplete: percentage === 100,
-        };
-      }
+      progress = {
+        percentage,
+        isComplete: percentage === 100,
+      };
 
       exerciseActions.push({
         icon,

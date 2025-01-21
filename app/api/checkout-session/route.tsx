@@ -47,7 +47,7 @@ export async function POST(request: NextRequest) {
     let customerId: string | undefined = decodedToken.stripeCustomerId;
 
     if (!customerId) {
-      // Create a new customer in Stripe
+      // If not Create a new customer in Stripe
       const customer = await stripe.customers.create({
         email,
         metadata: { firebaseUID: uid },
@@ -73,7 +73,7 @@ export async function POST(request: NextRequest) {
       mode: "subscription",
       line_items: [{ price: priceId, quantity }],
       success_url: `${request.nextUrl.origin}/subscribe/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${request.nextUrl.origin}/cancel`,
+      cancel_url: `${request.nextUrl.origin}/subscribe/cancel`,
     });
 
     return NextResponse.json({ sessionId: session.id });

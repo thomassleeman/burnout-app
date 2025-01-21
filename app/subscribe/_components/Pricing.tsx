@@ -6,6 +6,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { loadStripe } from "@stripe/stripe-js";
 import { useRouter } from "next/navigation";
 import useSubscriptionStatus from "@/hooks/useSubscriptionStatus";
+import Spinner from "@/app/_components/ui/_components/Spinner";
 
 const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
@@ -130,9 +131,12 @@ const Pricing = () => {
 
   const userLoading = (
     <div className="mt-8 flex flex-col items-center justify-center gap-y-7">
-      <h2 className="text-3xl text-green-900 dark:text-slate-200">
-        Loading...
-      </h2>
+      <div className="flex items-center gap-x-4">
+        <Spinner size="medium" />
+        <h2 className="text-3xl text-green-900 dark:text-slate-200">
+          Loading...
+        </h2>
+      </div>
     </div>
   );
 
@@ -178,7 +182,7 @@ const Pricing = () => {
                     <input
                       type="number"
                       id="quantity"
-                      min="1"
+                      min="2"
                       value={quantityState}
                       onChange={(e) => setQuantityState(Number(e.target.value))}
                       className="input input-bordered w-full max-w-xs"
@@ -249,15 +253,22 @@ const Pricing = () => {
                     </li>
                   ))}
                 </ul>
+                <p>
+                  You must purchase a minimum of two seats to create an
+                  organisation. You will then be prompted to navigate to the
+                  create-organisation page. Once your organisation has been
+                  created, add additional users from your organisation page.
+                </p>
 
                 {/* Subscribe Button */}
                 <div className="space-y-2">
                   <button
-                    className="btn btn-primary btn-block rounded-md bg-emerald-700 px-3 py-2 text-white"
+                    className="btn btn-primary btn-block flex items-center gap-x-2 rounded-md bg-emerald-700 px-3 py-2 text-white"
                     onClick={handleSubscribe}
                     disabled={isProcessing}
                   >
-                    {isProcessing ? "Processing..." : "Subscribe"}
+                    {isProcessing ? <Spinner size="medium" /> : null}
+                    <span>{isProcessing ? "Processing..." : "Subscribe"}</span>
                   </button>
                 </div>
               </div>

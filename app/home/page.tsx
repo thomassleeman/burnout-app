@@ -9,6 +9,8 @@ import {
   getRecommendedArticlesData,
 } from "@articles/getArticlesData";
 
+export const revalidate = 60 * 60 * 12;
+
 export default async function Home() {
   const latestArticles = await getSortedLimitedArticlesData("date", "desc", 10);
 

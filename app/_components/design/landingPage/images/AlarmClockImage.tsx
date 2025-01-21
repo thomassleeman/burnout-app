@@ -1,4 +1,7 @@
-const AlarmClockImage: React.FC<SVGProps> = ({
+import * as React from "react";
+import { SVGProps } from "react";
+
+const AlarmClockImage: React.FC<CustomSVGProps> = ({
   classes,
   ...props
 }: {

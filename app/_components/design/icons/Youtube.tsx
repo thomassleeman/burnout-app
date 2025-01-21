@@ -4,7 +4,7 @@
 //   classes?: string;
 // }
 
-const YoutubeIcon: React.FC<SVGProps> = ({ classes, ...props }) => (
+const YoutubeIcon: React.FC<CustomSVGProps> = ({ classes, ...props }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 -62 512.002 512"

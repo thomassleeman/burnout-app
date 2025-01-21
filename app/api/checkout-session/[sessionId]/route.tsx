@@ -12,7 +12,6 @@ export async function GET(
   { params }: { params: { sessionId: string } }
 ) {
   const { sessionId } = params;
-  console.log("sessionId api/checkout-session/sessionId:", sessionId);
 
   if (!sessionId) {
     return NextResponse.json({ error: "Missing sessionId" }, { status: 400 });

@@ -1,4 +1,6 @@
 "use client";
+//react
+import { useEffect } from "react";
 //firebase
 import { auth } from "@/firebase/auth/appConfig";
 //react firebase hooks
@@ -13,6 +15,13 @@ import GoogleButton from "./GoogleButton";
 
 export default function SignInWithGoogle() {
   const [signInWithGoogle, user, loading, error] = useSignInWithGoogle(auth);
+  const [, setAnyError] = useAtom(anyErrorAtom);
+
+  useEffect(() => {
+    if (error) {
+      setAnyError(error);
+    }
+  }, [error, setAnyError]);
 
   const handleSubmit = async () => {
     try {
@@ -26,16 +35,14 @@ export default function SignInWithGoogle() {
     }
   };
 
-  const [, setAnyError] = useAtom(anyErrorAtom);
-
-  if (error) {
-    setAnyError(error);
-  }
   if (loading) {
-    <button disabled type="button">
-      <GoogleButton loading={true} />
-    </button>;
+    return (
+      <button disabled type="button">
+        <GoogleButton loading={true} />
+      </button>
+    );
   }
+
   return (
     <button type="button" onClick={handleSubmit}>
       <GoogleButton loading={false} />

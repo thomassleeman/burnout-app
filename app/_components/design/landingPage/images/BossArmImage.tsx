@@ -1,4 +1,4 @@
-const BossArmImage: React.FC<SVGProps> = ({ classes, ...props }) => (
+const BossArmImage: React.FC<CustomSVGProps> = ({ classes, ...props }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 491.3 384"
