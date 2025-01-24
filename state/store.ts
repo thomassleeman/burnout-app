@@ -1,6 +1,4 @@
-// store.ts
 import { atom } from "jotai";
-import { UserData } from "@/types/storeTypes"; // Ensure you have UserData type defined
 
 // Existing atoms
 export const isAdminAtom = atom(false);

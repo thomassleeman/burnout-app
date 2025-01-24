@@ -1,7 +1,5 @@
-// userListener.ts
 import { onSnapshot, doc } from "firebase/firestore";
 import { db } from "@/firebase/auth/appConfig";
-import { UserData } from "@/types/storeTypes"; // Ensure UserData type is imported
 
 export const initUserListener = (
   userId: string,

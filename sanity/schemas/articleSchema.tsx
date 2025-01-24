@@ -177,12 +177,15 @@ export const articleType = defineType({
       type: "reference",
       to: [{ type: "category" }, { type: "course" }],
       group: "metaData",
-      validation: (rule) =>
-        rule
-          .required()
-          .error(
-            `Please include a classification (either a category or a course) for the article.`
-          ),
+      description:
+        "All articles MUST have a classification (either a category or a course if the article is part of a course.). If the articles belongs to a course: Publish the article first without this reference, add the article as a resource to the course and then come back to add the classification here. This is to prevent circular referencing issues as unpublished items cannot be referenced.",
+
+      // validation: (rule) =>
+      //   rule
+      //     .required()
+      //     .error(
+      //       `Please include a classification (either a category or a course) for the article.`
+      //     ),
     }),
     defineField({
       name: "author",

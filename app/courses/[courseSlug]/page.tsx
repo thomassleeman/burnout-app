@@ -43,22 +43,25 @@ export default async function Course({
 
   const courseData = await getCourseData(courseSlug, "page");
   if (!courseData) notFound();
+  console.log("course data: ", courseData);
 
   const { title, content, headerImage, resources } = courseData;
 
   const headerImageUrl = headerImage ? urlForImage(headerImage) : null;
 
   return (
-    <article className="prose prose-slate mx-auto dark:prose-invert md:prose-lg">
+    <article className="prose prose-slate mx-auto dark:prose-invert md:prose-lg prose-img:rounded-xl">
       <Share title={title} articleType="course" />
-      <Image
-        width={1200}
-        height={630}
-        src={headerImageUrl || defaultImage}
-        alt={`header image for the course ${title}`}
-        priority={true}
-        className=""
-      />
+      <div className="mb-12 aspect-square h-full w-auto">
+        <Image
+          width={1200}
+          height={630}
+          src={headerImageUrl || defaultImage}
+          alt={`header image for the course ${title}`}
+          priority={true}
+          className="h-full w-full object-cover"
+        />
+      </div>
 
       <div className={`${martel.className} first-line:bold px-6`}>
         <PortableText value={content} components={portableTextComponents} />
@@ -102,7 +105,11 @@ export default async function Course({
           })}
         </div>
       </div>
-      <GetStartedButton courseSlug={courseSlug} resources={resources} />
+      <GetStartedButton
+        courseSlug={courseSlug}
+        resources={resources}
+        title={title}
+      />
     </article>
   );
 }

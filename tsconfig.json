@@ -34,7 +34,8 @@
       "@exercises/*": ["app/exercises/*"],
       "@actions/*": ["app/actions/*"],
       "@sanity/*": ["app/sanity/*"],
-      "@stripe/*": ["app/stripe/*"]
+      "@stripe/*": ["app/stripe/*"],
+      "@auth/*": ["app/(auth)/*"]
     }
   },
   "include": [

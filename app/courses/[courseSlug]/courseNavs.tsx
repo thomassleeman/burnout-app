@@ -61,7 +61,7 @@ function CourseHeadNav({ course }: { course: Course }) {
       <Link href={`/courses/${slug}`}>
         <div className="mx-2 mb-4 flex items-center space-x-6 text-slate-700 md:mx-0">
           <AcademicCapIcon className="h-6 w-6" />
-          <h3 className="font-mono md:text-lg lg:text-xl">{title}</h3>
+          <h3 className="font-mono md:text-lg lg:text-2xl">{title}</h3>
         </div>
       </Link>
 

@@ -53,10 +53,10 @@ declare global {
 
   interface ProviderData {
     uid: string;
-    phoneNumber: string | null;
+    phoneNumber?: string | null;
     displayName: string;
     providerId: string;
-    photoURL: string;
+    photoURL?: string;
     email: string;
   }
 
@@ -91,6 +91,7 @@ declare global {
     };
   }
 
+  //For recording of completed course exercises.
   interface CourseModule {
     createdAt?: Timestamp;
     encryptedUserInput?: {

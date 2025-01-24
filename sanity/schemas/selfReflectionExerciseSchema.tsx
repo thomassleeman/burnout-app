@@ -176,12 +176,8 @@ export const selfReflectionExerciseType = defineType({
       title: "Classification",
       type: "reference",
       to: [{ type: "category" }, { type: "course" }],
-      validation: (rule) =>
-        rule
-          .required()
-          .error(
-            `Please include a classification (either a category or a course) for the exercise. Most self reflection exercises will be associated with a course.`
-          ),
+      description:
+        "All exercises MUST have a classification relating them to the course that they are part of. Publish the exercise first without this reference, add the exercise as a resource to the course, and then come back to add the classification here. This is to prevent circular referencing issues as unpublished items cannot be referenced.",
     }),
     defineField({
       name: "prompts",

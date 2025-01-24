@@ -67,7 +67,7 @@ export default async function Article({
   return (
     <>
       <article
-        className={`${martel.className} prose prose-slate mx-auto dark:prose-invert md:prose-lg`}
+        className={`${martel.className} prose prose-slate mx-auto dark:prose-invert md:prose-lg prose-img:rounded-xl`}
       >
         <div className="px-6 font-sans">
           <h1 className="mt-4 text-slate-800">{title}</h1>
@@ -95,15 +95,16 @@ export default async function Article({
           </div>
         </div>
         {/* <Share title={title} articleType="article" /> */}
-
-        <Image
-          width={1200}
-          height={630}
-          src={headerImageUrl || defaultImage}
-          alt={`header image for the article ${title}`}
-          priority={true}
-          // className="h-96 w-auto"
-        ></Image>
+        <div className="mb-12 aspect-video h-full w-auto">
+          <Image
+            width={1200}
+            height={630}
+            src={headerImageUrl || defaultImage}
+            alt={`header image for the article ${title}`}
+            priority={true}
+            className="h-full w-full object-cover"
+          ></Image>
+        </div>
 
         <div className="px-6 first-letter:float-left first-letter:mr-2 first-letter:text-6xl first-letter:font-extrabold first-letter:text-green-900">
           <PortableText value={content} components={portableTextComponents} />

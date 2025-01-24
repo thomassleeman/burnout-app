@@ -14,11 +14,13 @@ import { getResourcePathType } from "../functions";
 interface GetStartedButtonProps {
   courseSlug: string;
   resources: CourseResource[];
+  title: string;
 }
 
 export default function GetStartedButton({
   courseSlug,
   resources,
+  title,
 }: GetStartedButtonProps) {
   const [isUpdating, setIsUpdating] = useState(false);
   const [hasProgress, setHasProgress] = useState(false);
@@ -82,6 +84,7 @@ export default function GetStartedButton({
         // Update the user's courses data in the database
         const courseData = {
           [courseSlug]: {
+            courseName: title,
             resourcesCompleted: resourcesCompleted,
           },
         };
@@ -115,7 +118,7 @@ export default function GetStartedButton({
     };
 
     fetchUserData();
-  }, [courseSlug, resources]);
+  }, [courseSlug, resources, title]);
 
   useEffect(() => {
     if (hasProgress) {

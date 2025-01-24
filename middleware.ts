@@ -6,6 +6,11 @@ export async function middleware(request: NextRequest, response: NextResponse) {
   const pathname = request.nextUrl.pathname;
   const origin = request.nextUrl.origin;
 
+  //middleware exceptions
+  if (pathname.includes("mini-course")) {
+    return NextResponse.next();
+  }
+
   //Return to /login if no session
   if (!session) {
     return NextResponse.redirect(new URL("/signin", request.url));
@@ -77,5 +82,6 @@ export const config = {
     "/studio/:path*",
     "/superadmin/:path*",
     "/courses/:path*",
+    "/exercises/:path*",
   ],
 };

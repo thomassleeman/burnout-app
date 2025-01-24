@@ -1,10 +1,12 @@
 "use client";
 import React from "react";
+import Link from "next/link";
 import { useAtomValue } from "jotai";
 import { userAtom } from "@/state/store";
 import { Bar } from "react-chartjs-2";
 import { Chart as ChartJS, ChartOptions } from "chart.js/auto";
 import ChartDataLabels from "chartjs-plugin-datalabels";
+import { ExclamationCircleIcon } from "@heroicons/react/24/outline";
 
 ChartJS.register(ChartDataLabels);
 
@@ -40,7 +42,20 @@ const Assessment1Results = () => {
   const assessment1 = user.assessments?.burnoutAssessment?.assessment1;
 
   if (!assessment1) {
-    return <p className="mt-2">No assessment data available yet.</p>;
+    return (
+      <div className="my-6 flex items-center space-x-4 rounded-md bg-yellow-50 p-4">
+        <ExclamationCircleIcon className="h-6 w-6 text-yellow-500" />
+        <p className="">
+          No Burnout Assessment data available yet.{" "}
+          <Link
+            className="text-emerald-600 underline underline-offset-1"
+            href="/chatbot/burnout-assessment"
+          >
+            Try out the chatbot now.
+          </Link>
+        </p>
+      </div>
+    );
   }
 
   const metrics = Object.entries(assessment1);
