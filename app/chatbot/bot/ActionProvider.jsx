@@ -177,7 +177,6 @@ const ActionProvider = ({
   ////////////////////////////////////////////////////////////////////////
 
   const handleEngaged = () => {
-    console.log("handleEngaged");
     const botMessage = createChatBotMessage(
       "Wow! Sounds like you are doing really well."
     );
@@ -197,6 +196,8 @@ const ActionProvider = ({
       "Its important because sometimes its hard to know how stressed we are unless we pause and take stock.",
       {
         delay: 3000,
+        widget: "LinkButton",
+        payload: { content: "Go to Home", href: "/home" },
       }
     );
 
@@ -270,7 +271,6 @@ const ActionProvider = ({
 
   const handleBeginCyclingThroughProfilesToDiscuss = (profileStringArray) => {
     const numberOfProfiles = profileStringArray.length;
-    console.log("profileStringArray[0]: ", profileStringArray[0]);
     const userMessage = createClientMessage("Yes");
 
     const botMessage1 = createChatBotMessage(

@@ -19,7 +19,7 @@ import {
   CheckCircleIcon,
 } from "@heroicons/react/20/solid";
 // Types
-import { Course } from "@/types/sanity";
+import { CourseSanity } from "@/types/sanity";
 // Subscription function
 import subscribeToCompletedResources from "./subscribeToCompletedResources";
 
@@ -27,7 +27,7 @@ function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
 }
 
-function CourseHeadNav({ course }: { course: Course }) {
+function CourseHeadNav({ course }: { course: CourseSanity }) {
   const pathname = usePathname();
   const pathSlug = pathname.split("/").pop();
 
@@ -275,7 +275,7 @@ export default CourseHeadNav;
 // );
 // }
 
-function CourseFootNav({ course }: { course: Course }) {
+function CourseFootNav({ course }: { course: CourseSanity }) {
   const pathname = usePathname();
   const pathSlug = pathname.split("/").pop();
 

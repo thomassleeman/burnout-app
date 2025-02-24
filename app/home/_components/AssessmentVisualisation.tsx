@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { useAtomValue } from "jotai";
 import { userAtom } from "@/state/store";
@@ -12,8 +12,47 @@ ChartJS.register(ChartDataLabels);
 
 const Assessment1Results = () => {
   const user = useAtomValue(userAtom);
+  const [assessment1, setAssessment1] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  if (!user) {
+  useEffect(() => {
+    const fetchDecryptedData = async () => {
+      if (!user?.assessments?.burnoutAssessment) {
+        setIsLoading(false);
+        return;
+      }
+
+      try {
+        const decryptRes = await fetch("/api/encryption/decryptNumber", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            encryptedNumberInputs: user.assessments.burnoutAssessment,
+          }),
+        });
+
+        if (!decryptRes.ok) {
+          throw new Error("Failed to decrypt data");
+        }
+
+        const decryptedObject = await decryptRes.json();
+        setAssessment1(decryptedObject.assessment1);
+      } catch (err) {
+        if (err instanceof Error) {
+          setError(err.message);
+        } else {
+          setError("An unknown error occurred");
+        }
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchDecryptedData();
+  }, [user?.assessments?.burnoutAssessment]);
+
+  if (!user || isLoading) {
     // Show custom skeleton resembling a chart
     return (
       <div className="mb-12">
@@ -39,9 +78,16 @@ const Assessment1Results = () => {
     );
   }
 
-  const assessment1 = user.assessments?.burnoutAssessment?.assessment1;
+  if (error) {
+    return (
+      <div className="my-6 flex items-center space-x-4 rounded-md bg-amber-50 p-4">
+        <ExclamationCircleIcon className="h-6 w-6 text-amber-500" />
+        <p className="">Unable to display Burnout Assessment data. </p>
+      </div>
+    );
+  }
 
-  if (!assessment1) {
+  if (user && !isLoading && !assessment1) {
     return (
       <div className="my-6 flex items-center space-x-4 rounded-md bg-yellow-50 p-4">
         <ExclamationCircleIcon className="h-6 w-6 text-yellow-500" />
@@ -58,7 +104,7 @@ const Assessment1Results = () => {
     );
   }
 
-  const metrics = Object.entries(assessment1);
+  const metrics = assessment1 ? Object.entries(assessment1) : [];
 
   const data = {
     labels: metrics.map(([metric]) =>

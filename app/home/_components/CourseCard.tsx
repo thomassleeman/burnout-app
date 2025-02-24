@@ -1,4 +1,5 @@
 import { ArrowUpRightIcon, CheckCircleIcon } from "@heroicons/react/24/outline";
+import Link from "next/link";
 
 function classNames(...classes: (string | undefined | false | null)[]): string {
   return classes.filter(Boolean).join(" ");
@@ -30,10 +31,10 @@ export default function CourseCard({ course }: { course: Course }) {
       </div>
       <div className="mt-8">
         <h3 className="text-lg font-medium">
-          <a href={course.href} className="focus:outline-none">
+          <Link href={course.href} className="focus:outline-none">
             {/* Extend touch target to entire panel */}
             <span aria-hidden="true" className="absolute inset-0" />
-          </a>
+          </Link>
         </h3>
         {/* Progress Indicator */}
         {course.progress && (

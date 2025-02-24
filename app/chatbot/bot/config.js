@@ -6,11 +6,13 @@ import ProceedToSolitaryProfile from "../widgets/ProceedToSolitaryProfile";
 import CycleThroughProfilesToDiscuss from "../widgets/CycleThroughProfilesToDiscuss";
 import { initialMessages } from "./messages";
 import BotAvatar from "./BotAvatar";
+import UserAvatar from "./UserAvatar";
 
 const config = {
   initialMessages: initialMessages,
   customComponents: {
     botAvatar: (props) => <BotAvatar {...props} />,
+    userAvatar: (props) => <UserAvatar {...props} />,
   },
   state: {
     initialAssessmentScores: {

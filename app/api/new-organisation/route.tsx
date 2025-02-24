@@ -22,7 +22,7 @@ export async function POST(request: NextRequest) {
     }
 
     const decodedToken = await auth().verifyIdToken(idToken);
-    console.log("decodedToken:", decodedToken);
+    // console.log("decodedToken:", decodedToken);
     const uid = decodedToken.uid;
     const displayName = decodedToken.displayName;
 

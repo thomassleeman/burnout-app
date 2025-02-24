@@ -216,7 +216,7 @@ export default function ProfilePage() {
             </div>
           </div>
         </section>
-        <ClearCustomerClaims user={authUser} />
+        {/* <ClearCustomerClaims user={authUser} /> */}
       </main>
     );
   }

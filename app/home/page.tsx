@@ -1,9 +1,13 @@
 import WelcomePanel from "./_components/WelcomePanel";
-import ActionsPanel from "./_components/ActionsPanel";
+import CurrentActivityPanels from "./_components/CurrentActivityPanels";
+import ActionsPanel from "./_components/MyCoursesPanel";
+import MyExercisesPanel from "./_components/MyExercisesPanel";
+import MyCoursesPanel from "./_components/MyCoursesPanel";
 import Anouncements from "./_components/Announcements";
 import Calendar from "./_components/Calendar";
 import ContentCarousel from "@articles/_components/ContentCarousel";
 import Visualisations from "./_components/Visualisations";
+import Link from "next/link";
 import {
   getSortedLimitedArticlesData,
   getRecommendedArticlesData,
@@ -26,7 +30,7 @@ export default async function Home() {
               <div className="grid grid-cols-1 gap-14 lg:col-span-2">
                 {/* Welcome panel */}
                 <WelcomePanel />
-                <ActionsPanel />
+                <CurrentActivityPanels />
                 <Visualisations />
               </div>
 

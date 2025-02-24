@@ -100,7 +100,6 @@ export default function useInitialAssessmentHandler({
   const userBurnoutProfiles = useMemo(() => {
     return getBurnoutDescriptions(burnoutProfiles);
   }, [burnoutProfiles]);
-  // console.log("userBurnoutProfiles: ", userBurnoutProfiles);
 
   function createProfileString(userBurnoutProfiles: string[]): string {
     const length = userBurnoutProfiles.length;

@@ -32,7 +32,9 @@ export const writingExerciseType = defineType({
         hotspot: true,
       },
       validation: (rule) =>
-        rule.required().error(`Please include a header image for the article.`),
+        rule
+          .required()
+          .error(`Please include a header image for the exercise.`),
     }),
     defineField({
       name: "introduction",
@@ -161,7 +163,7 @@ export const writingExerciseType = defineType({
       description:
         "Use 'Generate' unless you have a specific reason for creating your own slug.",
       validation: (rule) =>
-        rule.required().error(`Please include a slug for the article.`),
+        rule.required().error(`Please include a slug for the exercise.`),
     }),
     defineField({
       name: "classification",
@@ -208,7 +210,9 @@ export const writingExerciseType = defineType({
               description:
                 "Use 'Generate' unless you have a specific reason for creating your own slug.",
               validation: (rule) =>
-                rule.required().error(`Please include a slug for the article.`),
+                rule
+                  .required()
+                  .error(`Please include a slug for the exercise.`),
             },
             {
               name: "promptGroups",

@@ -1,45 +1,37 @@
 "use client";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
 
 import { getIdToken } from "firebase/auth";
 import { auth } from "@/firebase/auth/appConfig";
 
-// import { useAuthState } from "react-firebase-hooks/auth";
 //jotai
 import { useAtom } from "jotai";
-import {
-  isAdminAtom,
-  anyErrorAtom,
-  usernameAtom,
-  userIDAtom,
-} from "@/state/store";
+import { isAdminAtom, usernameAtom, userIDAtom } from "@/state/store";
+import { useErrors } from "@/hooks/useErrors";
 
-import Spinner from "@/components/design/Spinner";
+import Spinner from "@/components/ui/_components/Spinner";
 
 import { CheckIcon } from "@heroicons/react/20/solid";
 
 export default function SetSessionCookie() {
   const router = useRouter();
+  const { errors, addError } = useErrors();
   const [session, setSession] = useState(false);
-  const [, setAnyError] = useAtom(anyErrorAtom);
-  // const [tokenError, setTokenError] = useState({});
+
   const [, setIsAdmin] = useAtom(isAdminAtom);
   const [, setUsername] = useAtom(usernameAtom);
   const [, setUserID] = useAtom(userIDAtom);
   const [authStateLoading, setAuthStateLoading] = useState(false);
 
   useEffect(() => {
-    // const unsubscribe = auth.onAuthStateChanged(async (user) => {
     const unsubscribe = auth.onIdTokenChanged(async (user) => {
       setAuthStateLoading(true);
       if (user) {
         if (!user.emailVerified) {
-          setAnyError({
-            message:
-              'Please verify your email address before signing in. To receive another verification email select "forgot password".',
-          });
+          addError(
+            'Please verify your email address before signing in. To receive another verification email select "forgot password".'
+          );
           setAuthStateLoading(false);
           return;
         }
@@ -65,20 +57,18 @@ export default function SetSessionCookie() {
           }
         } catch (err) {
           console.log("set token error from signin page: ", err);
-          // setAnyError(err);
-          setAnyError({ message: (err as { message: string }).message });
+          addError((err as { message: string }).message);
           setAuthStateLoading(false);
         }
       } else {
         setAuthStateLoading(false);
         return;
-        // Logic if the user is not authenticated (if needed)
       }
     });
 
     // Cleanup the listener on component unmount
     return () => unsubscribe();
-  }, [router, setUserID, setUsername, setIsAdmin, setAnyError]);
+  }, [router, setUserID, setUsername, setIsAdmin, addError]);
 
   useEffect(() => {
     if (session) {
@@ -100,8 +90,6 @@ export default function SetSessionCookie() {
         <a href="/home" className="text-emerald-700 hover:text-emerald-600">
           Go to home
         </a>
-
-        {/* ) : null} */}
       </>
     );
   }
@@ -122,7 +110,7 @@ export default function SetSessionCookie() {
         <h2 className="text-4xl font-bold leading-9 tracking-tight text-slate-600 md:mb-8">
           Signing in
         </h2>
-        <Spinner stroke="green" />
+        <Spinner size="medium" />
       </div>
     );
   }

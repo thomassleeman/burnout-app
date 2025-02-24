@@ -1,12 +1,12 @@
-// JournalTextAreaForm.tsx
+// JournalTextAreaForm.tsx - Modified version
 "use client";
 import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
+import { serverTimestamp, Timestamp } from "firebase/firestore";
 import { format } from "date-fns";
 import { SubmitButton } from "@/app/_components/ui/_components/Buttons";
 import getFormattedDate from "@actions/getFormattedDate";
 import logo from "@/components/design/brainLogoCompressed.png";
-import journalingPrompts from "./journalingPrompts";
 import updateDatabase from "./updateDatabase";
 import {
   DecryptedInputs,
@@ -15,7 +15,10 @@ import {
   UserInputsWithIds,
   JournalTextAreaFormProps,
   ExistingEntryProps,
-} from "@/types/journal"; // Import interfaces from journal.ts
+} from "@/types/journal";
+
+import { PortableText } from "@portabletext/react";
+import portableTextComponents from "@/sanity/schemas/portableText/portableTextComponents";
 
 export default function JournalTextAreaForm({
   selectedDate,
@@ -23,6 +26,7 @@ export default function JournalTextAreaForm({
   journalData,
   setJournalData,
   fetchUserDataLoading,
+  journalOutlineFromSanity,
 }: JournalTextAreaFormProps) {
   const [loading, setLoading] = useState<boolean>(true);
   const [submitted, setSubmitted] = useState<boolean>(false);
@@ -32,14 +36,43 @@ export default function JournalTextAreaForm({
   );
 
   const formattedDate = format(selectedDate, "dd-MMM-yyyy");
+  const journalSlug = journalOutlineFromSanity?.slug;
 
-  // Load any previous input
+  // If journalSlug is undefined, we can't proceed with loading data
+  useEffect(() => {
+    if (!journalSlug) {
+      console.error("Journal outline not available - slug is missing");
+      setLoading(false);
+    }
+  }, [journalSlug]);
+
+  /* Load previous input */
   useEffect(() => {
     async function fetchSavedUserInput() {
       setLoading(true);
 
+      // Don't proceed if we don't have a valid journal slug
+      if (!journalSlug) {
+        console.error("Journal outline not available - slug is missing");
+        setLoading(false);
+        setPreviousInputData({});
+        setUserInputs({});
+        return;
+      }
+
       try {
-        const previousInput = journalData?.[formattedDate];
+        // Log data structure for debugging
+        console.log("Journal data structure:", journalData);
+        console.log(
+          "Accessing path:",
+          `journalData?.journaling?.${journalSlug}?.${formattedDate}`
+        );
+
+        // Access with the correct nested structure:
+        // journalData.journaling.{journalSlug}.{formattedDate}
+        const previousInput =
+          journalData?.journaling?.[journalSlug]?.[formattedDate];
+
         if (!previousInput) {
           setLoading(false);
           setPreviousInputData({});
@@ -99,8 +132,9 @@ export default function JournalTextAreaForm({
     }
 
     fetchSavedUserInput();
-  }, [selectedDate, formattedDate, journalData]);
+  }, [selectedDate, formattedDate, journalData, journalSlug]);
 
+  /* Handle input change */
   const handleInputChange = (key: string, value: string) => {
     setUserInputs((prevInputs) => ({
       ...prevInputs,
@@ -108,24 +142,25 @@ export default function JournalTextAreaForm({
     }));
   };
 
+  /* Handle Submit */
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setLoading(true);
 
-    if (!userInputs) return;
+    if (!userInputs || !journalSlug) {
+      setLoading(false);
+      return;
+    }
 
     try {
-      // Map prompt IDs to corresponding user inputs for better structure
       let userInputsWithIds: UserInputsWithIds = {};
-      journalingPrompts.general.forEach((prompt) => {
-        userInputsWithIds[prompt.id] = userInputs[prompt.id]; // Use prompt ID as key
+      // Use promptCategories from Sanity
+      journalOutlineFromSanity.promptCategories.forEach((category) => {
+        category.prompts.forEach((prompt) => {
+          userInputsWithIds[prompt._key] = userInputs[prompt._key];
+        });
       });
 
-      journalingPrompts.exhausted.forEach((prompt) => {
-        userInputsWithIds[prompt.id] = userInputs[prompt.id]; // Same for exhausted category
-      });
-
-      // Encrypt the userInputsWithIds object before saving
       const response = await fetch("/api/encryptText", {
         method: "POST",
         headers: {
@@ -135,14 +170,12 @@ export default function JournalTextAreaForm({
       });
 
       const encryptedUserInputs = await response.json();
-
-      // Format selectedDate before passing it to updateDatabase
       const formattedDate = format(selectedDate, "dd-MMM-yyyy");
 
-      // Save the encrypted data under the formatted date
       const databaseUpdated = await updateDatabase(
         encryptedUserInputs,
-        formattedDate
+        formattedDate,
+        journalSlug // Using the slug we safely accessed earlier
       );
 
       if (!databaseUpdated) {
@@ -153,12 +186,32 @@ export default function JournalTextAreaForm({
 
       setSubmitted(true);
       setLoading(false);
+
+      // Update the local journalData state to reflect the new entry
+      // with the correct nested structure
+      if (setJournalData && journalData) {
+        const now = Timestamp.now();
+        setJournalData({
+          ...journalData,
+          journaling: {
+            ...(journalData.journaling || {}),
+            [journalSlug]: {
+              ...(journalData.journaling?.[journalSlug] || {}),
+              [formattedDate]: {
+                encryptedUserInput: encryptedUserInputs,
+                createdAt: now,
+              },
+            },
+          },
+        });
+      }
     } catch (error) {
       console.error("Error submitting form:", error);
       setLoading(false);
     }
   };
 
+  /* scroll on submission */
   const submissionNoticeRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -169,8 +222,6 @@ export default function JournalTextAreaForm({
 
   let submissionNotice;
   let content;
-
-  const prompts = journalingPrompts.general.concat(journalingPrompts.exhausted);
 
   if (submitted) {
     submissionNotice = (
@@ -198,7 +249,7 @@ export default function JournalTextAreaForm({
         setUserInputs={setUserInputs}
         setPreviousInputData={setPreviousInputData}
         setSubmitted={setSubmitted}
-        prompts={prompts}
+        journalOutlineFromSanity={journalOutlineFromSanity}
       />
     );
   } else {
@@ -211,27 +262,37 @@ export default function JournalTextAreaForm({
           setUserInputs={setUserInputs}
           setPreviousInputData={setPreviousInputData}
           setSubmitted={setSubmitted}
-          prompts={prompts}
+          journalOutlineFromSanity={journalOutlineFromSanity}
         />
       );
     } else {
       content = (
         <div>
           <form onSubmit={handleSubmit}>
-            {prompts.map((prompt) => (
-              <div key={prompt.id} className="flex flex-col items-center">
-                <div className="my-2 w-full rounded-lg py-1">
-                  <h5 className="text-lg font-light">{prompt.prompt}</h5>
-                  <textarea
-                    id={`textarea-${prompt.id}`}
-                    name={`userInput-${prompt.id}`}
-                    className="my-2 h-28 w-full rounded-md border-0 p-2 shadow-sm ring-2 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-emerald-700"
-                    value={userInputs[prompt.id] || ""}
-                    onChange={(e) =>
-                      handleInputChange(prompt.id, e.target.value)
-                    }
-                  ></textarea>
-                </div>
+            {journalOutlineFromSanity.promptCategories.map((category) => (
+              <div
+                key={category.name}
+                id={category.name.toLowerCase().replace(/\s+/g, "-")}
+              >
+                <h4 className="mb-4 text-xl font-light">{category.name}</h4>
+                {category.prompts.map((prompt) => (
+                  <div key={prompt._key} className="flex flex-col items-center">
+                    <div className="my-2 w-full rounded-lg py-1">
+                      <h5 className="text-lg font-light">
+                        <PortableText value={prompt.prompt} />
+                      </h5>
+                      <textarea
+                        id={`textarea-${prompt._key}`}
+                        name={`userInput-${prompt._key}`}
+                        className="my-2 h-28 w-full rounded-md border-0 p-2 shadow-sm ring-2 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-emerald-700"
+                        value={userInputs[prompt._key] || ""}
+                        onChange={(e) =>
+                          handleInputChange(prompt._key, e.target.value)
+                        }
+                      ></textarea>
+                    </div>
+                  </div>
+                ))}
               </div>
             ))}
             <SubmitButton classes="rounded-lg bg-emerald-700 px-4 text-lg py-2 mt-6 text-white disabled:bg-gray-500 disabled:cursor-not-allowed disabled:text-gray-100 w-full">
@@ -246,7 +307,7 @@ export default function JournalTextAreaForm({
   if (fetchUserDataLoading || loading) {
     content = (
       <h3 className="animate-pulse text-xl font-extralight text-emerald-700">
-        Loading...
+        {!journalSlug ? "Journal data not available..." : "Loading..."}
       </h3>
     );
   }
@@ -265,7 +326,7 @@ const ExistingEntry = ({
   setUserInputs,
   setPreviousInputData,
   setSubmitted,
-  prompts = [],
+  journalOutlineFromSanity,
 }: ExistingEntryProps) => {
   const handleClick = () => {
     setUserInputs(previousInputData.decryptedUserInput || {});
@@ -276,36 +337,46 @@ const ExistingEntry = ({
   return (
     <div>
       <div>
-        {prompts.map((prompt) => {
-          const response = previousInputData.decryptedUserInput
-            ? previousInputData.decryptedUserInput[prompt.id]
-            : "";
+        {journalOutlineFromSanity.promptCategories.map((category) => (
+          <div key={category.name}>
+            <h4 className="mb-4 text-xl font-light">{category.name}</h4>
+            {category.prompts.map((prompt) => {
+              const response = previousInputData.decryptedUserInput
+                ? previousInputData.decryptedUserInput[prompt._key]
+                : "";
 
-          return (
-            <div key={prompt.id} className="flex flex-col items-center">
-              <div className="my-4 w-full rounded-lg py-1">
-                <h5 className=" font-light">{prompt.prompt}</h5>
-                <div>
-                  {response ? (
-                    <p className="mt-1 text-gray-800">{response}</p>
-                  ) : (
-                    <div className="relative rounded-lg border border-gray-100 bg-white px-6 py-4 text-gray-600">
-                      <div className="absolute -right-2 -top-3">
-                        <span className="relative flex h-5 w-5">
-                          <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-red-400 opacity-75"></span>
-                          <span className="relative inline-flex h-5 w-5 rounded-full bg-red-500"></span>
-                        </span>
-                      </div>
-                      <p className="text-sm">
-                        Select Edit below to complete this field.
-                      </p>
+              return (
+                <div key={prompt._key} className="flex flex-col items-center">
+                  <div className="my-4 w-full rounded-lg py-1">
+                    <h5 className="font-light">
+                      <PortableText
+                        value={prompt.prompt}
+                        components={portableTextComponents}
+                      />
+                    </h5>
+                    <div>
+                      {response ? (
+                        <p className="mt-1 text-gray-800">{response}</p>
+                      ) : (
+                        <div className="relative rounded-lg border border-gray-100 bg-white px-6 py-4 text-gray-600">
+                          <div className="absolute -right-2 -top-3">
+                            <span className="relative flex h-5 w-5">
+                              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-red-400 opacity-75"></span>
+                              <span className="relative inline-flex h-5 w-5 rounded-full bg-red-500"></span>
+                            </span>
+                          </div>
+                          <p className="text-sm">
+                            Select Edit below to complete this field.
+                          </p>
+                        </div>
+                      )}
                     </div>
-                  )}
+                  </div>
                 </div>
-              </div>
-            </div>
-          );
-        })}
+              );
+            })}
+          </div>
+        ))}
       </div>
       <div className="not-prose flex items-center space-x-10">
         <button

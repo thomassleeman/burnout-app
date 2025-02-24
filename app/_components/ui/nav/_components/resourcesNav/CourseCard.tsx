@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+
 import { PortableText } from "@portabletext/react";
 import portableTextComponents from "@/sanity/schemas/portableText/portableTextComponents";
 import { urlForImage } from "@/sanity/lib/image";
@@ -8,14 +9,14 @@ import defaultImage from "@articles/defaultImage.jpeg";
 import CardSummary from "@/components/ui/CardSummary";
 
 //types
-import { Course } from "@/types/sanity";
+import { CourseSanity } from "@/types/sanity";
 type CloseResourcesNavFunction = () => void;
 
 const CourseCard = ({
   course,
   closeResourcesNav,
 }: {
-  course: Course;
+  course: CourseSanity;
   closeResourcesNav: CloseResourcesNavFunction;
 }) => {
   const { title, slug, headerImage, summary } = course;
@@ -23,23 +24,23 @@ const CourseCard = ({
   return (
     <article
       key={title}
-      className="relative isolate flex max-w-2xl flex-col gap-x-8 gap-y-6 sm:flex-row sm:items-start lg:flex-col lg:items-stretch"
+      className="relative isolate flex h-64 w-64 flex-col gap-x-8 gap-y-6 sm:flex-row sm:items-start lg:flex-col lg:items-stretch"
     >
       <button onClick={closeResourcesNav}>
         <Link
           href={`/courses/${slug}`}
-          className="flex h-full w-full flex-col rounded-lg outline-4 outline-offset-4 outline-sky-400/25 hover:outline sm:flex-row sm:items-start lg:flex-col lg:items-stretch"
+          className="flex h-64 w-64 flex-col rounded-lg outline-4 outline-offset-4 outline-sky-400/25 hover:outline sm:flex-row sm:items-start lg:flex-col lg:items-stretch"
         >
           <div className="relative aspect-square flex-none overflow-hidden">
             <Image
-              className="h-full w-full rounded-lg border-4 border-gray-700/25 bg-gray-100 object-cover"
+              className="h-64 w-64 rounded-lg border-4 border-gray-700/25 bg-gray-100 object-cover"
               width={250}
               height={250}
               src={headerImageUrl || defaultImage}
               alt={`header image for ${title}`}
             />
             <div className="absolute bottom-3 left-0 w-11/12 rounded-r-lg bg-gray-800/50 px-5 py-2 drop-shadow-2xl">
-              <h1 className="text-2xl font-bold text-white">{title}</h1>
+              <h1 className="text-xl font-bold text-white">{title}</h1>
             </div>
           </div>
           <div>

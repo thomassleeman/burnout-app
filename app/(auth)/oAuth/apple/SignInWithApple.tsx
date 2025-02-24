@@ -3,15 +3,18 @@
 import { auth } from "@/firebase/auth/appConfig";
 //react firebase hooks
 import { useSignInWithApple } from "react-firebase-hooks/auth";
-//jotai
-import { useAtom } from "jotai";
-import { anyErrorAtom } from "@/state/store";
+
+//errors
+import { useErrors } from "@/hooks/useErrors";
 //functions
 import addToDbIfNewUser from "../../signup/addToDbIfNewUser";
 //components
 import AppleButton from "./AppleButton";
+import { add } from "date-fns";
 
 export default function SignInWithGoogle() {
+  const { errors, addError } = useErrors();
+
   const [signInWithApple, user, loading, error] = useSignInWithApple(auth);
 
   const handleSubmit = async () => {
@@ -26,10 +29,8 @@ export default function SignInWithGoogle() {
     }
   };
 
-  const [, setAnyError] = useAtom(anyErrorAtom);
-
   if (error) {
-    setAnyError(error);
+    addError(error.message);
   }
   if (loading) {
     <button disabled type="button">

@@ -6,15 +6,14 @@ import Link from "next/link";
 import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
 //firebase
 import { auth } from "@/firebase/auth/appConfig";
+//errors
+import { useErrors } from "@/hooks/useErrors";
 //other dependencies
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 //components
-import ErrorAlert from "@/components/ui/ErrorAlert";
 import Spinner from "@/components/design/Spinner";
-//jotai
-import { useAtom } from "jotai";
-import { anyErrorAtom } from "@/state/store";
+
 // Yup config
 const loginSchema = Yup.object().shape({
   email: Yup.string().email("Invalid email").required("Required"),
@@ -22,10 +21,10 @@ const loginSchema = Yup.object().shape({
 });
 
 export default function EmailSignInUI() {
+  const { errors, addError } = useErrors();
+
   const [signInWithEmailAndPassword, signInUser, loading, error] =
     useSignInWithEmailAndPassword(auth);
-
-  const [anyError, setAnyError] = useAtom(anyErrorAtom);
 
   //handle email sign in
   const handleEmailSignIn = async (values: {
@@ -43,19 +42,19 @@ export default function EmailSignInUI() {
         "message" in signInError &&
         typeof signInError.message === "string"
       ) {
-        setAnyError({ message: signInError.message });
+        addError(signInError.message);
       } else {
         // If signInError does not match the expected structure, set a default error message
-        setAnyError({ message: "An unexpected error occurred." });
+        addError("An unexpected error occurred.");
       }
     }
   };
 
   useEffect(() => {
     if (error) {
-      setAnyError(error);
+      addError(error.message);
     }
-  }, [error, setAnyError]);
+  }, [error, addError]);
 
   let content;
 
@@ -69,7 +68,7 @@ export default function EmailSignInUI() {
           validationSchema={loginSchema}
           onSubmit={async (values, { setSubmitting }) => {
             setSubmitting(true);
-            setAnyError({ message: "" });
+
             await handleEmailSignIn(values);
             setSubmitting(false);
           }}
@@ -145,17 +144,12 @@ export default function EmailSignInUI() {
               <div>
                 <button
                   type="submit"
-                  disabled={
-                    isSubmitting ||
-                    loading ||
-                    (anyError && anyError.message !== "")
-                  }
+                  disabled={isSubmitting || loading || errors.length > 0}
                   className="flex w-full justify-center rounded-md bg-emerald-800 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:cursor-pointer hover:bg-emerald-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600 disabled:cursor-not-allowed disabled:bg-slate-400 disabled:opacity-50"
                 >
                   {!(isSubmitting || loading) ? "Sign in" : <Spinner />}
                 </button>
               </div>
-              <ErrorAlert />
             </Form>
           )}
         </Formik>

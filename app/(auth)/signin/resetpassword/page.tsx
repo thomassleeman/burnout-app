@@ -1,23 +1,19 @@
 "use client";
 //react
-import { useState } from "react";
+import { useState, useEffect } from "react";
 //next
 import Link from "next/link";
-
 //firebase
 import { auth } from "@/firebase/auth/appConfig";
 import { useSendPasswordResetEmail } from "react-firebase-hooks/auth";
-//components
-//jotai
-import { useAtom } from "jotai";
-import { anyErrorAtom } from "@/state/store";
+//errors
+import { useErrors } from "@/hooks/useErrors";
 
 interface ResetTextProps {
   sent: boolean;
 }
 
 const ResetText = ({ sent }: ResetTextProps) => {
-  console.log("sent: ", sent);
   let content;
 
   if (!sent) {
@@ -56,13 +52,19 @@ const ResetText = ({ sent }: ResetTextProps) => {
 };
 
 export default function ResetPassword() {
+  const { errors, addError } = useErrors();
+
   const [email, setEmail] = useState("");
   const [sent, setSent] = useState(false);
 
   const [sendPasswordResetEmail, sending, error] =
     useSendPasswordResetEmail(auth);
 
-  const [, setAnyError] = useAtom(anyErrorAtom);
+  useEffect(() => {
+    if (error) {
+      addError(error.message);
+    }
+  }, [error, addError]);
 
   let origin: String | undefined;
   if (process.env.NODE_ENV === "development") {
@@ -76,7 +78,6 @@ export default function ResetPassword() {
   2. Link refers to "burnout project" and "project-941881196808"  */
   const handleSubmit = async () => {
     const actionCodeSettings = {
-      //TODO: change this to the correct url
       url: `${origin}/signin/resetpassword/confirm`,
       // iOS: {
       //   bundleId: 'com.example.ios',
@@ -88,22 +89,11 @@ export default function ResetPassword() {
       // },
       // handleCodeInApp: true,
     };
-    try {
-      const success = await sendPasswordResetEmail(email, actionCodeSettings);
-      if (success) {
-        setSent(true);
-        console.log("success: ", success);
-      } else {
-        console.log("success(not): ", success);
-      }
-    } catch (err) {
-      console.error("error: ", err);
+    const success = await sendPasswordResetEmail(email, actionCodeSettings);
+    if (success && !error) {
+      setSent(true);
     }
   };
-
-  if (error) {
-    setAnyError(error);
-  }
 
   return (
     <>
@@ -111,7 +101,35 @@ export default function ResetPassword() {
         {/* <div className="flex min-h-full flex-1"> */}
         <div className="flex flex-1 flex-col justify-center px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
           <div className="mx-auto w-full max-w-sm lg:w-96">
-            <ResetText sent={sent} />
+            {/* <ResetText sent={sent} /> */}
+            {sent ? (
+              <>
+                <div>
+                  <h2 className="mt-8 text-2xl font-bold leading-9 tracking-tight text-gray-900">
+                    Check your email
+                  </h2>
+                </div>
+                <div>
+                  <p className="mt-8 text-gray-900">
+                    We have sent you an email with a link to reset your
+                    password.
+                  </p>
+                </div>
+              </>
+            ) : (
+              <>
+                <div>
+                  <h2 className="mt-8 text-2xl font-bold leading-9 tracking-tight text-gray-900">
+                    Forgotten your password?
+                  </h2>
+                </div>
+                <div>
+                  <p className="mt-8 text-gray-900">
+                    We&apos;ll send a recovery email to:{" "}
+                  </p>
+                </div>
+              </>
+            )}
             <div className="mt-10">
               <div>
                 <form className="space-y-6">

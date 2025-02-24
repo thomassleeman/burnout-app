@@ -69,7 +69,7 @@ export const tellMeAboutConfidentiality = [
       widget: "LinkButton",
       payload: {
         content: "Go to confidentiality article",
-        href: "/articles/confidentiality",
+        href: "/legal/chatbot-confidentiality",
         target: "_blank",
       },
     }

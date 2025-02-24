@@ -7,7 +7,7 @@ import defaultImage from "@articles/defaultImage.jpeg";
 import CardSummary from "@/components/ui/CardSummary";
 
 //types
-import { Course } from "@/types/sanity";
+import { CourseSanity } from "@/types/sanity";
 type CloseResourcesNavFunction = () => void;
 
 const StoryCard = ({
@@ -15,7 +15,7 @@ const StoryCard = ({
   color,
   closeResourcesNav,
 }: {
-  story: Course;
+  story: CourseSanity;
   color: string;
   closeResourcesNav: CloseResourcesNavFunction;
 }) => {

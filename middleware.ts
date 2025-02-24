@@ -6,10 +6,26 @@ export async function middleware(request: NextRequest, response: NextResponse) {
   const pathname = request.nextUrl.pathname;
   const origin = request.nextUrl.origin;
 
-  //middleware exceptions
-  if (pathname.includes("mini-course")) {
-    return NextResponse.next();
+  /* ------------- middleware exceptions ---------------------- */
+  //Allow access to the introduction course page without a session
+  if (
+    pathname.includes(
+      "/courses/stress-to-strength-a-burnout-introduction-course"
+    )
+  ) {
+    if (!session) {
+      return NextResponse.redirect(
+        new URL(
+          //This doesn't work as it causes a redirect loop
+          "/courses/stress-to-strength-a-burnout-introduction-course",
+          request.url
+        )
+      );
+    } else {
+      return NextResponse.next();
+    }
   }
+  /* ------------------------------------------------------------------------------ */
 
   //Return to /login if no session
   if (!session) {
@@ -32,15 +48,17 @@ export async function middleware(request: NextRequest, response: NextResponse) {
 
   // Get the signed-in user's UID from the response
   const signedInUser = await responseAPI.json();
+  const signedInUserClaims = signedInUser.decodedClaims;
   const signedInUserUid = signedInUser.decodedClaims.uid;
+
+  /* ------------------------------------------ inelegant ------------------------------------------ */
 
   //If the user is already logged in and they navigate to the signup or signin page, redirect them to home
   if ((pathname === "/signup" || pathname === "/signin") && session) {
     return NextResponse.redirect(new URL("/home", request.url));
   }
 
-  // does admin exist on non-admin users as admin:false or is it not present?
-  const signedInUserAdmin = signedInUser.decodedClaims.admin;
+  /* ------------------------------------------ insecure ------------------------------------------ */
 
   // Check if requested page contains a user ID and ensure it is the current user.
   if (pathname.startsWith("/profile/") && !pathname.includes(signedInUserUid)) {
@@ -49,6 +67,22 @@ export async function middleware(request: NextRequest, response: NextResponse) {
     );
   }
 
+  /* ------------------------------------------ premium ------------------------------------------ */
+  const userIsSubscribed = signedInUserClaims.subscriptionStatus === "active";
+  if (pathname.includes("courses") && !userIsSubscribed) {
+    const url = new URL("/access-paid-content", request.url);
+    url.searchParams.set("action", "courses");
+    return NextResponse.redirect(url);
+  }
+  if (pathname.includes("exercises") && !userIsSubscribed) {
+    const url = new URL("/access-paid-content", request.url);
+    url.searchParams.set("action", "exercises");
+    return NextResponse.redirect(url);
+  }
+
+  /* ------------------------------------------ Site Admins ------------------------------------------ */
+  // does admin exist on non-admin users as admin:false or is it not present?
+  const signedInUserAdmin = signedInUser.decodedClaims.admin;
   //Check if the user is an admin
   if (pathname.startsWith("/admin") || pathname.startsWith("/studio")) {
     if (!signedInUserAdmin) {
@@ -68,6 +102,7 @@ export async function middleware(request: NextRequest, response: NextResponse) {
   ) {
     return NextResponse.redirect(new URL("/401", request.url));
   }
+  /* --------------------------------------------------------------------------------------------------- */
 
   return NextResponse.next();
 }

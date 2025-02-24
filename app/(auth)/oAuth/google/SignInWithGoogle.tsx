@@ -5,9 +5,10 @@ import { useEffect } from "react";
 import { auth } from "@/firebase/auth/appConfig";
 //react firebase hooks
 import { useSignInWithGoogle } from "react-firebase-hooks/auth";
-//jotai
-import { useAtom } from "jotai";
-import { anyErrorAtom } from "@/state/store";
+
+//errors
+import { useErrors } from "@/hooks/useErrors";
+
 //functions
 import addToDbIfNewUser from "../../signup/addToDbIfNewUser";
 //components
@@ -15,13 +16,13 @@ import GoogleButton from "./GoogleButton";
 
 export default function SignInWithGoogle() {
   const [signInWithGoogle, user, loading, error] = useSignInWithGoogle(auth);
-  const [, setAnyError] = useAtom(anyErrorAtom);
+  const { errors, addError } = useErrors();
 
   useEffect(() => {
     if (error) {
-      setAnyError(error);
+      addError(error.message);
     }
-  }, [error, setAnyError]);
+  }, [error, addError]);
 
   const handleSubmit = async () => {
     try {

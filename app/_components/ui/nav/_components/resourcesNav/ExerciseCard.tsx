@@ -16,7 +16,7 @@ const ExerciseCard = ({
   closeResourcesNav,
 }: {
   exercise: WritingExercise;
-  closeResourcesNav: CloseResourcesNavFunction;
+  closeResourcesNav?: CloseResourcesNavFunction;
 }) => {
   const { title, slug, headerImage } = exercise;
   const headerImageUrl = headerImage ? urlForImage(headerImage) : null;
@@ -28,11 +28,11 @@ const ExerciseCard = ({
       <button onClick={closeResourcesNav}>
         <Link
           href={`/exercises/writing-exercises/${slug}`}
-          className="flex h-full w-full flex-col rounded-lg outline-4 outline-offset-4 outline-purple-400/25 hover:outline sm:flex-row sm:items-start lg:flex-col lg:items-stretch"
+          className="flex h-64 w-64 flex-col rounded-lg outline-4 outline-offset-4 outline-purple-400/25 hover:outline sm:flex-row sm:items-start lg:flex-col lg:items-stretch"
         >
           <div className="relative aspect-square flex-none overflow-hidden">
             <Image
-              className="h-full w-full rounded-lg border-4 border-gray-700/25 bg-gray-100 object-cover"
+              className="h-64 w-64 rounded-lg border-4 border-gray-700/25 bg-gray-100 object-cover"
               width={250}
               height={250}
               src={headerImageUrl || defaultImage}

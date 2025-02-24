@@ -15,9 +15,8 @@ import {
   useUpdateProfile,
   useDeleteUser,
 } from "react-firebase-hooks/auth";
-//jotai
-import { useAtom } from "jotai";
-import { anyErrorAtom } from "@/state/store";
+//errors
+import { useErrors } from "@/hooks/useErrors";
 //dependancies
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
@@ -48,8 +47,15 @@ if (process.env.NODE_ENV === "development") {
   origin = process.env.NEXT_PUBLIC_PROD_ORIGIN;
 }
 
+console.log(
+  "url:",
+  `${process.env.NEXT_PUBLIC_PROD_ORIGIN}/signup/emailSignUp/confirmation`
+);
+
 //TODO: update url below for production
 export default function EmailSignUpUI() {
+  const { errors, addError } = useErrors();
+
   const [createUserWithEmailAndPassword, user, loading, createUserError] =
     useCreateUserWithEmailAndPassword(auth, {
       emailVerificationOptions: {
@@ -80,6 +86,7 @@ export default function EmailSignUpUI() {
   }
 
   /* ------- Handle submit --------------------------- */
+
   const handleSubmit = async (values: SignUpValues) => {
     const { name, email, password, confirmPassword } = values;
 
@@ -90,35 +97,43 @@ export default function EmailSignUpUI() {
       return;
     }
 
+    let userCred: any = null;
+
     try {
-      const userCred = await createUserWithEmailAndPassword(email, password);
-
-      if (userCred) {
-        await updateProfile({ displayName: name });
-        await addToDbIfNewUser(userCred.user);
-        setUserCreated(true);
+      // Create the user in Firebase Auth. This step will immediately create the account.
+      userCred = await createUserWithEmailAndPassword(email, password);
+      if (!userCred) {
+        throw new Error("User creation failed");
       }
-    } catch (error) {
-      // Check if signInError is an object with a message property of type string
-      if (
-        typeof error === "object" &&
-        error !== null &&
-        "message" in error &&
-        typeof error.message === "string"
-      ) {
-        setAnyError({ message: error.message });
+
+      // Update the profile with the provided name.
+      await updateProfile({ displayName: name });
+      // Add the user to your database.
+      await addToDbIfNewUser(userCred.user);
+
+      // If all steps succeed, mark the signup as complete.
+      setUserCreated(true);
+    } catch (error: any) {
+      // If any error occurs after the user is created, delete the user from Firebase Auth.
+      if (auth.currentUser) {
+        try {
+          await deleteUser();
+        } catch (deleteError) {
+          console.error(
+            "Error deleting auth user created during incomplete email signup:",
+            deleteError
+          );
+        }
+      }
+
+      // Set the error state for display.
+      if (error && typeof error.message === "string") {
+        addError(error.message);
       } else {
-        // If signInError does not match the expected structure, set a default error message
-        setAnyError({ message: "An unexpected error occurred." });
+        addError("An unexpected error occurred.");
       }
-
-      deleteUser();
     }
   };
-  /* -------------------------------------------------- */
-
-  /* ------- Handle errors --------------------------- */
-  const [anyError, setAnyError] = useAtom(anyErrorAtom);
 
   let error =
     createUserError ||
@@ -128,9 +143,9 @@ export default function EmailSignUpUI() {
 
   useEffect(() => {
     if (error) {
-      setAnyError(error);
+      addError(error.message);
     }
-  }, [error, setAnyError]);
+  }, [error, addError]);
 
   /* -------------------------------------------------- */
 
@@ -142,7 +157,7 @@ export default function EmailSignUpUI() {
   let content;
 
   /* Success UI */
-  if (userCreated && anyError.message === "") {
+  if (userCreated) {
     router.push("/signup/email-sent");
     content = (
       <>
@@ -245,7 +260,7 @@ export default function EmailSignUpUI() {
                     isSubmitting ||
                     anyLoading ||
                     userCreated ||
-                    (anyError && anyError.message !== "")
+                    errors.length > 0
                   }
                   className="flex w-full justify-center rounded-md bg-emerald-800 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:cursor-pointer hover:bg-emerald-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600 disabled:cursor-not-allowed disabled:bg-slate-400 disabled:opacity-50"
                 >

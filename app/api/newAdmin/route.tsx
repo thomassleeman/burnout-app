@@ -20,7 +20,7 @@ export async function POST(request: NextRequest) {
     const existingCustomClaims = user.customClaims || {};
 
     await auth().setCustomUserClaims(id, {
-      // ...existingCustomClaims,
+      ...existingCustomClaims,
       admin: true,
     });
 

@@ -283,7 +283,9 @@ export default function ResponseOptions({
                   case 8:
                   case 9:
                   case 10:
-                    actions.handleSecondAssessmentEightToTen(
+                    //TODO: temporarily removed handleSecondAssessmentEightToTen as we don't have the necessary articles yet.
+                    // actions.handleSecondAssessmentEightToTen(
+                    actions.handleSecondAssessmentFourToSeven(
                       stream,
                       option.content,
                       profileArray

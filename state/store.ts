@@ -3,11 +3,18 @@ import { atom } from "jotai";
 // Existing atoms
 export const isAdminAtom = atom(false);
 export const showSearchResultsAtom = atom(false);
-export const anyErrorAtom = atom({ message: "" });
 export const usernameAtom = atom("");
 export const userIDAtom = atom("");
 
-// Your PlayThisType should be defined elsewhere
+export type ErrorMessage = {
+  id: string;
+  message: string;
+};
+
+export const anyErrorAtom = atom<ErrorMessage[]>([]);
+
+// export const anyErrorAtom = atom({ message: "" });
+
 export const playThisAtom = atom<PlayThisType>({
   audio: "",
   image: "",
@@ -15,5 +22,4 @@ export const playThisAtom = atom<PlayThisType>({
   author: "",
 });
 
-// User data atom
 export const userAtom = atom<UserData | null>(null);

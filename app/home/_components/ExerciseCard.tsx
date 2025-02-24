@@ -1,4 +1,5 @@
 import { ArrowUpRightIcon, CheckCircleIcon } from "@heroicons/react/24/outline";
+import Link from "next/link";
 
 function classNames(...classes: (string | undefined | false | null)[]): string {
   return classes.filter(Boolean).join(" ");
@@ -30,11 +31,11 @@ export default function ExerciseCard({ exercise }: { exercise: Exercise }) {
       </div>
       <div className="mt-8">
         <h3 className="text-lg font-medium">
-          <a href={exercise.href} className="focus:outline-none">
+          <Link href={exercise.href} className="focus:outline-none">
             {/* Extend touch target to entire panel */}
             <span aria-hidden="true" className="absolute inset-0" />
             {/* {exercise.name} */}
-          </a>
+          </Link>
         </h3>
         {/* Progress Indicator */}
         {exercise.progress && (

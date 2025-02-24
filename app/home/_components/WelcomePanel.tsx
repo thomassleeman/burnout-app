@@ -50,35 +50,67 @@ export default function WelcomePanel() {
 
   // Calculate "Member Since"
   const accountCreationDate = new Date(user.createdAt?.seconds * 1000);
-  console.log("accountCreationDate: ", accountCreationDate);
   const memberSinceDays =
     differenceInDays(currentDate, accountCreationDate) || null;
 
   // Calculate "Last Journal Entry"
-  const journalEntries = Object.keys(user.journal || {});
   let lastJournalEntry = "No journal entries";
 
-  if (journalEntries.length > 0) {
-    // Convert journal entry dates to Date objects
-    const journalDates = journalEntries.map((entry) =>
-      parse(entry, "dd-MMM-yyyy", new Date())
+  if (user.journaling) {
+    // Get all dates from all journals
+    const allDates = Object.values(user.journaling).flatMap((journal) =>
+      Object.keys(journal).map((dateStr) =>
+        parse(dateStr, "dd-MMM-yyyy", new Date())
+      )
     );
 
-    // Find the most recent journal entry date
-    const lastJournalTimestamp = Math.max(
-      ...journalDates.map((date) => date.getTime())
-    );
-    const lastJournalDate = new Date(lastJournalTimestamp);
+    if (allDates.length > 0) {
+      // Find the most recent journal entry date
+      const lastJournalTimestamp = Math.max(
+        ...allDates.map((date) => date.getTime())
+      );
+      const lastJournalDate = new Date(lastJournalTimestamp);
 
-    const daysSinceLastJournal = differenceInDays(currentDate, lastJournalDate);
+      const daysSinceLastJournal = differenceInDays(
+        currentDate,
+        lastJournalDate
+      );
 
-    // Check if there is a journal entry for today
-    const isJournalToday = daysSinceLastJournal === 0;
+      // Check if there is a journal entry for today
+      const isJournalToday = daysSinceLastJournal === 0;
 
-    lastJournalEntry = isJournalToday
-      ? "today"
-      : `${daysSinceLastJournal} days ago`;
+      lastJournalEntry = isJournalToday
+        ? "today"
+        : `${daysSinceLastJournal} days ago`;
+    }
   }
+
+  // // Calculate "Last Journal Entry"
+  // const journalEntries = Object.keys(user.journaling || {});
+  // let lastJournalEntry = "No journal entries";
+  // console.log("journalEntries: ", journalEntries);
+
+  // if (journalEntries.length > 0) {
+  //   // Convert journal entry dates to Date objects
+  //   const journalDates = journalEntries.map((entry) =>
+  //     parse(entry, "dd-MMM-yyyy", new Date())
+  //   );
+
+  //   // Find the most recent journal entry date
+  //   const lastJournalTimestamp = Math.max(
+  //     ...journalDates.map((date) => date.getTime())
+  //   );
+  //   const lastJournalDate = new Date(lastJournalTimestamp);
+
+  //   const daysSinceLastJournal = differenceInDays(currentDate, lastJournalDate);
+
+  //   // Check if there is a journal entry for today
+  //   const isJournalToday = daysSinceLastJournal === 0;
+
+  //   lastJournalEntry = isJournalToday
+  //     ? "today"
+  //     : `${daysSinceLastJournal} days ago`;
+  // }
 
   // Calculate "Last Check-in"
   const burnoutAssessment = user.assessments?.burnoutAssessment;

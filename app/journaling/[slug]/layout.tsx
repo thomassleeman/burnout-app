@@ -7,7 +7,7 @@ export const metadata: Metadata = {
     "Journaling is a proven way of organising your thoughts and reflecting on your day.",
 };
 
-export default function JournalLayout({
+export default async function JournalLayout({
   children,
 }: {
   children: React.ReactNode;

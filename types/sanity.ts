@@ -57,20 +57,21 @@ export type Exercise = {
   classification: string;
 };
 
-export type CourseResource = {
+export type CourseResourceSanity = {
   title: string;
   headerImage?: SanityImage;
   slug: string;
   type: "article" | "selfReflectionExercise";
 };
 
-export type Course = {
+export type CourseSanity = {
+  _id: string;
   title: string;
   content: PortableTextBlock[];
   slug: string;
   headerImage?: SanityImage;
   summary: PortableTextBlock[];
-  resources: CourseResource[] | null;
+  resources: CourseResourceSanity[] | null;
 };
 
 export type Prompt = {

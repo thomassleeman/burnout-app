@@ -1,20 +1,10 @@
-//next
-import Link from "next/link";
 //components
-import ErrorAlert from "@/components/ui/ErrorAlert";
-import {
-  ExclamationTriangleIcon,
-  EnvelopeIcon,
-  InformationCircleIcon,
-} from "@heroicons/react/24/outline";
+import { EnvelopeIcon } from "@heroicons/react/24/outline";
 
 export default async function SignUp() {
-  // redirectSignedInUsers();
-
   return (
     <>
       <main className="mt-10">
-        <ErrorAlert />
         <div className="flex flex-1 flex-col justify-center px-4 sm:px-6 md:py-12  lg:flex-none lg:px-20 xl:px-24">
           <div className="mx-auto w-full max-w-sm lg:w-96">
             <div>

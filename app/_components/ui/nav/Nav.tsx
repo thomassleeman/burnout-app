@@ -12,7 +12,7 @@ import { userAtom } from "@/state/store";
 
 //components
 import UserIndicator from "./_components/UserIndicator";
-import ResourcesNav from "./_components/resourcesNav/ResourcesNav";
+import ResourcesNav from "./_components/resourcesNav/NewResourcesNav";
 // import NavSearch from "./search/NavSearch";
 //functions
 //headlessui
@@ -28,7 +28,7 @@ import {
   AdjustmentsHorizontalIcon,
   HomeIcon,
 } from "@heroicons/react/24/outline";
-import OrgIndicator from "./_components/resourcesNav/OrgIndicator";
+// import OrgIndicator from "./_components/resourcesNav/OrgIndicator";
 
 /* -------------- NAVIGATION ARRAY -------------------- */
 
@@ -202,7 +202,7 @@ export default function Nav() {
       <Disclosure
         as="nav"
         // className="max-h-fit bg-transparent shadow dark:border-pink-700 dark:text-slate-50"
-        className="h-18 z-50 bg-transparent shadow dark:border-pink-700 dark:text-slate-50"
+        className="h-18 z-40 bg-transparent shadow dark:border-pink-700 dark:text-slate-50"
       >
         {/* <Disclosure as="nav" className="h-16 shadow"> */}
         {({ open }) => (
@@ -219,7 +219,7 @@ export default function Nav() {
                         alt="MindHub Logo"
                       />{" "}
                     </Link>
-                    <OrgIndicator />
+                    {/* <OrgIndicator /> */}
                   </div>
                   <div className="hidden lg:ml-6 lg:flex lg:space-x-8">
                     {navigation.registeredUser.mainNav.map((page) => {
@@ -272,7 +272,7 @@ export default function Nav() {
                       leaveFrom="transform opacity-100 scale-100"
                       leaveTo="transform opacity-0 scale-95"
                     >
-                      <Menu.Items className="absolute right-0 z-50 mt-2 w-48 origin-top-right rounded-sm bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:bg-slate-800 dark:hover:bg-slate-700">
+                      <Menu.Items className="absolute right-0 z-40 mt-2 w-48 origin-top-right rounded-sm bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:bg-slate-800 dark:hover:bg-slate-700">
                         {organisation.role === "admin" ? (
                           <Menu.Item>
                             {({ active }) => (

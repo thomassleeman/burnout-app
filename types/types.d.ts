@@ -122,13 +122,18 @@ declare global {
   }
 
   interface JournalEntry {
-    createdAt?: Timestamp;
+    createdAt: Timestamp;
     encryptedUserInput: {
       [inputKey: string]: {
         encryptedData: string;
         iv: string;
       };
     };
+  }
+
+  export interface Prompt {
+    id: string;
+    prompt: string;
   }
 
   interface UserOrganisation {
@@ -153,8 +158,13 @@ declare global {
     courses?: Course;
     articles?: RecommendedArticles;
     stressRating?: StressRating[];
-    journal?: {
-      [dateKey: string]: JournalEntry;
+    // journal?: {
+    //   [dateKey: string]: JournalEntry;
+    // };
+    journaling?: {
+      [journalName: string]: {
+        [dateKey: string]: JournalEntry;
+      };
     };
     organisation?: UserOrganisation;
   }

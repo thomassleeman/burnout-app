@@ -282,7 +282,6 @@ export const articleType = defineType({
       ],
     }),
   ],
-  // After the "fields" array
   preview: {
     select: {
       title: "title",

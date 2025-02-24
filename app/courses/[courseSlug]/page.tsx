@@ -23,7 +23,7 @@ import {
   PencilIcon,
 } from "@heroicons/react/24/outline";
 //types
-import { CourseResource } from "@/types/sanity";
+import { CourseResourceSanity } from "@/types/sanity";
 import GetStartedButton from "./GetStartedButton";
 
 export const revalidate = 3600; // revalidate the data cache at most every hour
@@ -70,7 +70,7 @@ export default async function Course({
       <div className="space-y-4 px-2 lg:px-0">
         <h2 className="">Resources in this course</h2>
         <div className="space-y-4">
-          {resources.map((resource: CourseResource) => {
+          {resources.map((resource: CourseResourceSanity) => {
             const articleImageUrl = resource.headerImage
               ? urlForImage(resource.headerImage)
               : null;
