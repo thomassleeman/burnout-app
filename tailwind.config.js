@@ -58,6 +58,10 @@ module.exports = {
             "animation-timing-function": "cubic-bezier(0, 0, 0.2, 1)",
           },
         },
+        slowSpin: {
+          "0%": { transform: "rotate(0deg)" },
+          "100%": { transform: "rotate(360deg)" },
+        },
       },
       animation: {
         wave: "wave 2s linear infinite",
@@ -66,6 +70,9 @@ module.exports = {
         marquee2: "marquee2 25s linear infinite",
         text: "text 5s ease infinite",
         "quick-bounce": "quick-bounce 0.8s infinite",
+        "spin-slow": "slowSpin 5s linear infinite",
+        "spin-slower": "slowSpin 12s linear infinite",
+        "spin-reverse": "slowSpin 8s linear infinite reverse",
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",

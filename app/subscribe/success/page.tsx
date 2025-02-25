@@ -34,7 +34,8 @@ function SuccessPageContent() {
             await user.getIdToken(true);
             //retrieves the token.
             const idTokenResult = await user.getIdTokenResult();
-            const quantity = idTokenResult.claims.subscriptionQuantity || 1;
+            const quantity =
+              Number(idTokenResult.claims.subscriptionQuantity) || 1;
             setSubscriptionQuantity(quantity);
             setClaimsLoading(false);
             return;

@@ -24,7 +24,10 @@ export default function useSubscriptionStatus(): SubscriptionInfo {
           status:
             (tokenResult.claims.subscriptionStatus as "active" | "none") ||
             "none",
-          quantity: tokenResult.claims.subscriptionQuantity || 0,
+          quantity:
+            typeof tokenResult.claims.subscriptionQuantity === "number"
+              ? tokenResult.claims.subscriptionQuantity
+              : 0,
         });
       } else {
         setSubscriptionInfo({ status: "none", quantity: 0 });
