@@ -70,8 +70,8 @@ module.exports = {
         marquee2: "marquee2 25s linear infinite",
         text: "text 5s ease infinite",
         "quick-bounce": "quick-bounce 0.8s infinite",
-        "spin-slow": "slowSpin 5s linear infinite",
-        "spin-slower": "slowSpin 12s linear infinite",
+        "spin-slow": "slowSpin 6s linear infinite",
+        "spin-slower": "slowSpin 10s linear infinite",
         "spin-reverse": "slowSpin 8s linear infinite reverse",
       },
       backgroundImage: {

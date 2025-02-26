@@ -50,9 +50,9 @@ const ChatInterface = ({
           <p className="mb-6 text-gray-700 md:max-w-md">
             This is an AI-powered assistant designed to help you understand and
             manage workplace burnout. It uses advanced AI to provide
-            personalized support and guidance.
+            personalised support and guidance.
           </p>
-          <p className="max-w-md text-sm text-gray-600">
+          <p className="max-w-md text-sm text-gray-500">
             Your conversations are private and designed to help you reflect on
             your wellbeing and develop strategies for managing stress.
           </p>

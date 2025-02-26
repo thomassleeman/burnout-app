@@ -183,7 +183,7 @@ const ChatContainer = () => {
   return (
     <div
       ref={containerRef}
-      className="flex flex-col items-stretch overflow-hidden rounded-lg"
+      className="flex h-full flex-col items-stretch justify-between rounded-lg"
     >
       {/* Chat messages area */}
       <div className="flex-1 overflow-y-auto">
