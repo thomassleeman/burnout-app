@@ -118,5 +118,6 @@ export const config = {
     "/superadmin/:path*",
     "/courses/:path*",
     "/exercises/:path*",
+    "/pasu-ai",
   ],
 };
