@@ -15,6 +15,21 @@ type Message = {
   timestamp: Date;
 };
 
+const SYSTEM_INSTRUCTIONS = `You are a therapeutic assistant specializing in workplace mental health and burnout. 
+Your goal is to help users understand their stress levels, identify signs of burnout, and develop coping strategies. Do not answer questions that are not relevant to mental health or wellbeing.
+
+Important guidelines:
+- Be empathetic, warm, and supportive in your tone
+- Ask insightful follow-up questions to better understand the user's situation
+- Provide evidence-based information about burnout (physical, emotional, and cognitive symptoms)
+- Suggest practical coping strategies specific to workplace burnout
+- Emphasize self-care and setting boundaries
+- Recognize when to recommend professional help
+- Keep responses concise (100-150 words max) and conversational
+- Never claim to be a replacement for professional therapy
+
+Focus on the most common burnout factors: workload, control, reward, community, fairness, and values alignment.`;
+
 const ChatContainer = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -43,25 +58,8 @@ const ChatContainer = () => {
     };
   }, []);
 
-  // Initialize chat session with instructions
+  // Initialize chat session
   useEffect(() => {
-    // Create initial instructions as the first user message
-    const instructions = `You are a therapeutic assistant specializing in workplace mental health and burnout. 
-      Your goal is to help users understand their stress levels, identify signs of burnout, and develop coping strategies.
-      
-      Important guidelines:
-      - Be empathetic, warm, and supportive in your tone
-      - Ask insightful follow-up questions to better understand the user's situation
-      - Provide evidence-based information about burnout (physical, emotional, and cognitive symptoms)
-      - Suggest practical coping strategies specific to workplace burnout
-      - Emphasize self-care and setting boundaries
-      - Recognize when to recommend professional help
-      - Keep responses concise (100-150 words max) and conversational
-      - Never claim to be a replacement for professional therapy
-      
-      Focus on the most common burnout factors: workload, control, reward, community, fairness, and values alignment.`;
-
-    // Initialize chat session with the instructions
     const chat = model.startChat({
       generationConfig: {
         temperature: 0.2,
@@ -71,7 +69,6 @@ const ChatContainer = () => {
       },
     });
 
-    // Save chat session to state
     setChatSession(chat);
   }, []);
 
@@ -100,43 +97,46 @@ const ChatContainer = () => {
       let messageToSend = message;
 
       if (isFirstMessage) {
-        const instructions = `You are a therapeutic assistant specializing in workplace mental health and burnout. 
-          Your goal is to help users understand their stress levels, identify signs of burnout, and develop coping strategies.
-          
-          Important guidelines:
-          - Be empathetic, warm, and supportive in your tone
-          - Ask insightful follow-up questions to better understand the user's situation
-          - Provide evidence-based information about burnout (physical, emotional, and cognitive symptoms)
-          - Suggest practical coping strategies specific to workplace burnout
-          - Emphasize self-care and setting boundaries
-          - Recognize when to recommend professional help
-          - Keep responses concise (100-150 words max) and conversational
-          - Never claim to be a replacement for professional therapy
-          
-          Focus on the most common burnout factors: workload, control, reward, community, fairness, and values alignment.
-          
-          User message: ${message}`;
-        messageToSend = instructions;
+        messageToSend = `${SYSTEM_INSTRUCTIONS}
+        
+        User message: ${message}`;
       }
 
-      // Send message to Vertex AI and get streaming response
-      const result = await chatSession.sendMessageStream(messageToSend);
-
-      let aiResponseText = "";
-      for await (const chunk of result.stream) {
-        const chunkText = chunk.text();
-        aiResponseText += chunkText;
-      }
-
-      // Add AI response to chat
-      const botResponse: Message = {
-        id: (Date.now() + 1).toString(),
-        content: aiResponseText,
+      // Create an initial empty assistant message
+      const botResponseId = (Date.now() + 1).toString();
+      const initialBotResponse: Message = {
+        id: botResponseId,
+        content: "",
         role: "assistant",
         timestamp: new Date(),
       };
 
-      setMessages((prev) => [...prev, botResponse]);
+      setMessages((prev) => [...prev, initialBotResponse]);
+
+      // Send message to Vertex AI and get streaming response
+      const result = await chatSession.sendMessageStream(messageToSend);
+
+      // Process the streaming response
+      for await (const chunk of result.stream) {
+        const chunkText = chunk.text();
+
+        // Update the bot message with the new chunk
+        setMessages((prev) => {
+          const updatedMessages = [...prev];
+          const botMessageIndex = updatedMessages.findIndex(
+            (msg) => msg.id === botResponseId
+          );
+
+          if (botMessageIndex !== -1) {
+            updatedMessages[botMessageIndex] = {
+              ...updatedMessages[botMessageIndex],
+              content: updatedMessages[botMessageIndex].content + chunkText,
+            };
+          }
+
+          return updatedMessages;
+        });
+      }
     } catch (error) {
       console.error("Error sending message to Vertex AI:", error);
 

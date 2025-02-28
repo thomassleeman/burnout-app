@@ -1,5 +1,4 @@
-text links: emerald-600
-
+nav height calculation for pages that need to be exactly height of screen: h-[calc(100vh-72px)]
 uninstalled:
 
 unist-util-visit

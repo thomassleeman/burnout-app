@@ -21,6 +21,10 @@ module.exports = {
       },
 
       keyframes: {
+        "pulse-once": {
+          "0%, 100%": { opacity: "1" },
+          "50%": { opacity: ".5" },
+        },
         wave: {
           "0%": { transform: "rotate(28deg)" },
           "25%": { transform: "rotate(-24deg)" },
@@ -73,6 +77,7 @@ module.exports = {
         "spin-slow": "slowSpin 6s linear infinite",
         "spin-slower": "slowSpin 10s linear infinite",
         "spin-reverse": "slowSpin 8s linear infinite reverse",
+        "pulse-once": "pulse-once 2s cubic-bezier(0.4, 0, 0.6, 1) forwards",
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
