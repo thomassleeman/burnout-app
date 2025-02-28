@@ -212,7 +212,7 @@ export default function QuizModal({
                         height={50}
                         width={50}
                         src={logo}
-                        alt="Burnout Hub logo"
+                        alt="PASU logo"
                         className="h-14 w-auto"
                       />
                     </div>

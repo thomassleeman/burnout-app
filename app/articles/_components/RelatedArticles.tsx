@@ -21,7 +21,7 @@ export default function RelatedArticles({ articles }: RelatedArticlesProps) {
     content = (
       <div className="mx-auto max-w-4xl text-slate-900">
         <h2 className="mb-16 px-6 text-2xl lg:px-0">
-          Related articles from The Burnout Hub
+          Related articles from PASU
         </h2>
 
         <h3 className="sr-only">Recommended Articles</h3>

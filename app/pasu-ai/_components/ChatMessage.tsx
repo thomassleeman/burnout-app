@@ -1,6 +1,7 @@
 // app/chatbot/_components/ChatMessage.tsx
 
 import Image from "next/image";
+import LogoAI from "./LogoAI";
 import logo from "@/components/design/brainLogoCompressed.png";
 
 type Message = {
@@ -11,9 +12,10 @@ type Message = {
 
 type ChatMessageProps = {
   message: Message;
+  isLoading: Boolean;
 };
 
-const ChatMessage = ({ message }: ChatMessageProps) => {
+const ChatMessage = ({ message, isLoading }: ChatMessageProps) => {
   const isUser = message.role === "user";
 
   return (
@@ -24,7 +26,7 @@ const ChatMessage = ({ message }: ChatMessageProps) => {
           alt="Pasu health logo"
           height={200}
           width={200}
-          className="mr-2 h-11 w-auto py-2"
+          className={`mr-2 h-11 w-auto py-2 ${isLoading && "animate-pulse"}`}
         />
       )}
 

@@ -15,9 +15,9 @@ import NextTopLoader from "nextjs-toploader";
 //TODO: Header stuff, SEO, etc.
 
 export const metadata: Metadata = {
-  title: "The Burnout Hub",
+  title: "PASU Health",
   description:
-    "A comprehensive guide to understanding and preventing burnout. Includes practical exercises and resources for enhancing workplace wellness.",
+    "A comprehensive workplace mental health platform on a mission to promote understanding and prevention of burnout. PASU Incorporates AI therapy, learning courses, practical exercises and many other resources to dramatically enhance workplace wellness.",
 };
 
 export const viewport: Viewport = {

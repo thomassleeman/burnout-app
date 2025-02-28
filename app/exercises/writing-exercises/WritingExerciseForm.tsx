@@ -288,7 +288,7 @@ export default function WritingExerciseForm({
             height={50}
             width={50}
             src={logo}
-            alt="Burnout Hub logo"
+            alt="PASU logo"
             className="h-8 w-auto"
           />
         </div>

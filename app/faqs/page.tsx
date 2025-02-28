@@ -9,13 +9,13 @@ import { MinusSmallIcon, PlusSmallIcon } from "@heroicons/react/24/outline";
 
 const faqs = [
   {
-    question: "What is the Burnout Hub?",
+    question: "What is PASU.io?",
     answer: (
       <p>
-        Burnout Hub is your go-to resource for understanding and managing
-        burnout. We offer easy-to-understand, accurate information and resources
-        backed by expert knowledge. Our mission is to empower you with the tools
-        to recognise and overcome burnout in your life. We regularly update our
+        PASU.io is your go-to resource for understanding and managing burnout.
+        We offer easy-to-understand, accurate information and resources backed
+        by expert knowledge. Our mission is to empower you with the tools to
+        recognise and overcome burnout in your life. We regularly update our
         content to ensure you have access to the latest and most effective
         strategies. Start exploring our platform today and discover the many
         ways we can help you on your journey to better professional well-being.
@@ -23,28 +23,27 @@ const faqs = [
     ),
   },
   {
-    question: "Who is behind Burnout Hub?",
+    question: "Who is behind PASU.io?",
     answer: (
       <p>
-        Burnout Hub is the brainchild of Aaron Hanway and Tom Sleeman, whose
-        friendship began some 20 years ago while studying Psychology together at
+        PASU is the brainchild of Aaron Hanway and Tom Sleeman, whose friendship
+        began some 20 years ago while studying Psychology together at
         University. Through conversations about their own workplace experiences,
         they recognized a pressing need for a greater understanding of burnout –
         its causes, effects, and potential treatments. This realization sparked
         the idea for an online platform where individuals could access
-        comprehensive information on the topic, and thus, Burnout Hub was born.{" "}
-        <br />
+        comprehensive information on the topic, and thus, PASU was born. <br />
         <br />
         Aaron, a counselor and psychotherapist based in Wicklow, Ireland, brings
-        a wealth of personal and professional experience to Burnout Hub. He
-        specializes in helping individuals from all walks of life who are
-        grappling with burnout, a passion fueled by his own struggles in a
-        previous career. Before transitioning to therapy, Aaron worked in the
-        social care sector, where he faced significant burnout firsthand. This
-        transformative experience ultimately led him to pursue a career as a
-        therapist, dedicated to supporting others facing similar challenges. To
-        learn more about Aaron&apos;s journey with burnout, be sure to explore
-        the Burnout Stories section.
+        a wealth of personal and professional experience to PASU. He specializes
+        in helping individuals from all walks of life who are grappling with
+        burnout, a passion fueled by his own struggles in a previous career.
+        Before transitioning to therapy, Aaron worked in the social care sector,
+        where he faced significant burnout firsthand. This transformative
+        experience ultimately led him to pursue a career as a therapist,
+        dedicated to supporting others facing similar challenges. To learn more
+        about Aaron&apos;s journey with burnout, be sure to explore the Burnout
+        Stories section.
         <br />
         <br />
         Tom is a software engineer and small business owner based in Surrey,
@@ -58,12 +57,12 @@ const faqs = [
   {
     question: "Who do I contact if I want to get in touch?",
     answer:
-      "We'd love to hear from you! Feel free to share your experience with burnout, provide feedback to enhance The Burnout Hub or ask any questions you may have. You can reach us via email at contact@theburnouthub.com. We look forward to connecting with you!",
+      "We'd love to hear from you! Feel free to share your experience with burnout, provide feedback to enhance PASU.io or ask any questions you may have. You can reach us via email at contact@theburnouthub.com. We look forward to connecting with you!",
   },
   {
     question: "How do I delete my account?",
     answer:
-      "If you would like to delete your account you can do so from the profile page. Access the profile page by clicking on the round user icon which can be found in the top right hand corner of the screen on larger devices. On mobile devices tap the three bars in the top right hand corner to open up the main menu and the user icon can be found at the top. Scroll to the bottom of the profile page and click 'delete my account', then confirm that you want to go ahead. Your account will be permenantly deleted and you will need to create a new one to use the burnout hub again",
+      "If you would like to delete your account you can do so from the profile page. Access the profile page by clicking on the round user icon which can be found in the top right hand corner of the screen on larger devices. On mobile devices tap the three bars in the top right hand corner to open up the main menu and the user icon can be found at the top. Scroll to the bottom of the profile page and click 'delete my account', then confirm that you want to go ahead. Your account will be permenantly deleted and you will need to create a new one to use PASU.io again",
   },
   {
     question: "What can I do if I need immediate support?",

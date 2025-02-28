@@ -71,7 +71,7 @@ export default function Share({
       <TwitterShareButton
         url={currentUrl}
         title={title}
-        hashtags={["The Burnout Hub"]}
+        hashtags={["PASU"]}
         className="rounded-full outline-2 outline-amber-300 hover:outline"
       >
         <XIcon size={32} round />

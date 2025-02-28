@@ -35,8 +35,7 @@ const content = [
         anyone or any organisation. <br />
         <br />
         The views and opinions expressed here are solely those of the author and
-        do not necessarily reflect those of The Burnout Hub or anyone else.{" "}
-        <br />
+        do not necessarily reflect those of PASU Health or anyone else. <br />
         <br />
         For the protection of privacy all names of people, places, and
         businesses/organisations have been changed. Any resemblance to real

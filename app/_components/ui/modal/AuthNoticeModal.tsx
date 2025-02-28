@@ -91,7 +91,7 @@ export default function AuthNoticeModal({ notice }: { notice: NoticeType }) {
                   height={50}
                   width={50}
                   src={logo}
-                  alt="Burnout Hub logo"
+                  alt="PASU logo"
                   className="h-10 w-auto"
                 />
               </div>

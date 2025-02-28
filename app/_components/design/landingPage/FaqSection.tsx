@@ -31,19 +31,19 @@ const faqs = [
     id: 1,
     question: "Is the app suitable for organisations of all sizes?",
     answer:
-      "Yes, Burnout Hub is designed to benefit teams and companies of all scales, from small businesses to large enterprises.",
+      "Yes, PASU is designed to benefit teams and companies of all scales, from small businesses to large enterprises.",
   },
   {
     id: 1,
-    question: "What exactly is The Burnout Hub?",
+    question: "What exactly is PASU?",
     answer:
-      "The Burnout Hub is a comprehensive web application designed to help businesses support their employees in understanding and addressing workplace burnout. It offers a suite of tools and resources, including interactive courses, chatbot assessments for potential burnout, self-reflection and writing exercises, guided journaling prompts, informative articles, daily stress ratings, and graphical visualizations of stress and burnout data.",
+      "PASU is a comprehensive web application designed to help businesses support their employees in understanding and addressing workplace burnout. It offers a suite of tools and resources, including interactive courses, chatbot assessments for potential burnout, self-reflection and writing exercises, guided journaling prompts, informative articles, daily stress ratings, and graphical visualizations of stress and burnout data.",
   },
   {
     id: 1,
-    question: "How can The Burnout Hub help my organisation?",
+    question: "How can PASU help my organisation?",
     answer:
-      "By integrating The Burnout Hub into your organization, you provide your team with proactive resources to manage stress effectively. This not only helps in enhancing employee well-being but also reduces the negative impacts of burnout on productivity, absenteeism, and staff turnover. For a small monthly fee per user, The Burnout Hub empowers your employees to tackle burnout, ultimately contributing to a healthier, more productive workplace.",
+      "By integrating PASU.io into your organization, you provide your team with proactive resources to manage stress effectively. This not only helps in enhancing employee well-being but also reduces the negative impacts of burnout on productivity, absenteeism, and staff turnover. For a small monthly fee per user, PASU empowers your employees to tackle burnout, ultimately contributing to a healthier, more productive workplace.",
   },
   {
     id: 1,

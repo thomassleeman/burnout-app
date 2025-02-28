@@ -47,7 +47,7 @@ const ChatInterface = ({
           </div>
           <div className="mb-2 flex items-center gap-x-2">
             <h2 className="text-2xl font-light text-gray-900">
-              Burnout Support Assistant
+              PASU AI Therapy Assistant
             </h2>
             <InfoDialogue />
           </div>
@@ -59,7 +59,11 @@ const ChatInterface = ({
       ) : (
         <>
           {messages.map((message) => (
-            <ChatMessage key={message.id} message={message} />
+            <ChatMessage
+              key={message.id}
+              message={message}
+              isLoading={isLoading}
+            />
           ))}
           {/* {isLoading && (
             <div className="mb-4 flex items-start">
