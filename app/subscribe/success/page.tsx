@@ -133,7 +133,7 @@ function SuccessPageContent() {
           </p>
           <div className="mt-10 flex items-center justify-center gap-x-6">
             <a
-              href={`mailto:support@theburnouthub.com?subject=urgent user error: ${readableTimestamp} &body=Error occured at ${url}. Session is false. Session: ${sessionId}`}
+              href={`mailto:support@pasuhealth.com?subject=urgent user error: ${readableTimestamp} &body=Error occured at ${url}. Session is false. Session: ${sessionId}`}
               className="text-lg font-semibold text-emerald-700"
             >
               Contact support <span aria-hidden="true">&rarr;</span>

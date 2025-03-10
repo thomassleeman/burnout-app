@@ -57,7 +57,7 @@ const faqs = [
   {
     question: "Who do I contact if I want to get in touch?",
     answer:
-      "We'd love to hear from you! Feel free to share your experience with burnout, provide feedback to enhance PASU.io or ask any questions you may have. You can reach us via email at contact@theburnouthub.com. We look forward to connecting with you!",
+      "We'd love to hear from you! Feel free to share your experience with burnout, provide feedback to enhance PASU.io or ask any questions you may have. You can reach us via email at contact@pasuhealth.com We look forward to connecting with you!",
   },
   {
     question: "How do I delete my account?",

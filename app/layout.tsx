@@ -15,7 +15,7 @@ import NextTopLoader from "nextjs-toploader";
 //TODO: Header stuff, SEO, etc.
 
 export const metadata: Metadata = {
-  title: "PASU Health",
+  title: "PASU.io",
   description:
     "A comprehensive workplace mental health platform on a mission to promote understanding and prevention of burnout. PASU Incorporates AI therapy, learning courses, practical exercises and many other resources to dramatically enhance workplace wellness.",
 };
