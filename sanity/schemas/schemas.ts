@@ -8,6 +8,7 @@ import { selfReflectionExerciseType } from "./selfReflectionExerciseSchema";
 import { writingExerciseType } from "./writingExerciseSchema";
 import { legalDocType } from "./legalDocSchema";
 import { journalType } from "./journalSchema";
+import { trainingCourseType } from "./trainingCoursesSchema";
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
@@ -20,5 +21,6 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     writingExerciseType,
     legalDocType,
     journalType,
+    trainingCourseType,
   ],
 };
