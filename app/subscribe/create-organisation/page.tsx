@@ -4,7 +4,6 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { auth } from "@/firebase/auth/appConfig";
-import * as Sentry from "@sentry/nextjs";
 import Spinner from "@/app/_components/ui/_components/Spinner";
 // import CancelButton from "./CancelButton";
 import LogoUpload from "./LogoUpload";

@@ -1,11 +1,10 @@
 "use client";
 //react
 import { useState, useEffect } from "react";
-import { Fragment } from "react";
+
 //Next
 import Link from "next/link";
-//headless ui
-import { Popover, Transition } from "@headlessui/react";
+
 //data fetching
 import { getCoursesData } from "@courses/getCoursesData";
 import { getBurnoutStoriesData } from "@stories/getStoriesData";
@@ -43,7 +42,6 @@ interface CustomSVGProps {
 }
 
 import { journalOutlineFromSanity } from "@/types/journal";
-import { Tool } from "sanity";
 
 interface Story {
   title: string;
@@ -162,7 +160,11 @@ export default function ResourcesNav() {
           const parsedCourses = JSON.parse(cachedCourses);
 
           if (!Array.isArray(parsedCourses)) {
-            throw new Error("Cached courses data is not an array");
+            console.warn(
+              "Fetched courses data is not an array, using empty array instead"
+            );
+            setCourses([]);
+            return;
           }
 
           setCourses(parsedCourses);
@@ -171,7 +173,11 @@ export default function ResourcesNav() {
           const data = await getCoursesData();
 
           if (!Array.isArray(data)) {
-            throw new Error("Fetched courses data is not an array");
+            console.warn(
+              "Fetched courses data is not an array, using empty array instead"
+            );
+            setCourses([]);
+            return;
           }
 
           setCourses(data);
@@ -207,7 +213,11 @@ export default function ResourcesNav() {
           const parsedExercises = JSON.parse(cachedExercises);
 
           if (!Array.isArray(parsedExercises)) {
-            throw new Error("Cached exercises data is not an array");
+            console.warn(
+              "Fetched exercises data is not an array, using empty array instead"
+            );
+            setExercises([]);
+            return;
           }
 
           setExercises(parsedExercises);
@@ -216,7 +226,11 @@ export default function ResourcesNav() {
           const data = await getWritingExercisesData();
 
           if (!Array.isArray(data)) {
-            throw new Error("Fetched exercises data is not an array");
+            console.warn(
+              "Fetched exercises data is not an array, using empty array instead"
+            );
+            setExercises([]);
+            return;
           }
 
           setExercises(data);
@@ -254,7 +268,11 @@ export default function ResourcesNav() {
           const parsedStories = JSON.parse(cachedStories);
 
           if (!Array.isArray(parsedStories)) {
-            throw new Error("Cached courses data is not an array");
+            console.warn(
+              "Fetched stories data is not an array, using empty array instead"
+            );
+            setStories([]);
+            return;
           }
 
           setStories(parsedStories);
@@ -263,7 +281,11 @@ export default function ResourcesNav() {
           const data = await getBurnoutStoriesData();
 
           if (!Array.isArray(data)) {
-            throw new Error("Fetched Burnout Stories data is not an array");
+            console.warn(
+              "Fetched stories data is not an array, using empty array instead"
+            );
+            setStories([]);
+            return;
           }
 
           setStories(data);
@@ -298,7 +320,11 @@ export default function ResourcesNav() {
           const parsedJournals = JSON.parse(cachedJournals);
 
           if (!Array.isArray(parsedJournals)) {
-            throw new Error("Cached journals data is not an array");
+            console.warn(
+              "Cached journals data is not an array, using empty array instead"
+            );
+            setJournals([]);
+            return;
           }
 
           setJournals(parsedJournals);
@@ -307,7 +333,11 @@ export default function ResourcesNav() {
           const data = await getJournalsData();
 
           if (!Array.isArray(data)) {
-            throw new Error("Fetched Journals data is not an array");
+            console.warn(
+              "Fetched Journals data is not an array, using empty array instead"
+            );
+            setJournals([]);
+            return;
           }
 
           setJournals(data);
@@ -325,6 +355,7 @@ export default function ResourcesNav() {
 
     fetchJournals();
   }, []); // Empty dependency array to ensure this runs only once
+
   const closeNav = () => setIsOpen(false);
 
   return (

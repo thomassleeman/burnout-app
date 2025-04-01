@@ -5,7 +5,6 @@ import { useSearchParams } from "next/navigation";
 import { auth } from "@/firebase/auth/appConfig";
 import Stripe from "stripe";
 import { usePathname } from "next/navigation";
-import * as Sentry from "@sentry/nextjs";
 import Spinner from "@/components/ui/_components/Spinner";
 import { useAuthState } from "react-firebase-hooks/auth";
 import PaymentSuccessful from "./PaymentSuccessful";
@@ -41,7 +40,7 @@ function SuccessPageContent() {
             return;
           } catch (error) {
             console.error("Error refreshing claims:", error);
-            Sentry.captureException(error);
+            // Sentry.captureException(error);
             setClaimsLoading(false);
             setErrorUi(true);
             setSubscriptionQuantity(null); // Fallback if claims are not updated
@@ -70,11 +69,9 @@ function SuccessPageContent() {
             return;
           } else {
             console.error("Error fetching session:", data.error);
-            Sentry.captureException(data.error);
           }
         } catch (error) {
           console.error("Error fetching session:", error);
-          Sentry.captureException(error);
           setErrorUi(true);
           setSessionLoading(false);
         }
@@ -107,9 +104,9 @@ function SuccessPageContent() {
 
   if (errorUi) {
     const readableTimestamp = new Date().toLocaleString();
-    Sentry.captureMessage(
-      `Error occured at ${url}. Session is false. Session: ${sessionId}. This means that the user's stripe provided sessionId failed to be validated by stripe.`
-    );
+    // Sentry.captureMessage(
+    //   `Error occured at ${url}. Session is false. Session: ${sessionId}. This means that the user's stripe provided sessionId failed to be validated by stripe.`
+    // );
 
     return (
       <main className="grid min-h-full place-items-center px-6 py-24 sm:py-32 lg:px-8">

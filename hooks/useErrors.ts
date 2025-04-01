@@ -3,7 +3,6 @@ import { anyErrorAtom, ErrorMessage } from "@/state/store";
 
 export function useErrors() {
   const [errors, setErrors] = useAtom(anyErrorAtom);
-  console.log("errors: ", errors);
 
   const addError = (message: string) => {
     setErrors((prevErrors) => {
