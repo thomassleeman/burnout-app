@@ -6,6 +6,9 @@ import AuthNoticeModal from "./_components/ui/modal/AuthNoticeModal";
 import ErrorAlert from "@/components/ui/ErrorAlert";
 
 import Nav from "./_components/ui/nav/Nav";
+import NavOld from "./_components/ui/nav/NavOld";
+
+import { headers } from "next/headers";
 
 import AudioPlayer from "@/components/ui/audioPlayer/AudioPlayer";
 
@@ -32,11 +35,16 @@ export default function RootLayout({
   children: React.ReactNode;
   modal: React.ReactNode;
 }) {
+  const headersList = headers();
+  const pathname =
+    headersList.get("x-pathname") || headersList.get("x-url") || "";
+
   return (
     <html className="h-full" lang="en">
       <Providers>
         <body className="z-50 flex h-full min-h-screen flex-col bg-amber-50/25 dark:bg-gradient-to-tr dark:from-slate-950 dark:via-slate-800 dark:to-zinc-900 dark:text-white">
-          <Nav />
+          <Nav pathname={pathname} />
+          {/* <NavOld /> */}
           <NextTopLoader showSpinner={false} shadow={false} color="#047857" />
 
           <SetUser />

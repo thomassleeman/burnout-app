@@ -1,4 +1,4 @@
-import Footer from "../_components/ui/Footer";
+import Footer from "@/components/ui/Footer";
 
 export default function SettingsLayout({
   children,

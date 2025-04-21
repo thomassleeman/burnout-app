@@ -1,8 +1,5 @@
 "use client";
 
-//react
-import { useState } from "react";
-
 //jotai
 import { useAtomValue } from "jotai";
 import { userAtom } from "@/state/store";
@@ -13,7 +10,6 @@ import { UserIcon } from "@heroicons/react/24/outline";
 /* -------------- USER INDICATOR -------------------- */
 export default function UserIndicator() {
   const user = useAtomValue(userAtom);
-  const [username, setUsername] = useState(null);
   const userName = user?.providerData[0]?.displayName || "";
 
   let content;

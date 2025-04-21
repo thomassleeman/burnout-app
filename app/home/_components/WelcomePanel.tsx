@@ -8,7 +8,6 @@ import StressLevelComponent from "./StressLevelComponent";
 
 export default function WelcomePanel() {
   const user = useAtomValue(userAtom);
-  console.log("user WelcomePanel: ", user);
 
   // Show loading skeleton while user data is not yet available
   if (!user) {
