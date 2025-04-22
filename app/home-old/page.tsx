@@ -4,7 +4,7 @@ import Footer from "../_components/ui/Footer";
 import ArticlesByCategory from "./_components/ArticlesByCategory";
 import CheckInPrompt from "./_components/callToActionSection/CheckInPrompt";
 import { getArticlesForGivenCategories } from "@articles/getArticlesData";
-import StressLevelComponent from "../home/_components/StressLevelComponent";
+import StressLevelComponent from "../home/[uid]/_components/StressLevelComponent";
 
 import ContentSelector from "./_components/contentSelector/ContentSelector";
 

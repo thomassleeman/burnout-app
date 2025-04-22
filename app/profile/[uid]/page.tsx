@@ -1,12 +1,13 @@
+// profile/[uid]/page.tsx
 import { Suspense } from "react";
-import { verifyAuth } from "@actions/authAction";
-import { AuthClaims } from "@/types/auth";
+import { redirect } from "next/navigation";
+import { verifyAuth } from "@/app/actions/authAction";
+import { getFirestoreUser } from "@/app/actions/dbUserAction";
 import ProfileContent from "./ProfileContent";
 import Loading from "./loading";
 import ErrorBoundary from "./components/ErrorBoundary";
 
 export default function ProfilePage({ params }: { params: { uid: string } }) {
-  console.log("params: ", params);
   return (
     <ErrorBoundary
       fallback={
@@ -16,21 +17,31 @@ export default function ProfilePage({ params }: { params: { uid: string } }) {
       }
     >
       <Suspense fallback={<Loading />}>
-        <ProfilePageContent uid={params.uid} />
+        <ProfilePageContent params={params} />
       </Suspense>
     </ErrorBoundary>
   );
 }
 
-async function ProfilePageContent({ uid }) {
+async function ProfilePageContent({ params }: { params: { uid: string } }) {
   // Server-side auth verification
-  const user = (await verifyAuth({ returnClaims: true })) as AuthClaims;
+  const authUser = await verifyAuth({ returnClaims: true });
 
-  // Check if user is viewing their own profile
-  if (user.uid !== uid) {
-    // redirect(`/profile/${user.uid}`);
-    console.log("auth user: ", user.uid, "params user id: ", uid);
+  if (!authUser) {
+    redirect("/signin");
   }
 
-  return <ProfileContent initialUserData={user} userId={uid} />;
+  // Check if user is viewing their own profile
+  if (authUser.uid !== params.uid) {
+    redirect(`/profile/${authUser.uid}`);
+  }
+
+  // Fetch Firestore user data
+  const firestoreUser = await getFirestoreUser(params.uid);
+
+  if (!firestoreUser) {
+    throw new Error("User data not found");
+  }
+
+  return <ProfileContent firestoreUser={firestoreUser} userId={params.uid} />;
 }

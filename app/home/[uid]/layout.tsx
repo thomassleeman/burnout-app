@@ -1,4 +1,4 @@
-import Footer from "../_components/ui/Footer";
+import Footer from "./_components/ui/Footer";
 
 export default function DashboardLayout({
   children,

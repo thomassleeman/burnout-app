@@ -1,3 +1,9 @@
+/* In the process of updating this component. I have moved it into a dynamic route that required the ID 
+but not yet updated the code to deal with this change. To revert simply remove the dynamic route */
+
+import { verifyAuth } from "@/app/actions/authAction";
+import { redirect } from "next/navigation";
+import { getFirestoreUser } from "@/app/actions/dbUserAction";
 import WelcomePanel from "./_components/WelcomePanel";
 import CurrentActivityPanels from "./_components/CurrentActivityPanels";
 import ActionsPanel from "./_components/MyCoursesPanel";
@@ -15,7 +21,20 @@ import {
 
 export const revalidate = 60 * 60 * 12;
 
-export default async function Home() {
+export default async function Home({ params }: { params: { uid: string } }) {
+  const authUser = await verifyAuth({ returnClaims: true });
+  if (!authUser) {
+    redirect("/signin");
+  }
+
+  if (authUser.uid !== params.uid) {
+    redirect(`/home/${authUser.uid}`);
+  }
+
+  const firestoreUser = await getFirestoreUser(params.uid);
+
+  console.log("firestoreUser: ", firestoreUser);
+
   const latestArticles = await getSortedLimitedArticlesData("date", "desc", 10);
 
   return (

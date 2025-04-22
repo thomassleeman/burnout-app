@@ -5,7 +5,10 @@ import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { AdjustmentsHorizontalIcon } from "@heroicons/react/24/outline";
 
-export default function DropdownMenu({ organisation, settingsNav }) {
+export default function DropdownMenu({
+  // organisation,
+  settingsNav,
+}) {
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
@@ -33,7 +36,7 @@ export default function DropdownMenu({ organisation, settingsNav }) {
 
       {isOpen && (
         <div className="absolute right-0 z-40 mt-2 w-48 origin-top-right rounded-sm bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:bg-slate-800">
-          {organisation.role === "admin" && (
+          {/* {organisation.role === "admin" && (
             <Link
               href={`/organisation/${organisation.organisationId}`}
               className="block border-l-4 border-transparent px-4 py-2 text-slate-700 hover:border-green-600 hover:bg-green-800/25"
@@ -41,7 +44,7 @@ export default function DropdownMenu({ organisation, settingsNav }) {
             >
               {organisation?.name}
             </Link>
-          )}
+          )} */}
 
           {settingsNav.map((page) => (
             <Link

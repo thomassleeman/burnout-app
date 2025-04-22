@@ -59,14 +59,14 @@ export async function middleware(request: NextRequest) {
 
   /* ------------- Profile route protection ---------------------- */
   // Check if requested page contains a user ID and ensure it is the current user
-  if (
-    pathname.startsWith("/profile/") &&
-    !pathname.includes(decodedToken.uid)
-  ) {
-    return NextResponse.redirect(
-      new URL(`/profile/${decodedToken.uid}`, request.url)
-    );
-  }
+  // if (
+  //   pathname.startsWith("/profile/") &&
+  //   !pathname.includes(decodedToken.uid)
+  // ) {
+  //   return NextResponse.redirect(
+  //     new URL(`/profile/${decodedToken.uid}`, request.url)
+  //   );
+  // }
 
   /* ------------- Premium content check ---------------------- */
   const userIsSubscribed = decodedToken.subscriptionStatus === "active";

@@ -6,7 +6,6 @@ import AuthNoticeModal from "./_components/ui/modal/AuthNoticeModal";
 import ErrorAlert from "@/components/ui/ErrorAlert";
 
 import Nav from "./_components/ui/nav/Nav";
-import NavOld from "./_components/ui/nav/NavOld";
 
 import { headers } from "next/headers";
 

@@ -11,7 +11,7 @@ import {
 } from "@heroicons/react/24/outline";
 import { getFirestore } from "firebase-admin/firestore";
 import MobileMenuToggle from "./_components/MobileMenuToggle";
-import UserIndicatorServer from "./_components/UserIndicatorServer";
+import UserIndicator from "./_components/UserIndicator";
 import DropdownMenu from "./_components/DropDownMenu";
 import ResourcesNav from "./_components/resourcesNav/NewResourcesNav";
 
@@ -57,7 +57,7 @@ async function getUserData() {
       uid: decodedClaims.uid,
       displayName: decodedClaims.name || "User",
       email: decodedClaims.email,
-      organisation: userData?.organisation || null,
+      // organisation: userData?.organisation || null,
     };
   } catch (error) {
     console.error("Error verifying session:", error);
@@ -106,12 +106,12 @@ export default async function Nav({ pathname }: { pathname: string }) {
   }
 
   // Logged-in user view
-  const organisation = user?.organisation || {
-    joined: { seconds: 0, nanoseconds: 0 },
-    name: "",
-    organisationId: "",
-    role: "",
-  };
+  // const organisation = user?.organisation || {
+  //   joined: { seconds: 0, nanoseconds: 0 },
+  //   name: "",
+  //   organisationId: "",
+  //   role: "",
+  // };
 
   return (
     <nav className="z-40 bg-transparent shadow dark:border-pink-700 dark:text-slate-50">
@@ -153,10 +153,10 @@ export default async function Nav({ pathname }: { pathname: string }) {
           <div className="hidden gap-x-6 lg:ml-4 lg:flex lg:items-center">
             <ResourcesNav />
             <DropdownMenu
-              organisation={organisation}
+              // organisation={organisation}
               settingsNav={navigation.registeredUser.settingsNav}
             />
-            <UserIndicatorServer user={user} />
+            <UserIndicator user={user} />
           </div>
 
           {/* Mobile menu button */}
