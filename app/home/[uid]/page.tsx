@@ -1,19 +1,16 @@
-/* In the process of updating this component. I have moved it into a dynamic route that required the ID 
-but not yet updated the code to deal with this change. To revert simply remove the dynamic route */
-
 import { verifyAuth } from "@/app/actions/authAction";
 import { redirect } from "next/navigation";
 import { getFirestoreUser } from "@/app/actions/dbUserAction";
 import WelcomePanel from "./_components/WelcomePanel";
 import CurrentActivityPanels from "./_components/CurrentActivityPanels";
-import ActionsPanel from "./_components/MyCoursesPanel";
-import MyExercisesPanel from "./_components/MyExercisesPanel";
-import MyCoursesPanel from "./_components/MyCoursesPanel";
+
 import Anouncements from "./_components/Announcements";
 import Calendar from "./_components/Calendar";
 import ContentCarousel from "@articles/_components/ContentCarousel";
 import Visualisations from "./_components/Visualisations";
-import Link from "next/link";
+
+import { serialiseData } from "@/utils/serialiseData";
+
 import {
   getSortedLimitedArticlesData,
   getRecommendedArticlesData,
@@ -33,7 +30,9 @@ export default async function Home({ params }: { params: { uid: string } }) {
 
   const firestoreUser = await getFirestoreUser(params.uid);
 
-  console.log("firestoreUser: ", firestoreUser);
+  if (!firestoreUser) {
+    redirect("/error");
+  }
 
   const latestArticles = await getSortedLimitedArticlesData("date", "desc", 10);
 
@@ -48,15 +47,15 @@ export default async function Home({ params }: { params: { uid: string } }) {
               {/* Left column */}
               <div className="grid grid-cols-1 gap-14 lg:col-span-2">
                 {/* Welcome panel */}
-                <WelcomePanel />
-                <CurrentActivityPanels />
-                <Visualisations />
+                <WelcomePanel user={firestoreUser} />
+                <CurrentActivityPanels user={firestoreUser} />
+                <Visualisations user={firestoreUser} />
               </div>
 
               {/* Right column */}
               <div className="grid grid-cols-1 gap-14">
-                <Anouncements />
-                <Calendar />
+                <Anouncements user={firestoreUser} />
+                <Calendar user={serialiseData(firestoreUser)} />
               </div>
             </div>
           </div>

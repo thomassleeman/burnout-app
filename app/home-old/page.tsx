@@ -20,6 +20,8 @@ export default async function home() {
   const recommendedArticles = await getRecommendedArticlesData();
   const theBasics = await getArticlesForGivenCategories(["The Basics"]);
 
+  throw new Error("This is a test error for the error boundary");
+
   return (
     <>
       <HeroContainer />

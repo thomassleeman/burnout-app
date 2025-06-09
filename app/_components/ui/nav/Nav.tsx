@@ -15,15 +15,6 @@ import UserIndicator from "./_components/UserIndicator";
 import DropdownMenu from "./_components/DropDownMenu";
 import ResourcesNav from "./_components/resourcesNav/NewResourcesNav";
 
-// Navigation data structure
-const navigation = {
-  registeredUser: {
-    mainNav: [{ id: "home", name: "Home", icon: "home", href: "/home" }],
-    settingsNav: [{ id: "signout", name: "Sign Out", href: "/signout" }],
-  },
-  guest: [],
-};
-
 // Page indicator styles
 const pageIndicator = {
   lg: {
@@ -68,7 +59,19 @@ async function getUserData() {
 export default async function Nav({ pathname }: { pathname: string }) {
   const user = await getUserData();
   const isGuestPath =
+    // pathname === "" ||
     pathname === "/" || pathname === "/signup" || pathname === "/signin";
+
+  const homeUrl = user?.uid ? `/home/${user.uid}` : "/signin";
+
+  // Navigation data structure
+  const navigation = {
+    registeredUser: {
+      mainNav: [{ id: "home", name: "Home", icon: "home", href: homeUrl }],
+      settingsNav: [{ id: "signout", name: "Sign Out", href: "/signout" }],
+    },
+    guest: [],
+  };
 
   if (isGuestPath) {
     return (
@@ -120,13 +123,13 @@ export default async function Nav({ pathname }: { pathname: string }) {
           {/* Logo and page links */}
           <div className="flex lg:px-0">
             <div className="mr-4 flex flex-shrink-0 items-center gap-x-4">
-              <Link href="/home" className="m-2 h-12 lg:h-14">
+              <div className="m-2 h-12 lg:h-14">
                 <Image
                   className="h-full w-auto drop-shadow-lg"
                   src={brainLogo}
                   alt="MindHub Logo"
                 />
-              </Link>
+              </div>
             </div>
             <div className="hidden lg:ml-6 lg:flex lg:space-x-8">
               {navigation.registeredUser.mainNav.map((page) => (

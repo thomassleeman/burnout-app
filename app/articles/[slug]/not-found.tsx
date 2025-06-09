@@ -1,8 +1,7 @@
-// app/not-found.tsx
-import Link from "next/link";
 import Image from "next/image";
 import Lost from "@/public/lost.jpg";
-import { HomeIcon } from "@heroicons/react/24/outline";
+import HomeButton from "@/app/_components/ui/HomeButton";
+
 export default function NotFound() {
   return (
     <>
@@ -22,14 +21,9 @@ export default function NotFound() {
             <p className="mt-4 text-lg text-white/70 sm:mt-6">
               Sorry, we couldn&apos;t find the article you’re looking for.
             </p>
-            <div className="mt-10 flex justify-center">
-              <Link
-                href="/home"
-                className="flex items-center gap-x-2 rounded-2xl border-2 border-white px-3 py-1 text-sm font-semibold leading-7 text-white hover:border-gray-400 hover:text-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-opacity-50"
-              >
-                <span aria-hidden="true">Back to</span>
-                <HomeIcon className="h-5 w-5" />
-              </Link>
+
+            <div className="mt-10">
+              <HomeButton />
             </div>
           </div>
         </div>

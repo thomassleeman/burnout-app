@@ -85,6 +85,10 @@ export type LinkButtonPayload = {
   target: string;
 };
 
+export type HomeButtonPayload = {
+  content: string;
+};
+
 export type InitialAssessmentScores = {
   exhaustion: number;
   detachment: number;

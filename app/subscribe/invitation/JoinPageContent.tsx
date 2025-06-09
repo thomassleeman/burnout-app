@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "@/firebase/auth/appConfig";
+import HomeButton from "@/app/_components/ui/HomeButton";
 
 import Spinner from "@/app/_components/ui/_components/Spinner";
 import { InformationCircleIcon } from "@heroicons/react/24/outline";
@@ -157,12 +158,8 @@ export default function JoinPageContent() {
         <h2 className="mb-6 text-2xl text-emerald-700 dark:text-white">
           You have joined the organisation successfully!
         </h2>
-        <Link
-          className="text-emerald-600 underline underline-offset-2"
-          href="/home"
-        >
-          Go to Home
-        </Link>
+
+        <HomeButton />
       </div>
     );
   }
@@ -176,12 +173,8 @@ export default function JoinPageContent() {
           Failed to join organisation
         </h2>
         <p className="mb-8 text-slate-700 dark:text-slate-300">{joinError}</p>
-        <Link
-          className="text-emerald-600 underline underline-offset-2"
-          href="/home"
-        >
-          Go to Home
-        </Link>
+
+        <HomeButton />
       </div>
     );
   }

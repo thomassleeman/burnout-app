@@ -34,9 +34,15 @@ export default function RootLayout({
   children: React.ReactNode;
   modal: React.ReactNode;
 }) {
-  const headersList = headers();
-  const pathname =
-    headersList.get("x-pathname") || headersList.get("x-url") || "";
+  // const headersList = headers();
+  // const pathname =
+  //   headersList.get("x-pathname") || headersList.get("x-url") || "";
+
+  const pathname = headers().get("next-url") || "";
+
+  console.log("pathname", headers().get("next-url"));
+  console.log("headers", headers().get("x-pathname"));
+  console.log("headers", headers().get("x-url"));
 
   return (
     <html className="h-full" lang="en">

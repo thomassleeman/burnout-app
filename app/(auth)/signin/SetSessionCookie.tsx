@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import HomeButton from "@/app/_components/ui/HomeButton";
 
 import { getIdToken } from "firebase/auth";
 import { auth } from "@/firebase/auth/appConfig";
@@ -18,6 +19,7 @@ export default function SetSessionCookie() {
   const router = useRouter();
   const { errors, addError } = useErrors();
   const [session, setSession] = useState(false);
+  const [uid, setUid] = useState("");
 
   const [, setIsAdmin] = useAtom(isAdminAtom);
   const [, setUsername] = useAtom(usernameAtom);
@@ -49,6 +51,7 @@ export default function SetSessionCookie() {
             setIsAdmin(data.decodedToken?.admin);
             setUsername(data.decodedToken?.name);
             setUserID(data.decodedToken?.uid);
+            setUid(data.decodedToken?.uid);
             setSession(true);
             setAuthStateLoading(false);
             console.log("router: ", router);
@@ -72,9 +75,9 @@ export default function SetSessionCookie() {
 
   useEffect(() => {
     if (session) {
-      window.location.assign("/home");
+      window.location.assign(`/home/${uid}`);
     }
-  }, [session, router]);
+  }, [session, router, uid]);
 
   let content;
   if (session) {
@@ -86,10 +89,8 @@ export default function SetSessionCookie() {
           </h2>
           <CheckIcon className="h-5 w-5 text-green-400" aria-hidden="true" />
         </div>
-        {/* Using a instead of link here as Link is not working is some scenarios. */}
-        <a href="/home" className="text-emerald-700 hover:text-emerald-600">
-          Go to home
-        </a>
+
+        <HomeButton />
       </>
     );
   }

@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import { auth } from "firebase-admin";
 import { adminInit } from "@/firebase/auth/adminConfig";
 import { AuthClaims } from "@/types/auth";
+import { jwtDecode } from "jwt-decode";
 
 type AuthOptions = {
   requiredClaims?: {
@@ -19,6 +20,13 @@ type AuthOptions = {
  * @param options Configuration options
  * @returns Decoded claims if returnClaims is true, otherwise undefined
  */
+
+export async function verifySession() {
+  const sessionCookie = cookies().get("session")?.value;
+  const decodedToken = jwtDecode(sessionCookie || "");
+  return decodedToken;
+}
+
 export async function verifyAuth(
   options: AuthOptions = {}
 ): Promise<AuthClaims | undefined> {

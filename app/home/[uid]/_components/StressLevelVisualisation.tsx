@@ -14,7 +14,7 @@ import {
   Legend,
   ChartOptions,
 } from "chart.js";
-import "chartjs-adapter-date-fns"; // Import date adapter for time scale
+import "chartjs-adapter-date-fns";
 
 ChartJS.register(
   TimeScale,
@@ -35,8 +35,8 @@ type Rating = {
   rating: number;
 };
 
-const StressRatingChart = () => {
-  const user = useAtomValue(userAtom);
+const StressRatingChart = ({ user }: { user: UserData }) => {
+  // const user = useAtomValue(userAtom);
 
   if (!user) {
     // Show custom skeleton resembling a chart

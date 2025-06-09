@@ -7,6 +7,7 @@ import CycleThroughProfilesToDiscuss from "../widgets/CycleThroughProfilesToDisc
 import { initialMessages } from "./messages";
 import BotAvatar from "./BotAvatar";
 import UserAvatar from "./UserAvatar";
+import HomeButton from "../widgets/HomeButton";
 
 const config = {
   initialMessages: initialMessages,
@@ -46,6 +47,10 @@ const config = {
     {
       widgetName: "LinkButton",
       widgetFunc: (props) => <LinkButton {...props} />,
+    },
+    {
+      widgetName: "HomeButton",
+      widgetFunc: (props) => <HomeButton {...props} />,
     },
     {
       widgetName: "InitialAssessmentHandler",

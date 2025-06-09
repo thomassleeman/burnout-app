@@ -30,8 +30,8 @@ function classNames(
   return classes.filter(Boolean).join(" ");
 }
 
-export default function Calendar() {
-  const user = useAtomValue(userAtom);
+export default function Calendar({ user }: { user: UserData }) {
+  // const user = useAtomValue(userAtom);
 
   const [currentDate, setCurrentDate] = useState<Date>(new Date());
   const [days, setDays] = useState<Day[]>([]);

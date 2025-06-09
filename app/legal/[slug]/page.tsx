@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import defaultImage from "@/components/design/defaultImage.jpeg";
+import HomeButton from "@/app/_components/ui/HomeButton";
 
 import { Martel } from "next/font/google";
 
@@ -62,9 +63,6 @@ export default async function DocumentPage({
 
         <div className="px-6">
           <PortableText value={content} components={portableTextComponents} />
-        </div>
-        <div className="not-prose mt-6 pl-1 font-sans lg:pl-0">
-          <Link href="/home">← Back to home</Link>
         </div>
       </article>
     </>

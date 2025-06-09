@@ -12,6 +12,7 @@ import MarkDown from "markdown-to-jsx";
 import Share from "@/components/ui/Share";
 import { Martel } from "next/font/google";
 import brainLogo from "@/components/design/brainLogo.png";
+import HomeButton from "@/app/_components/ui/HomeButton";
 
 //Sanity
 
@@ -138,9 +139,8 @@ export default async function Article({
         <div className="px-6 first-letter:float-left first-letter:mr-2 first-letter:text-6xl first-letter:font-extrabold first-letter:text-green-900">
           <PortableText value={content} components={portableTextComponents} />
         </div>
-        <div className="not-prose mt-6 pl-1 font-sans lg:pl-0">
-          <Link href="/home">← Back to home</Link>
-        </div>
+
+        <HomeButton />
         {showModal && study && (
           <StudyModal currentUrl={currentUrl} studyId={study} />
         )}

@@ -1,8 +1,8 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import { useAtomValue } from "jotai";
-import { userAtom } from "@/state/store";
+// import { useAtomValue } from "jotai";
+// import { userAtom } from "@/state/store";
 import { Bar } from "react-chartjs-2";
 import { Chart as ChartJS, ChartOptions } from "chart.js/auto";
 import ChartDataLabels from "chartjs-plugin-datalabels";
@@ -10,8 +10,8 @@ import { ExclamationCircleIcon } from "@heroicons/react/24/outline";
 
 ChartJS.register(ChartDataLabels);
 
-const Assessment1Results = () => {
-  const user = useAtomValue(userAtom);
+const Assessment1Results = ({ user }: { user: UserData }) => {
+  // const user = useAtomValue(userAtom);
   const [assessment1, setAssessment1] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);

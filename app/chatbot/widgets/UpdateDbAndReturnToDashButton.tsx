@@ -1,10 +1,11 @@
 "use client";
 import { useState } from "react";
-import Link from "next/link";
 import updateDatabase from "./functions/updateDatabase";
 import { AssessmentScores } from "@/types/chatbot";
 import Spinner from "@/app/_components/design/Spinner";
 import { useRouter } from "next/navigation";
+import { auth } from "@/firebase/auth/appConfig";
+
 // import { revalidatePath } from "next/cache";
 
 export default function UpdateDbAndReturnToDashButton({
@@ -20,8 +21,12 @@ export default function UpdateDbAndReturnToDashButton({
   const handleClick = async () => {
     setLoading(true);
     await updateDatabase(initialAssessmentScores, secondaryAssessmentScores);
-    // revalidatePath("/home");
-    router.push("/home");
+    const currentUser = auth.currentUser;
+    if (currentUser) {
+      router.push(`/home/${currentUser.uid}`);
+    } else {
+      router.push("/signin");
+    }
     setLoading(false);
   };
 

@@ -1,13 +1,10 @@
-"use client";
 import React from "react";
-import { useAtomValue } from "jotai";
-import { userAtom } from "@/state/store";
 import DynamicGreeting from "./DynamicGreeting";
 import { differenceInDays, parse } from "date-fns";
 import StressLevelComponent from "./StressLevelComponent";
 
-export default function WelcomePanel() {
-  const user = useAtomValue(userAtom);
+export default function WelcomePanel({ user }: { user: UserData }) {
+  // const user = useAtomValue(userAtom);
 
   // Show loading skeleton while user data is not yet available
   if (!user) {

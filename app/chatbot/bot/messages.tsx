@@ -54,8 +54,8 @@ export const noGoAhead = [
     "No problem. It's important to check in with yourself regularly just to see how you’re doing. Come back any time if you want to check in and we will take it from there.",
     {
       delay: 0,
-      widget: "LinkButton",
-      payload: { content: "Go to Home", href: "/home" },
+      widget: "HomeButton",
+      payload: { content: "Go to Home" },
     }
   ),
 ];

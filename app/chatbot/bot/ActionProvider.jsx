@@ -196,8 +196,8 @@ const ActionProvider = ({
       "Its important because sometimes its hard to know how stressed we are unless we pause and take stock.",
       {
         delay: 3000,
-        widget: "LinkButton",
-        payload: { content: "Go to Home", href: "/home" },
+        widget: "HomeButton",
+        payload: { content: "Go to Home" },
       }
     );
 
@@ -253,8 +253,8 @@ const ActionProvider = ({
       "No problem. It's important to check in with yourself regularly just to see how you’re doing. Come back any time if you want to check in and we will take it from there.",
       {
         delay: 0,
-        widget: "LinkButton",
-        payload: { content: "Go to Home", href: "/home" },
+        widget: "HomeButton",
+        payload: { content: "Go to Home" },
       }
     );
 

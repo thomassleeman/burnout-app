@@ -1,9 +1,9 @@
-"use client"; // Error boundaries must be Client Components
+"use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import errorImage from "@/components/design/error.png";
 import Image from "next/image";
-import Link from "next/link";
+import HomeButton from "@/components/ui/HomeButton";
 
 export default function Error({
   error,
@@ -30,9 +30,7 @@ export default function Error({
         >
           Try again
         </button>
-        <button className="rounded-md bg-emerald-600 px-4 py-2 text-white">
-          <Link href="/home">Home</Link>
-        </button>
+        <HomeButton />
       </div>
     </div>
   );
