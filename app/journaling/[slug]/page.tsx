@@ -16,7 +16,7 @@ interface PageProps {
   };
 }
 
-export const revalidate = 1; // revalidate the data cache at most every hour
+export const revalidate = 3600; // revalidate the data cache at most every hour
 
 export default async function JournalingPage({ params }: PageProps) {
   // Fetch journal data from Sanity

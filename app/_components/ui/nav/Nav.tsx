@@ -33,16 +33,20 @@ const pageIndicator = {
 
 async function getUserData() {
   const session = cookies().get("session");
+  console.log("Session cookie:", session);
 
   if (!session) return null;
 
   try {
     adminInit();
-    const decodedClaims = await auth().verifySessionCookie(session.value, true);
+    const decodedClaims = await auth().verifySessionCookie(
+      session.value,
+      false
+    );
 
-    const db = getFirestore();
-    const userDoc = await db.collection("users").doc(decodedClaims.uid).get();
-    const userData = userDoc.data();
+    // const db = getFirestore();
+    // const userDoc = await db.collection("users").doc(decodedClaims.uid).get();
+    // const userData = userDoc.data();
 
     return {
       uid: decodedClaims.uid,

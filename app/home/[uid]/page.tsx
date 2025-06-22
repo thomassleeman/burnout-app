@@ -34,6 +34,8 @@ export default async function Home({ params }: { params: { uid: string } }) {
     redirect("/error");
   }
 
+  console.log("firestoreUser", firestoreUser.assessments?.burnoutAssessment);
+
   const latestArticles = await getSortedLimitedArticlesData("date", "desc", 10);
 
   return (
