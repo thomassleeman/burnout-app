@@ -46,6 +46,13 @@ export const trainingCourseType = defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
+      name: "maxParticipants",
+      title: "Maximum Participants",
+      type: "number",
+      description: "Maximum number of participants allowed in this course",
+      validation: (Rule) => Rule.positive().integer(),
+    }),
+    defineField({
       name: "aims",
       title: "Course Aims",
       type: "text",
