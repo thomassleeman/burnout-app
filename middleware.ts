@@ -89,11 +89,11 @@ export async function middleware(request: NextRequest) {
 
   /* ------------- Admin routes protection ---------------------- */
   // Check if the user is an admin for admin-only routes
-  if (pathname.startsWith("/admin") || pathname.startsWith("/studio")) {
-    if (!decodedToken.admin) {
-      return NextResponse.redirect(new URL("/401", request.url));
-    }
-  }
+  // if (pathname.startsWith("/admin") || pathname.startsWith("/studio")) {
+  //   if (!decodedToken.admin) {
+  //     return NextResponse.redirect(new URL("/401", request.url));
+  //   }
+  // }
 
   /* ------------- Super admin protection ---------------------- */
   // Super admin routes are only for specific user ID
