@@ -2,8 +2,13 @@
 import Link from "next/link";
 //heroicons
 import { UserIcon } from "@heroicons/react/24/outline";
+import { User } from "../types";
 
-export default function UserIndicator({ user }) {
+interface UserIndicatorProps {
+  user: User | null;
+}
+
+export default function UserIndicator({ user }: UserIndicatorProps) {
   if (!user) {
     return null;
   }

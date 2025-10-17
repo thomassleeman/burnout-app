@@ -5,13 +5,21 @@ import { useState } from "react";
 import Link from "next/link";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import UserIndicator from "./UserIndicator";
+import { Navigation, PageIndicator, User } from "../types";
+
+interface MobileMenuToggleProps {
+  navigation: Navigation;
+  pageIndicator: PageIndicator;
+  pathname: string;
+  user: User | null;
+}
 
 export default function MobileMenuToggle({
   navigation,
   pageIndicator,
   pathname,
   user,
-}) {
+}: MobileMenuToggleProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (

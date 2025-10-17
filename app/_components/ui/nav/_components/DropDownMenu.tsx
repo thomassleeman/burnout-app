@@ -4,11 +4,16 @@
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { AdjustmentsHorizontalIcon } from "@heroicons/react/24/outline";
+import { SettingsNavItem } from "../types";
+
+interface DropdownMenuProps {
+  settingsNav: SettingsNavItem[];
+}
 
 export default function DropdownMenu({
   // organisation,
   settingsNav,
-}) {
+}: DropdownMenuProps) {
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
